@@ -1,99 +1,5 @@
-<!-- 
 <div class="col-3 login">
-  <h1 class="text-center mb-5">Research Tool</h1>
-<div class="form-group">
-  <div [hidden]="(error === undefined) || (error === 'Successful')" class="alert alert-danger">{{error}}</div>
-  <input type="text" class="form-control " placeholder="User Name" [(ngModel)]="userName" 
-    [ngModelOptions]="{standalone: true}">
-  <input type="password" class="form-control " placeholder="Password" [(ngModel)]="password" 
-    [ngModelOptions]="{standalone: true}">
-</div>
-<div class="d-flex justify-content-between">
-  <button type="button" (click)="logIn()" class="btn btn-primary btn-login">Login</button>
-
-  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Register</button>
-</div>
-
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-  aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Register new user</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="container">
-          <div class="row">
-            <div class="col">
-              <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-                <div #myAlertRegisterError
-                  [hidden]="error_register === undefined || error_register === 'Registration successful'"
-                  class="alert alert-danger">{{error_register}}</div>
-                <div class="form-group">
-                  <label>User name</label>
-                  <input type="text" formControlName="firstName" class="form-control"
-                    [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }" />
-                  <div *ngIf="submitted && !!f.firstName.errors" class="invalid-feedback">
-                    <div *ngIf="!!f.firstName.errors.required">First Name is required</div>
-                  </div>
-                </div> -->
-                <!-- <div class="form-group">
-                  <label>Last Name</label>
-                  <input type="text" formControlName="lastName" class="form-control"
-                    [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }" />
-                  <div *ngIf="submitted && !!f.lastName.errors" class="invalid-feedback">
-                    <div *ngIf="!!f.lastName.errors.required">Last Name is required</div>
-                  </div>
-                </div> -->
-                <!-- <div class="form-group">
-                  <label>Email</label>
-                  <input type="text" formControlName="email" class="form-control"
-                    [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
-                  <div *ngIf="submitted && !!f.email.errors" class="invalid-feedback">
-                    <div *ngIf="!!f.email.errors.required">Email is required</div>
-                    <div *ngIf="!!f.email.errors.email">Email must be a valid email address</div>
-                  </div>
-                </div> -->
-                <!-- <div class="form-group">
-                  <label>Password</label>
-                  <input type="password" formControlName="password" class="form-control"
-                    [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
-                  <div *ngIf="submitted && !!f.password.errors" class="invalid-feedback">
-                    <div *ngIf="!!f.password.errors.required">Password is required</div>
-                    <div *ngIf="!!f.password.errors.minlength">Password must be at least 6 characters</div>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label>Confirm Password</label>
-                  <input type="password" formControlName="confirmPassword" class="form-control"
-                    [ngClass]="{ 'is-invalid': submitted && f.confirmPassword.errors }" />
-                  <div *ngIf="submitted && !!f.confirmPassword.errors" class="invalid-feedback">
-                    <div *ngIf="!!f.confirmPassword.errors.required">Confirm Password is required</div>
-                    <div *ngIf="!!f.confirmPassword.errors.mustMatch">Passwords must match</div>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <button class="btn btn-primary" (click)="registerUser()">Register</button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<div #myModalError_register id="myModalError_register" class="modal fade">
-  <div class="modal-dialog">
-    <div class="alert alert-success text-center" role="alert">{{error_register}}</div>
-  </div>
-</div>
-</div> -->
-<div class="col-3 login">
-    <h1 class="text-center mb-5">Research Tool</h1>
+    <h1 class="text-center mb-5">Pizza Day</h1>
     <div class="form-group">
       <div class="mb-3" [hidden]="(error === undefined) || (error === 'Successful')" class="alert alert-danger">{{error}}
       </div>
@@ -101,16 +7,77 @@
         <mat-label>User name</mat-label>
         <input matInput type="text" (keydown.enter)="logIn()" [(ngModel)]="userName" [ngModelOptions]="{standalone: true}">
       </mat-form-field>
-  
+
       <mat-form-field class="col" appearance="legacy">
         <mat-label>Password</mat-label>
         <input matInput type="password" (keydown.enter)="logIn()" [(ngModel)]="password" [ngModelOptions]="{standalone: true}">
       </mat-form-field>
-  
     </div>
     <div>
-      <button mat-raised-button (keydown.enter)="logIn()" color="primary" class="btn-block" (click)="logIn()">Login</button>
+      <button mat-raised-button (keydown.enter)="logIn()" color="primary"  (click)="logIn()">Login</button>
+      <button mat-raised-button color="primary" (click)="register() data-toggle="modal" class="ml-2" data-target="#register_user" >Register</button>
     </div>
-  
-   
-    
+
+    <div #register_user id="register_user" class="modal fade">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5>Register new user</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+
+            <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+              <div #myAlertRegisterError
+                [hidden]="error_register === undefined || error_register === 'Registration successful'"
+                class="alert alert-danger">{{error_register}}</div>
+              <mat-form-field class="col" appearance="outline">
+                <mat-label>Имя пользователя</mat-label>
+                <input matInput formControlName="userName">
+                  <mat-error *ngIf="!!f.userName.errors.required">User Name is required</mat-error>
+              </mat-form-field>
+              <mat-form-field class="col" appearance="outline">
+                <mat-label>Пароль</mat-label>
+                <input matInput type="password" formControlName="password">
+                  <mat-error *ngIf="!!f.password.errors.required">Password is required</mat-error>
+                  <mat-error *ngIf="!!f.password.errors.minlength">Password must be at least 6 characters</mat-error>
+              </mat-form-field>
+              <mat-form-field class="col" appearance="outline">
+                <mat-label>Повторите пароль</mat-label>
+                <input matInput type="password" formControlName="confirmPassword">
+                  <mat-error *ngIf="!!f.confirmPassword.errors.required">Confirm Password is required</mat-error>
+                  <mat-error *ngIf="!!f.confirmPassword.errors.mustMatch">Passwords must match</mat-error>
+              </mat-form-field>
+              <mat-form-field class="col" appearance="outline">
+                <mat-label></mat-label>
+                <mat-select formControlName="position">
+                  <mat-option value="department_head">Руководитель отдела</mat-option>
+                  <mat-option value="hr">HR</mat-option>
+                  <mat-option value="personnel_accounting">Кадровый учет</mat-option>
+                </mat-select>
+                <mat-error>Server Name is required</mat-error>
+              </mat-form-field>
+              <mat-form-field class="col" appearance="outline">
+                <mat-label>Привилегии пользователя</mat-label>
+                <mat-select formControlName="user_role">
+                  <mat-option value="admin">Admin</mat-option>
+                  <mat-option value="user">Сотрудник</mat-option>
+                </mat-select>
+                <mat-error *ngIf="!!f.threads.errors?.required">Threads is required</mat-error>
+              </mat-form-field >
+              <div>
+                <button mat-raised-button color="primary" class="mr-auto" (click)="register()">Send</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div #myModalError_register id="myModalError_register" class="modal fade">
+      <div class="modal-dialog">
+        <div class="alert alert-success text-center" role="alert">{{error_register}}</div>
+      </div>
+    </div>
