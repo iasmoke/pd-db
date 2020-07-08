@@ -42,7 +42,7 @@ export class TelegramSendService {
       { responseType: 'text' }
     );
   }
-  get_position(){
+    get_position(){
     return this.http.post(
       './assets/php/telegram_get_trade_dot_position.php',
       JSON.stringify(

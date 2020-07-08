@@ -7,6 +7,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { LoginService } from '../service/login.service';
 declare var $: any;
 import * as moment from 'moment';
+moment.locale('ru')
 
 @Component({
   selector: 'app-main',
@@ -20,10 +21,10 @@ export class MainComponent implements OnInit {
   displayedColumns: string[] = ['id_personal','first_name','last_name','second_name','department','position','number_phone','interview_date','certification_date','date_birth','status','employee_description'];
   dataSource = new MatTableDataSource(this.dataTable);
 
-  new_form_employee: FormGroup;
-  form_edit_employee:FormGroup;
+  new_form: FormGroup;
+  edit_form:FormGroup;
 
-  office = false;
+  office = true;
   trade_dot = false
 
  
@@ -51,7 +52,7 @@ export class MainComponent implements OnInit {
       this.dataSource = new MatTableDataSource(this.dataTable);
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
-      console.log(res);
+      console.log(this.dataTable);
     })
 
     this.mainService.get_id_tt().subscribe(res => {
@@ -75,20 +76,18 @@ export class MainComponent implements OnInit {
       this.dataSource = new MatTableDataSource(this.dataTable);
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
-      console.log(res);
+      console.log(this.dataTable);
     })
    }
 
    add_employee(){
-    if(this.new_form_employee.invalid){
-      return console.log('new_form_employee.invalid');
-      
+    if(this.new_form.invalid){
+      return console.log('new_form.invalid');
     }
     let date_now = moment(new Date()).format('M.DD.YYYY HH:mm:ss')
-     this.mainService.add_employee(this.user_name_create_employee, this.new_form_employee.value, date_now).subscribe(res => {
-       console.log(res);
-       console.log(this.new_form_employee);
+     this.mainService.add_employee(this.new_form.value, date_now, this.user_name_create_employee).subscribe(res => {
      this.alert_message = JSON.parse(res)
+     console.log(this.alert_message);
      this.get_table_personal()
       if (this.alert_message === 'Пользователь добавлен') {
         
@@ -97,7 +96,7 @@ export class MainComponent implements OnInit {
         setTimeout(function () {
           $("#modalAddEmloyee").modal('hide');
         }, 2000);
-        this.new_form_employee.reset()
+        this.new_form.reset()
       }
 
      })
@@ -110,25 +109,26 @@ export class MainComponent implements OnInit {
     console.log(row);
     this.mainService.get_data_employee(row.id_personal).subscribe(res => {
       this.array_data_employee = JSON.parse(res)
+      console.log(this.array_data_employee);
       this.id_personal = row.id_personal;
-      this.form_edit_employee.controls['first_name'].setValue(this.array_data_employee[0].first_name);
-      this.form_edit_employee.controls['last_name'].setValue(this.array_data_employee[0].last_name);
-      this.form_edit_employee.controls['second_name'].setValue(this.array_data_employee[0].second_name);
-      this.form_edit_employee.controls['interview_date'].setValue(this.array_data_employee[0].interview_date);
-      this.form_edit_employee.controls['department'].setValue(this.array_data_employee[0].department);
-      this.form_edit_employee.controls['position'].setValue(this.array_data_employee[0].position);
-      this.form_edit_employee.controls['number_phone'].setValue(this.array_data_employee[0].number_phone);
-      this.form_edit_employee.controls['certification_date'].setValue(this.array_data_employee[0].certification_date);
-      this.form_edit_employee.controls['date_birth'].setValue(this.array_data_employee[0].date_birth);
-      this.form_edit_employee.controls['status'].setValue(this.array_data_employee[0].status);
-      this.form_edit_employee.controls['employee_description'].setValue(this.array_data_employee[0].employee_description);
+      this.edit_form.controls['first_name'].setValue(this.array_data_employee[0].first_name);
+      this.edit_form.controls['last_name'].setValue(this.array_data_employee[0].last_name);
+      this.edit_form.controls['second_name'].setValue(this.array_data_employee[0].second_name);
+      this.edit_form.controls['interview_date'].setValue(this.array_data_employee[0].interview_date);
+      this.edit_form.controls['type_department'].setValue(this.array_data_employee[0].type_department);
+      this.edit_form.controls['department'].setValue(this.array_data_employee[0].department);
+      this.edit_form.controls['position'].setValue(this.array_data_employee[0].position);
+      this.edit_form.controls['number_phone'].setValue(this.array_data_employee[0].number_phone);
+      this.edit_form.controls['certification_date'].setValue(this.array_data_employee[0].certification_date);
+      this.edit_form.controls['date_birth'].setValue(this.array_data_employee[0].date_birth);
+      this.edit_form.controls['status'].setValue(this.array_data_employee[0].status);
+      this.edit_form.controls['employee_description'].setValue(this.array_data_employee[0].employee_description);
     })
    }
 
    update_employee(){
     let date_now = moment(new Date()).format('M.DD.YYYY HH:mm:ss')
-    this.mainService.update_employee(this.loginService.user_name, this.form_edit_employee.value, this.id_personal,date_now).subscribe(res => {
-      console.log(res);
+    this.mainService.update_employee(this.loginService.user_name, this.edit_form.value, this.id_personal,date_now).subscribe(res => {
       this.modal_alert_message = JSON.parse(res)
       this.get_table_personal()
       $("#modal_edit_employee").modal("hide");
@@ -144,23 +144,45 @@ export class MainComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
+  onChangesPosition() {
+    this.new_form.get('type_department').valueChanges.subscribe((selectType_department) => {
+      if (selectType_department === 'Офис') {
+        this.office = true;
+        this.trade_dot = false
+      } else {
+        this.office = false;
+        this.trade_dot = true
+      }
+    });
+    this.edit_form.get('type_department').valueChanges.subscribe((selectType_department) => {
+      if (selectType_department === 'Офис') {
+        this.office = true;
+        this.trade_dot = false
+      } else {
+        this.office = false;
+        this.trade_dot = true
+      }
+    });
+  }
+
   ngOnInit(): void {
 
-    this.form_edit_employee = this.formBuilder.group({
+    this.edit_form = this.formBuilder.group({
       first_name: ['', Validators.required],
       last_name: ['', Validators.required],
       second_name: ['', Validators.required],
       department: ['', Validators.required],
       position: ['', Validators.required],
+      type_department: ['', Validators.required],
       number_phone: ['', [Validators.required, Validators.pattern("[0-9]{12}")]],
       interview_date:[''],
       certification_date: [''],
-      date_birth: ['', Validators.required],
+      date_birth: [''],
       status: ['',[Validators.required]],
       employee_description: [''],
     });
 
-    this.new_form_employee = this.formBuilder.group({
+    this.new_form = this.formBuilder.group({
       first_name: ['', Validators.required],
       last_name: ['', Validators.required],
       second_name: ['', Validators.required],
@@ -170,35 +192,18 @@ export class MainComponent implements OnInit {
       number_phone: ['', [Validators.required, Validators.pattern("[0-9]{12}")]],
       interview_date:[''],
       certification_date: [''],
-      date_birth: ['', Validators.required],
+      date_birth: [''],
       status: ['',[Validators.required]],
       employee_description: [''],
     });
+
+    this.onChangesPosition() 
   }
 
-   get f() { return this.new_form_employee.controls;}
+   get fn() { return this.new_form.controls;}
 
-   get form_edit() {  return this.form_edit_employee.controls;}
+   get fe() {  return this.edit_form.controls;}
 
-   onChangesPosition() {
-    this.new_form_employee.get('type_department').valueChanges.subscribe((selectType_department) => {
-      if (selectType_department === 'Офис') {
-        this.office = true;
-        this.trade_dot = false
-      } else {
-        this.office = false;
-        this.trade_dot = true
-      }
-    });
-    this.form_edit_employee.get('type_department').valueChanges.subscribe((selectType_department) => {
-      if (selectType_department === 'Офис') {
-        this.office = true;
-        this.trade_dot = false
-      } else {
-        this.office = false;
-        this.trade_dot = true
-      }
-    });
-  }
+  
 
 }

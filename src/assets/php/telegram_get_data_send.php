@@ -11,7 +11,7 @@ $_POST = json_decode(file_get_contents('php://input'), true);
 
 $department = $_POST['department'];
 
-$sql = "SELECT id_telegram_chat, first_name, last_name, department FROM `pd_data` WHERE department=?";
+$sql = "SELECT id_telegram_chat, first_name, last_name, department FROM `db_main` WHERE department=?";
 if ($stmt = $db_connect->prepare($sql)) {
   $stmt->bind_param("s", $department);
   $stmt->execute();

@@ -11,7 +11,7 @@ $_POST = json_decode(file_get_contents('php://input'), true);
 
 
 
-$sql = "SELECT DISTINCT type_department FROM `pd_data`";
+$sql = "SELECT DISTINCT type_department FROM db_main";
 if ($stmt = $db_connect->prepare($sql)) {
   $stmt->execute();
   $stmt->bind_result(

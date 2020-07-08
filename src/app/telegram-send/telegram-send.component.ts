@@ -41,7 +41,6 @@ export class TelegramSendComponent implements OnInit {
       console.log(res);
       this.array_type_department = JSON.parse(res);
       console.log(this.array_type_department);
-
       console.log(this.type_department);
     });
   }
@@ -53,11 +52,10 @@ export class TelegramSendComponent implements OnInit {
     if (item === 'Офис') {
       this.trade_dot = false;
       this.office = true;
-      this.telegramSendService
-        .get_department_office(this.type_department)
-        .subscribe((res) => {
+      this.telegramSendService.get_department_office(this.type_department).subscribe((res) => {
           console.log(res);
           this.array_department_office = JSON.parse(res);
+          this.department_office = null
         });
       return;
     }
@@ -94,36 +92,40 @@ export class TelegramSendComponent implements OnInit {
   get_position() {
     this.telegramSendService.get_position().subscribe((res) => {
       this.array_position = JSON.parse(res);
+
     });
   }
 
   send_message_bot() {
     if (this.office === true) {
-      this.telegramSendService
-        .get_data_send_bot(this.department_office)
-        .subscribe((res) => {
-          console.log(res);
+      this.telegramSendService.get_data_send_bot(this.department_office).subscribe((res) => {
+          
           this.id_telegram_bot_pdp = JSON.parse(res);
+          console.log(this.id_telegram_bot_pdp);
           if (this.id_telegram_bot_pdp === null) {
             console.log('Нету ни одного ID');
-            return this.alert_error();
+            return this.alert_error_danger();
           } else {
+            this.not_id_chat_office = []
             this.id_telegram_bot_pdp.forEach((element) => {
+              console.log(element);
+              
               if (element.id_telegram_chat === '0') {
-                this.not_id_chat_office.push(
-                  element.first_name,
-                  element.last_name,
-                  element.department,
-                  element.id_telegram_chat
-                );
+                this.not_id_chat_office.push({
+                  'first_name': element.first_name,
+                  'last_name': element.last_name,
+                  'department': element.department,
+                  'id_telegram_chat': element.id_telegram_chat
+                });
+              }else{
               }
               Telegram.setToken('1200991119:AAE8_piX_1A1OgIVnaYFXwPNBDMleac3xRk');
               Telegram.setRecipient(element.id_telegram_chat);
               Telegram.setMessage(this.message_text.value);
               Telegram.send();
             });
+
             if (this.not_id_chat_office.length !== 0) {
-              
               console.log(this.not_id_chat_office);
               return this.alert_error();
             } else {
@@ -150,23 +152,25 @@ export class TelegramSendComponent implements OnInit {
 
         return this.department.markAsTouched();
       }
-      this.telegramSendService
-        .get_data_send_bot(this.department.value)
-        .subscribe((res) => {
+      this.telegramSendService.get_data_send_bot(this.department.value).subscribe((res) => {
           console.log(res);
           this.id_telegram_bot_pdp = JSON.parse(res);
           if (this.id_telegram_bot_pdp === null) {
             console.log('Нету ни одного ID');
-            return this.alert_error();
+            return this.alert_error_danger();
           } else {
+            this.not_id_chat_trade_dot = []
             this.id_telegram_bot_pdp.forEach((element) => {
               console.log(element.id_telegram_chat);
               if (element.id_telegram_chat === '0') {
-                this.not_id_chat_trade_dot.push(element.id_telegram_chat);
+                this.not_id_chat_trade_dot.push({
+                  'first_name': element.first_name,
+                  'last_name': element.last_name,
+                  'department': element.department,
+                  'id_telegram_chat': element.id_telegram_chat
+                });
               }
-              Telegram.setToken(
-                '1200991119:AAE8_piX_1A1OgIVnaYFXwPNBDMleac3xRk'
-              );
+              Telegram.setToken('1200991119:AAE8_piX_1A1OgIVnaYFXwPNBDMleac3xRk');
               Telegram.setRecipient(element.id_telegram_chat);
               Telegram.setMessage(this.message_text.value);
               Telegram.send();
@@ -186,7 +190,15 @@ export class TelegramSendComponent implements OnInit {
     $('#ERROR_sent').modal('show');
     setTimeout(function () {
       $('#ERROR_sent').modal('hide');
-    }, 2000);
+    }, 5000);
+  }
+
+  alert_error_danger(){
+    $('#all_ERROR_sent').modal('show');
+    setTimeout(function () {
+      $('#all_ERROR_sent').modal('hide');
+    }, 5000);
+  
   }
 
   ngOnInit(): void {}

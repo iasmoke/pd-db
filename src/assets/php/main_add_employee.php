@@ -10,7 +10,7 @@ require_once('connect_db.php');
 
 $_POST = json_decode(file_get_contents('php://input'), true);
 
-$new_employee = $_POST['new_form_employee'];
+$new_employee = $_POST['new_form'];
 $date = $_POST['date_now'];
 $user_name_create_employee = $_POST['user_name_create_employee'];
 $first_name = $new_employee['first_name'];
@@ -37,9 +37,9 @@ if ($stmt = $db_connect->prepare($sql)) {
 
 
 $sql = "INSERT INTO db_main (`id_personal`, `id_telegram_chat`, `date_create_employee`, `date_last_update`, `user_name_create_employee`, `user_name_last_update`, `first_name`, `last_name`, `second_name`, `type_department`, `department`, `position`, `number_phone`, `interview_date`, `internship_date`, `certification_date`, `passing_score`, `internship_place`, `attraction_channel`, `attraction_channel_description`,`reason_dismissal`, `employee_status`, `date_forming`, `availability_doc`, `rejection_reason`, `city_residence`, `place_residence`,`test_date_1`,`test_number_ball_1`,`test_date_2`,`test_number_ball_2`,`date_birth`,`city_registration`,`address_registration`,`date_registration_job`,`available_doc`,`date_dismissal`,`description_dismissal`,`inn`,`status`,`employee_description`) 
-VALUES (?,'0',?,'-',?,'-',?,?,?,?,?,?,?,?,'-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-',?,'-','-','-','-','-','-','-',?,?)";
+VALUES (?,'0',?,'-',?,'-',?,?,?,?,?,?,?,'-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-',?,'-','-','-','-','-','-','-',?,?)";
 if ($stmt = $db_connect->prepare($sql)) {
-    $stmt->bind_param("issssssssssssss",
+    $stmt->bind_param("issssssssssss",
         $id_personal,
         $date,
         $user_name_create_employee,
@@ -55,7 +55,11 @@ if ($stmt = $db_connect->prepare($sql)) {
         $employee_description
     );
     $stmt->execute();
-    $res = "Пользователь добавлен";
+    if( count($stmt->error_list) === 0){
+        $res = "Пользователь добавлен";
+    }else {
+        $res = $stmt->error_list;
+    }
 }
 }else {
     $res = "Error";

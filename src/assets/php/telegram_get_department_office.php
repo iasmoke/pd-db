@@ -13,7 +13,7 @@ $type_department = $_POST['type_department'];
 
 
 
-$sql = "SELECT DISTINCT department FROM `pd_data` WHERE type_department=?";
+$sql = "SELECT DISTINCT department FROM `db_main` WHERE type_department=?";
 if ($stmt = $db_connect->prepare($sql)) {
   $stmt->bind_param('s', $type_department);
   $stmt->execute();

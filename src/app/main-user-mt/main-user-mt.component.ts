@@ -7,11 +7,9 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MainService } from '../service/main.service';
 import { LoginService } from '../service/login.service';
 declare var $: any;
-import * as moment from 'moment';
-import 'moment/locale/ru';
-import { map, startWith, filter } from "rxjs/operators";
-import { log } from 'util';
-moment.locale('ru');
+// import * as moment from 'moment';
+// import 'moment/locale/ru';
+// moment.locale('ru');
 
 @Component({
   selector: 'app-main-user-mt',
