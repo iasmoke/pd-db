@@ -1,83 +1,21 @@
 <div class="col-3 login">
-    <h1 class="text-center mb-5">Pizza Day</h1>
-    <div class="form-group">
-      <div class="mb-3" [hidden]="(error === undefined) || (error === 'Successful')" class="alert alert-danger">{{error}}
-      </div>
-      <mat-form-field class="col" appearance="legacy">
-        <mat-label>User name</mat-label>
-        <input matInput type="text" (keydown.enter)="logIn()" [(ngModel)]="userName" [ngModelOptions]="{standalone: true}">
-      </mat-form-field>
-
-      <mat-form-field class="col" appearance="legacy">
-        <mat-label>Password</mat-label>
-        <input matInput type="password" (keydown.enter)="logIn()" [(ngModel)]="password" [ngModelOptions]="{standalone: true}">
-      </mat-form-field>
+  <h1 class="text-center mb-5">Pizza Day</h1>
+  <div class="form-group">
+    <div class="mb-3" [hidden]="(error === undefined) || (error === 'Successful')" class="alert alert-danger">{{error}}
     </div>
-    <div>
-      <button mat-raised-button (keydown.enter)="logIn()" color="primary"  (click)="logIn()">Login</button>
-      <button mat-raised-button color="primary" (click)="register() data-toggle="modal" class="ml-2" data-target="#register_user" >Register</button>
-    </div>
+    <mat-form-field class="col" appearance="legacy">
+      <mat-label>User name</mat-label>
+      <input matInput type="text" (keydown.enter)="logIn()" [(ngModel)]="userName"
+        [ngModelOptions]="{standalone: true}">
+    </mat-form-field>
 
-    <div #register_user id="register_user" class="modal fade">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5>Register new user</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close" >
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
+    <mat-form-field class="col" appearance="legacy">
+      <mat-label>Password</mat-label>
+      <input matInput type="password" (keydown.enter)="logIn()" [(ngModel)]="password"
+        [ngModelOptions]="{standalone: true}">
+    </mat-form-field>
+  </div>
+  <div class="d-flex justify-content-between">
+    <button mat-raised-button class="btn-block" (keydown.enter)="logIn()" color="primary" (click)="logIn()">Войти</button>
+  </div>
 
-            <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-              <div #myAlertRegisterError
-                [hidden]="error_register === undefined || error_register === 'Registration successful'"
-                class="alert alert-danger">{{error_register}}</div>
-              <mat-form-field class="col" appearance="outline">
-                <mat-label>Имя пользователя</mat-label>
-                <input matInput formControlName="userName">
-                  <mat-error *ngIf="!!f.userName.errors.required">User Name is required</mat-error>
-              </mat-form-field>
-              <mat-form-field class="col" appearance="outline">
-                <mat-label>Пароль</mat-label>
-                <input matInput type="password" formControlName="password">
-                  <mat-error *ngIf="!!f.password.errors.required">Password is required</mat-error>
-                  <mat-error *ngIf="!!f.password.errors.minlength">Password must be at least 6 characters</mat-error>
-              </mat-form-field>
-              <mat-form-field class="col" appearance="outline">
-                <mat-label>Повторите пароль</mat-label>
-                <input matInput type="password" formControlName="confirmPassword">
-                  <mat-error *ngIf="!!f.confirmPassword.errors.required">Confirm Password is required</mat-error>
-                  <mat-error *ngIf="!!f.confirmPassword.errors.mustMatch">Passwords must match</mat-error>
-              </mat-form-field>
-              <mat-form-field class="col" appearance="outline">
-                <mat-label></mat-label>
-                <mat-select formControlName="position">
-                  <mat-option value="department_head">Руководитель отдела</mat-option>
-                  <mat-option value="hr">HR</mat-option>
-                  <mat-option value="personnel_accounting">Кадровый учет</mat-option>
-                </mat-select>
-                <mat-error>Server Name is required</mat-error>
-              </mat-form-field>
-              <mat-form-field class="col" appearance="outline">
-                <mat-label>Привилегии пользователя</mat-label>
-                <mat-select formControlName="user_role">
-                  <mat-option value="admin">Admin</mat-option>
-                  <mat-option value="user">Сотрудник</mat-option>
-                </mat-select>
-                <mat-error *ngIf="!!f.threads.errors?.required">Threads is required</mat-error>
-              </mat-form-field >
-              <div>
-                <button mat-raised-button color="primary" class="mr-auto" (click)="register()">Send</button>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div #myModalError_register id="myModalError_register" class="modal fade">
-      <div class="modal-dialog">
-        <div class="alert alert-success text-center" role="alert">{{error_register}}</div>
-      </div>
-    </div>

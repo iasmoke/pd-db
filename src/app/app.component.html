@@ -1,3 +1,25 @@
 <!-- <mat-toolbar color="primary">Pizza Day (logo)</mat-toolbar>
 <button class="btn btn-primary col-3">Prime</button> -->
-<app-login *ngIf="login_component"></app-login>
+
+<mat-toolbar *ngIf="login_component === false" class="justify-content-between" color="primary">
+    <a class="navbar-brand text-white">Pizza Day<button class="ml-2" mat-fab
+      color="primary">{{program_v}}</button></a>
+    <nav class="justify-content-center" [backgroundColor]="backgroundColorToggle"
+      mat-tab-nav-bar>
+      <a mat-tab-link [hidden]="user_role !== 'admin'" [active]="main === true" (click)="select_component('main')">Главная</a>
+      <a mat-tab-link [hidden]="user_role !== 'admin'" [active]="settings_users === true" (click)="select_component('settings_users')">Управление пользователями</a>
+      <a mat-tab-link [hidden]="user_role !== 'admin'" [active]="telegram_send === true" (click)="select_component('telegram_send')">Рассылка в Telegram</a>
+
+    </nav>
+    <div>
+      <a class="mr-3">Привет, {{user_name}}</a>
+      <button mat-raised-button color="warn" *ngIf="user_id !== null" class="ml-1" (click)="logout()">Выйти</button>
+    </div>
+  </mat-toolbar>
+  
+  <app-login *ngIf="login_component" ></app-login>
+  <app-main-user-mt *ngIf="main_user_mt"></app-main-user-mt>
+  <app-main *ngIf="main" ></app-main>
+  <app-main-user-hr *ngIf="main_user_hr"></app-main-user-hr>
+  <app-settings-users *ngIf="settings_users"></app-settings-users>
+  <app-telegram-send *ngIf="telegram_send"></app-telegram-send>

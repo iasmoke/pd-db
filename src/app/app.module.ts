@@ -12,11 +12,37 @@ import { LoginComponent } from './login/login.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { MatButtonModule } from '@angular/material/button';
+import { MainComponent } from './main/main.component';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatTableModule } from '@angular/material/table';
+import { MatSortModule } from '@angular/material/sort';
+import { SettingsUsersComponent } from './settings-users/settings-users.component';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { TelegramSendComponent } from './telegram-send/telegram-send.component';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MainUserHrComponent } from './main-user-hr/main-user-hr.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
+import { MainUserMtComponent } from './main-user-mt/main-user-mt.component';
+
+
+
+
+
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent
+    LoginComponent,
+    MainComponent,
+    SettingsUsersComponent,
+    TelegramSendComponent,
+    MainUserHrComponent,
+    MainUserMtComponent
   ],
   imports: [
     BrowserModule,
@@ -30,10 +56,25 @@ import { MatSelectModule } from '@angular/material/select';
     NgbModule,
     MatFormFieldModule,
     MatInputModule,
-    MatSelectModule
+    MatSelectModule,
+    MatButtonModule,
+    MatTabsModule,
+    MatTableModule,
+    MatSortModule,
+    MatExpansionModule,
+    MatPaginatorModule,
+    MatCheckboxModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatAutocompleteModule
+
 
   ],
-  providers: [],
+  providers: [
+    MatDatepickerModule,
+    MatNativeDateModule,
+    { provide: MAT_DATE_LOCALE, useValue: 'ua-UA'}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

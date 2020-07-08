@@ -13,18 +13,15 @@ export class LoginService {
 
 
 
-  user_id: string = JSON.parse(localStorage.getItem('user_id_rt'));
-  user_name_title: string = localStorage.getItem('user_name_title');
+  user_id: string = JSON.parse(localStorage.getItem('id_user_pd'));
+  user_name: string = localStorage.getItem('user_name_pd');
+  user_role: string = localStorage.getItem('user_role_pd')
 
 
 
   constructor(
     private http: HttpClient
   ) {
-    console.log(this.user_id);
-    console.log(this.user_name_title);
-
-
   }
 
   registerUser(user_form) {
