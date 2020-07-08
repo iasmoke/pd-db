@@ -100,6 +100,7 @@
               </mat-form-field>
     
             </div>
+            
             <mat-form-field class="col" appearance="outline">
               <mat-label>Дата рождения</mat-label>
               <input matInput formControlName="date_birth" [matDatepicker]="picker_new_form">
@@ -123,7 +124,7 @@
               <mat-datepicker #picker_certification_date ></mat-datepicker>
               <mat-error *ngIf="!!f.certification_date.errors?.required">Поле не заполненно</mat-error>
             </mat-form-field>
-            
+
             <div class="d-flex">
               <button mat-raised-button color="primary" class="mr-auto" (click)="add_employee()">Отправить</button>
               <button mat-raised-button color="primary" data-dismiss="modal">Отмена</button>
