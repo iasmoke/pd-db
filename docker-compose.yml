@@ -1,0 +1,9 @@
+version: '3.0'
+
+services:
+  nginx:
+    image: nginx
+    ports:
+      - 80:80
+    volumes:
+      - ./dist/pizza-day-personal/:/usr/share/nginx/html

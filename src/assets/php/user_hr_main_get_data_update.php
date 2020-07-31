@@ -12,9 +12,8 @@ $_POST = json_decode(file_get_contents('php://input'), true);
 $id_personal = $_POST['id_personal'];
 
 
-$sql = "SELECT id_personal,first_name,last_name,second_name,position,department,number_phone,attraction_channel,attraction_channel_description,interview_date,internship_date,internship_place,rejection_reason,`status`,employee_description FROM db_main WHERE user_name_create_employee=?";
+$sql = "SELECT id_personal,first_name,last_name,second_name,position,department,number_phone,attraction_channel,attraction_channel_description,interview_date,internship_date,internship_place,rejection_reason,`status`,employee_description FROM db_main ";
 if ($stmt = $db_connect->prepare($sql)) {
-    $stmt->bind_param('s', $user_name_create_employee);
     $stmt->execute();
     $stmt->bind_result(
         $id_personal,

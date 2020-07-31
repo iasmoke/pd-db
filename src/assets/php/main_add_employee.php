@@ -21,8 +21,9 @@ $department = $new_employee['department'];
 $position = $new_employee['position'];
 $number_phone = '+'.$new_employee['number_phone'];
 $date_birth = $new_employee['date_birth'];
-$employee_description = $new_employee['employee_description'];
 $status = $new_employee['status'];
+$employee_description = $new_employee['employee_description'];
+
 
 
 $sql = "SELECT MAX(`id_personal`) FROM db_main";
@@ -36,8 +37,8 @@ if ($stmt = $db_connect->prepare($sql)) {
     }
 
 
-$sql = "INSERT INTO db_main (`id_personal`, `id_telegram_chat`, `date_create_employee`, `date_last_update`, `user_name_create_employee`, `user_name_last_update`, `first_name`, `last_name`, `second_name`, `type_department`, `department`, `position`, `number_phone`, `interview_date`, `internship_date`, `certification_date`, `passing_score`, `internship_place`, `attraction_channel`, `attraction_channel_description`,`reason_dismissal`, `employee_status`, `date_forming`, `availability_doc`, `rejection_reason`, `city_residence`, `place_residence`,`test_date_1`,`test_number_ball_1`,`test_date_2`,`test_number_ball_2`,`date_birth`,`city_registration`,`address_registration`,`date_registration_job`,`available_doc`,`date_dismissal`,`description_dismissal`,`inn`,`status`,`employee_description`) 
-VALUES (?,'0',?,'-',?,'-',?,?,?,?,?,?,?,'-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-',?,'-','-','-','-','-','-','-',?,?)";
+$sql = "INSERT INTO db_main (id_personal,date_create_employee,user_name_create_employee,first_name,last_name,second_name,type_department,department,position,number_phone,date_birth,`status`,employee_description) 
+VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
 if ($stmt = $db_connect->prepare($sql)) {
     $stmt->bind_param("issssssssssss",
         $id_personal,

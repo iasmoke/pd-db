@@ -1,18 +1,31 @@
 <div class="container-fluid row mt-2">
 
-  <!-- Модал alert сотрудник добавлен -->
+  <!-- Модал alert сотрудник добавлен success -->
   <div #modalAddEmloyee id="modalAddEmloyee" class="modal fade">
     <div class="modal-dialog">
-      <div class="alert alert-success text-center" role="alert">{{alert_message}}</div>
+      <div class="alert alert-success text-center" role="alert">{{modal_alert_message}}</div>
     </div>
   </div>
 
+  <!-- Модал alert edit success -->
   <div #modal_alert_edit_employee id="modal_alert_edit_employee" class="modal fade">
     <div class="modal-dialog">
       <div class="alert alert-success text-center" role="alert">{{modal_alert_message}}</div>
     </div>
   </div>
 
+  <!-- Модал alert ERROR -->
+  <div #modal_alert_error id="modal_alert_error" class="modal fade">
+    <div class="modal-dialog">
+      <div class="alert alert-warning text-center" role="alert">{{modal_alert_message}}</div>
+    </div>
+  </div>
+    <!-- Модал alert edot ERROR -->
+  <div #modal_alert_edit_error id="modal_alert_edit_error" class="modal fade">
+    <div class="modal-dialog">
+      <div class="alert alert-warning text-center" role="alert"><h3>{{modal_alert_message}}</h3></div>
+    </div>
+  </div>
 
   <!-- Модал новый сотрудник -->
   <div #modalNew_user id="modalNew_user" class="modal fade">
@@ -27,19 +40,20 @@
         <div class="modal-body">
           <form [formGroup]="new_form">
            
-            <mat-form-field class="col" appearance="outline">
+            <mat-form-field class="col" appearance="standard">
               <mat-label>Фамилия</mat-label>
               <input matInput formControlName="first_name">
               <mat-error *ngIf="!!fn.first_name.errors?.required">Поле не заполненно</mat-error>
             </mat-form-field>
 
             <div class="container row">
-              <mat-form-field class="col" appearance="outline">
+              <mat-form-field class="col" appearance="standard">
                 <mat-label>Имя</mat-label>
                 <input matInput formControlName="last_name">
                 <mat-error *ngIf="!!fn.last_name.errors?.required">Поле не заполненно</mat-error>
               </mat-form-field>
-              <mat-form-field class="col" appearance="outline">
+
+              <mat-form-field class="col" appearance="standard">
                 <mat-label>Отчесто</mat-label>
                 <input matInput formControlName="second_name">
                 <mat-error *ngIf="!!fn.second_name.errors?.required">Поле не заполненно</mat-error>
@@ -101,27 +115,13 @@
     
             </div>
 
-            <mat-form-field class="col" appearance="outline">
+            <mat-form-field class="col" appearance="standard">
               <mat-label>Дата рождения</mat-label>
               <input matInput formControlName="date_birth" [matDatepicker]="picker_new_form">
               <mat-datepicker-toggle matSuffix [for]="picker_new_form"></mat-datepicker-toggle>
               <mat-datepicker #picker_new_form ></mat-datepicker>
             </mat-form-field>
           
-            <mat-form-field class="col" appearance="outline">
-              <mat-label>Дата интервью</mat-label>
-              <input matInput formControlName="interview_date" [matDatepicker]="picker_interview_date">
-              <mat-datepicker-toggle matSuffix [for]="picker_interview_date"></mat-datepicker-toggle>
-              <mat-datepicker #picker_interview_date ></mat-datepicker>
-            </mat-form-field>
-
-            <mat-form-field class="col" appearance="outline">
-              <mat-label>Дата обучения</mat-label>
-              <input matInput formControlName="certification_date" [matDatepicker]="picker_certification_date">
-              <mat-datepicker-toggle matSuffix [for]="picker_certification_date"></mat-datepicker-toggle>
-              <mat-datepicker #picker_certification_date ></mat-datepicker>
-            </mat-form-field>
-
             <mat-form-field class="col" appearance="standard">
               <mat-label>Статус</mat-label>
               <mat-select matInput formControlName="status">
@@ -158,19 +158,20 @@
         <div class="modal-body">
           <form [formGroup]="edit_form">
 
-            <mat-form-field class="col" appearance="outline">
+            <mat-form-field class="col" appearance="standard">
               <mat-label>Фамилия</mat-label>
               <input matInput formControlName="first_name">
               <mat-error *ngIf="!!fe.first_name.errors?.required">Поле не заполненно</mat-error>
             </mat-form-field>
 
             <div class="container row">
-              <mat-form-field class="col" appearance="outline">
+              <mat-form-field class="col" appearance="standard">
                 <mat-label>Имя</mat-label>
                 <input matInput formControlName="last_name">
                 <mat-error *ngIf="!!fe.last_name.errors?.required">Поле не заполненно</mat-error>
               </mat-form-field>
-              <mat-form-field class="col" appearance="outline">
+
+              <mat-form-field class="col" appearance="standard">
                 <mat-label>Отчесто</mat-label>
                 <input matInput formControlName="second_name">
                 <mat-error *ngIf="!!fe.second_name.errors?.required">Поле не заполненно</mat-error>
@@ -203,7 +204,7 @@
                 <mat-error *ngIf="!!fe.position.errors?.required">Поле не заполненно</mat-error>
               </mat-form-field>
   
-              <mat-form-field class="col" *ngIf="office">
+              <mat-form-field class="col" *ngIf="office" appearance="standard">
                 <mat-label>Подразделние</mat-label>
                 <input matInput formControlName="department">
                 <mat-error *ngIf="!!fe.department.errors?.required">Поле не заполненно</mat-error>
@@ -220,9 +221,9 @@
                 <mat-error *ngIf="!!fe.position.errors?.required">Поле не заполненно</mat-error>
               </mat-form-field>
     
-              <mat-form-field class="col" *ngIf="trade_dot">
+              <mat-form-field class="col" *ngIf="trade_dot" appearance="standard">
                 <mat-label>Место работы (ТТ)</mat-label>
-                <mat-select formControlName="department">
+                <mat-select formControlName="department" >
                   <mat-option [value]="option.substring(0, 2)" *ngFor="let option of id_tt">
                     {{option}}
                   </mat-option>
@@ -232,28 +233,12 @@
     
             </div>
 
-            <mat-form-field class="col" appearance="outline">
+            <mat-form-field class="col" appearance="standard">
               <mat-label>Дата рождения</mat-label>
                 <input matInput formControlName="date_birth" [matDatepicker]="picker_edit_form">
                 <mat-datepicker-toggle matSuffix [for]="picker_edit_form"></mat-datepicker-toggle>
                 <mat-datepicker #picker_edit_form ></mat-datepicker>
              
-            </mat-form-field>
-
-            <mat-form-field class="col" appearance="outline">
-              <mat-label>Дата интервью</mat-label>
-              <input matInput formControlName="interview_date" [matDatepicker]="picker_interview_date_edit">
-              <mat-datepicker-toggle matSuffix [for]="picker_interview_date_edit"></mat-datepicker-toggle>
-              <mat-datepicker #picker_interview_date_edit ></mat-datepicker>
-            
-            </mat-form-field>
-
-            <mat-form-field class="col" appearance="outline">
-              <mat-label>Дата обучения</mat-label>
-              <input matInput formControlName="certification_date" [matDatepicker]="picker_certification_date_edit">
-              <mat-datepicker-toggle matSuffix [for]="picker_certification_date_edit"></mat-datepicker-toggle>
-              <mat-datepicker #picker_certification_date_edit ></mat-datepicker>
-            
             </mat-form-field>
 
             <mat-form-field class="col" appearance="standard">
@@ -287,10 +272,10 @@
 
   <div class="col">
     <div class="row">
-      <div class="col-5">
+      <div class="col-2">
         <mat-form-field>
           <mat-label>Поиск</mat-label>
-          <input matInput (keyup)="applyFilter($event)" placeholder="Имя, Фамилия, Номер телефона и т.д.">
+          <input matInput [(ngModel)]="search" (keyup)="applyFilter($event)">
         </mat-form-field>
       </div>
       <div class="ml-auto">
@@ -366,7 +351,7 @@
         <tr mat-row class="example-element-row" *matRowDef="let row; columns: displayedColumns"
           (click)="open_edit_employee(row)"></tr>
       </table>
-      <mat-paginator [pageSizeOptions]="[10, 15]" showFirstLastButtons></mat-paginator>
+      <mat-paginator [pageSizeOptions]="[15,30,50]" showFirstLastButtons></mat-paginator>
     </div>
   </div>
 </div>

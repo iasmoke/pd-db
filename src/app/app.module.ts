@@ -26,12 +26,8 @@ import { MainUserHrComponent } from './main-user-hr/main-user-hr.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { MainUserMtComponent } from './main-user-mt/main-user-mt.component';
-
-
-
-
+import { MainUserPiComponent } from './main-user-pi/main-user-pi.component';
 
 
 @NgModule({
@@ -42,7 +38,8 @@ import { MainUserMtComponent } from './main-user-mt/main-user-mt.component';
     SettingsUsersComponent,
     TelegramSendComponent,
     MainUserHrComponent,
-    MainUserMtComponent
+    MainUserMtComponent,
+    MainUserPiComponent
   ],
   imports: [
     BrowserModule,
@@ -72,8 +69,7 @@ import { MainUserMtComponent } from './main-user-mt/main-user-mt.component';
   ],
   providers: [
     MatDatepickerModule,
-    MatNativeDateModule,
-    { provide: MAT_DATE_LOCALE, useValue: 'ua-UA'}
+    MatNativeDateModule
   ],
   bootstrap: [AppComponent]
 })

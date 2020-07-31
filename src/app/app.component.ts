@@ -38,14 +38,16 @@ export class AppComponent {
   user_id = this.loginService.user_id
   user_name = this.loginService.user_name
   user_role = this.loginService.user_role
+  
 
   
   main = ((this.user_id !== null) && (this.loginService.user_role === 'admin')) ? true : false;
   main_user_hr = ((this.user_id !== null) && (this.loginService.user_role === 'user_hr')) ? true : false;
   main_user_mt = ((this.user_id !== null) && (this.loginService.user_role === 'user_mt')) ? true : false;
+  main_user_pi = ((this.user_id !== null) && (this.loginService.user_role === 'user_pi')) ? true : false;
   login_component = this.user_id === null ? true : false;
   settings_users = false;
-  telegram_send = false;
+  // telegram_send = false;
   
 
 
@@ -64,7 +66,7 @@ export class AppComponent {
     this.settings_users = false
     this.login_component = false
     this.main = false
-    this.telegram_send = false
+    // this.telegram_send = false
     this[items] = true
   }
 

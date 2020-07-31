@@ -7,6 +7,8 @@ import { MainService } from '../service/main.service';
 import { LoginService } from '../service/login.service';
 import * as moment from 'moment';
 import { Observable, } from 'rxjs';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
 moment.locale('ru');
 declare var $: any;
 
@@ -15,6 +17,18 @@ declare var $: any;
   selector: 'app-main-user-hr',
   templateUrl: './main-user-hr.component.html',
   styleUrls: ['./main-user-hr.component.scss'],
+  providers: [
+    {
+      provide: MAT_DATE_LOCALE,
+      useValue: 'ru-RU'
+    },
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
+    },
+    { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS },
+  ],
 })
 
 export class MainUserHrComponent implements OnInit {
@@ -27,6 +41,7 @@ export class MainUserHrComponent implements OnInit {
   trade_dot = false;
   if_rejection_reasos = false;
   internships = false;
+  candidat = false;
 
   dataTable_user_hr = [];
   displayedColumns_user_hr: string[] = [
@@ -48,6 +63,8 @@ export class MainUserHrComponent implements OnInit {
 
   new_form_employee: FormGroup;
   form_edit_employee: FormGroup;
+  interview_date:any
+  internship_date:any
 
   alert_message: any;
 
@@ -65,7 +82,7 @@ export class MainUserHrComponent implements OnInit {
     private formBuilder: FormBuilder,
     public loginService: LoginService
   ) {
-    this.mainService.get_table_main_user_hr(this.user_name_create_employee).subscribe((res) => {
+    this.mainService.get_table_main_user_hr().subscribe((res) => {
       this.dataTable_user_hr = JSON.parse(res);
       this.dataSource = new MatTableDataSource(this.dataTable_user_hr);
       this.dataSource.sort = this.sort;
@@ -80,7 +97,7 @@ export class MainUserHrComponent implements OnInit {
   }
 
   get_table_personal() {
-    this.mainService.get_table_main_user_hr(this.user_name_create_employee).subscribe((res) => {
+    this.mainService.get_table_main_user_hr().subscribe((res) => {
       this.dataTable_user_hr = JSON.parse(res);
       this.dataSource = new MatTableDataSource(this.dataTable_user_hr);
       this.dataSource.sort = this.sort;
@@ -143,16 +160,12 @@ export class MainUserHrComponent implements OnInit {
     this.form_edit_employee.controls['attraction_channel'].setValue(row.attraction_channel);
     this.form_edit_employee.controls['type_department'].setValue(row.type_department);
     this.form_edit_employee.controls['attraction_channel_description'].setValue(row.attraction_channel_description);
-    this.form_edit_employee.controls['interview_date'].setValue(new Date(row.interview_date));
-    this.form_edit_employee.controls['internship_date'].setValue(new Date());
+    this.form_edit_employee.controls['interview_date'].setValue(row.interview_date);
+    this.form_edit_employee.controls['internship_date'].setValue(row.internship_date);
     this.form_edit_employee.controls['internship_place'].setValue(row.internship_place);
     this.form_edit_employee.controls['rejection_reason'].setValue(row.rejection_reason);
     this.form_edit_employee.controls['status'].setValue(row.status);
     this.form_edit_employee.controls['employee_description'].setValue(row.employee_description);
-    console.log(new Date(row.interview_date));
-    console.log(new Date(row.internship_date));
-    console.log(this.form_edit_employee);
-
   }
 
   update_employee() {
@@ -163,8 +176,8 @@ export class MainUserHrComponent implements OnInit {
 
     } else {
       let date_now = moment(new Date()).format('DD.MM.YYYY HH:mm:ss');
-      this.form_edit_employee.controls['interview_date'].setValue(moment(this.form_edit_employee.value.interview_date).format('DD-MM-YYYY'))
-      this.form_edit_employee.controls['internship_date'].setValue(moment(this.form_edit_employee.value.internship_date).format('DD-MM-YYYY'))
+      this.form_edit_employee.get('interview_date').setValue(moment(this.form_edit_employee.value.interview_date).format("YYYY-MM-DD"))
+      this.form_edit_employee.get('internship_date').setValue(moment(this.form_edit_employee.value.internship_date).format("YYYY-MM-DD"))
       console.log(this.form_edit_employee);
       
       this.mainService.user_hr_update_employee(
@@ -208,12 +221,11 @@ export class MainUserHrComponent implements OnInit {
           this.new_form_employee.get('attraction_channel_description').enable();
         } else {
           this.new_form_employee.get('attraction_channel_description').reset();
-          this.new_form_employee
-            .get('attraction_channel_description')
-            .disable();
+          this.new_form_employee.get('attraction_channel_description').disable();
         }
       });
   }
+
 
   onChangesPosition() {
     this.new_form_employee.get('type_department').valueChanges.subscribe((selectType_department) => {
@@ -259,18 +271,21 @@ export class MainUserHrComponent implements OnInit {
   }
 
   onChangesStatus() {
+    this.new_form_employee.get('status').valueChanges.subscribe((status) => {
+      if (status === 'Кандидат') {
+       this.candidat = true
+      } else {
+        this.candidat = false
+      }
+    });
     this.form_edit_employee.get('status').valueChanges.subscribe((selectStatus) => {
       if (selectStatus === 'Стажёр') {
         this.internships = true
-        this.form_edit_employee.get('internship_date').setValue(new Date())
       } else {
-        this.form_edit_employee.get('internship_place').setValue('-')
-        this.form_edit_employee.get('internship_date').setValue(new Date())
         this.internships = false
 
       }
-
-    })
+    });
   }
 
   private _filter(value: string): string[] {
@@ -288,11 +303,11 @@ export class MainUserHrComponent implements OnInit {
       position: ['', [Validators.required]],
       department: ['', [Validators.required]],
       number_phone: ['', [Validators.required, Validators.pattern('[0-9]{12}')],],
-      attraction_channel: ['', [Validators.required]],
+      attraction_channel: [''],
       type_department: ['', [Validators.required]],
       attraction_channel_description: [''],
-      interview_date: ['', [Validators.required]],
-      internship_date: ['', [Validators.required]],
+      interview_date: [''],
+      internship_date: [''],
       internship_place: ['', [Validators.required]],
       rejection_reason: [''],
       status: ['', [Validators.required]],
@@ -307,9 +322,9 @@ export class MainUserHrComponent implements OnInit {
       type_department: new FormControl('', Validators.required),
       position: new FormControl('', Validators.required),
       department: new FormControl('', Validators.required),
-      attraction_channel: new FormControl('', Validators.required),
+      attraction_channel: new FormControl(''),
       attraction_channel_description: new FormControl(''),
-      interview_date: new FormControl('', Validators.required),
+      interview_date: new FormControl(''),
       status: new FormControl('', Validators.required),
     });
     this.onChangesAddForm();

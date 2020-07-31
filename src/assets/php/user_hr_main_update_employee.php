@@ -29,9 +29,14 @@ $status = $form_edit_employee['status'];
 $employee_description = $form_edit_employee['employee_description'];
 $user_name = $_POST['user_name'];
 
-if($status !== 'Стажёр'){
-  $internship_date = '- - -';
+if ($interview_date === 'Invalid date') {
+  $interview_date = '';
 }
+
+if ($internship_date === 'Invalid date') {
+  $internship_date = '';
+}
+
 
 
 $sql = "UPDATE `db_main` SET date_last_update=?, user_name_last_update=?, first_name=?, last_name=?, second_name=?, type_department=? ,department=?, `position`=?, number_phone=?, attraction_channel=?, attraction_channel_description=?, interview_date=?, internship_date=?, internship_place=?, rejection_reason=?, `status`=?, employee_description=? WHERE id_personal=?";
@@ -42,11 +47,11 @@ if ($stmt = $db_connect->prepare($sql)) {
   $rejection_reason, $status, $employee_description, $id_personal);
 
   $stmt->execute();
-
-  $res = 'Данные обновлены';
-
-} else {
-  $res = 'Error';
+  if (count($stmt->error_list) === 0) {
+    $res = 'Данные обновлены';
+  } else {
+    $res = $stmt->error_list;
+  }
 }
 
 echo (json_encode($res));

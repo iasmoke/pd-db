@@ -7,8 +7,8 @@
     <nav class="justify-content-center" [backgroundColor]="backgroundColorToggle"
       mat-tab-nav-bar>
       <a mat-tab-link [hidden]="user_role !== 'admin'" [active]="main === true" (click)="select_component('main')">Главная</a>
-      <a mat-tab-link [hidden]="user_role !== 'admin'" [active]="settings_users === true" (click)="select_component('settings_users')">Управление пользователями</a>
-      <a mat-tab-link [hidden]="user_role !== 'admin'" [active]="telegram_send === true" (click)="select_component('telegram_send')">Рассылка в Telegram</a>
+      <a mat-tab-link [hidden]="user_role !== 'admin'" [active]="settings_users === true" (click)="select_component('settings_users')">Управление</a>
+      <!-- <a mat-tab-link [hidden]="user_role !== 'admin'" [active]="telegram_send === true" (click)="select_component('telegram_send')">Рассылка в Telegram</a> -->
 
     </nav>
     <div>
@@ -18,8 +18,9 @@
   </mat-toolbar>
   
   <app-login *ngIf="login_component" ></app-login>
-  <app-main-user-mt *ngIf="main_user_mt"></app-main-user-mt>
   <app-main *ngIf="main" ></app-main>
+  <app-main-user-mt *ngIf="main_user_mt"></app-main-user-mt>
   <app-main-user-hr *ngIf="main_user_hr"></app-main-user-hr>
+  <app-main-user-pi *ngIf="main_user_pi"></app-main-user-pi>
   <app-settings-users *ngIf="settings_users"></app-settings-users>
-  <app-telegram-send *ngIf="telegram_send"></app-telegram-send>
+  
