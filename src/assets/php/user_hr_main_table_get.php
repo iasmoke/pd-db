@@ -36,9 +36,9 @@ if ($stmt = $db_connect->prepare($sql)) {
         $employee_description,
     );
     while ($stmt->fetch()) {
-        $res[] = array (
+        $res[] = array(
             'id_personal' => $id_personal,
-            'fio' => $first_name." ".$last_name." ".$second_name,
+            'fio' => $first_name . " " . $last_name . " " . $second_name,
             'position' => (string) $position,
             'type_department' => (string) $type_department,
             'department' => $department,
@@ -53,7 +53,7 @@ if ($stmt = $db_connect->prepare($sql)) {
             'status' => (string) $status,
             'employee_description' => (string) $employee_description
         );
-        }
+    }
 }
 
 
