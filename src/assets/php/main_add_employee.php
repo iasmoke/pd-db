@@ -19,7 +19,7 @@ $second_name = $new_employee['second_name'];
 $type_department = $new_employee['type_department'];
 $department = $new_employee['department'];
 $position = $new_employee['position'];
-$number_phone = '+'.$new_employee['number_phone'];
+$number_phone = '+380' . $new_employee['number_phone'];
 $date_birth = $new_employee['date_birth'];
 $status = $new_employee['status'];
 $employee_description = $new_employee['employee_description'];
@@ -30,45 +30,42 @@ $sql = "SELECT MAX(`id_personal`) FROM db_main";
 if ($stmt = $db_connect->prepare($sql)) {
     $stmt->execute();
     $stmt->bind_result(
-       $id_personal
+        $id_personal
     );
-    while($stmt->fetch()){
+    while ($stmt->fetch()) {
         $id_personal = ($id_personal + 1);
     }
 
 
-$sql = "INSERT INTO db_main (id_personal,date_create_employee,user_name_create_employee,first_name,last_name,second_name,type_department,department,position,number_phone,date_birth,`status`,employee_description) 
+    $sql = "INSERT INTO db_main (id_personal, date_create_employee, user_name_create_employee, first_name, last_name, second_name, type_department, department, position, number_phone, date_birth,`status`,employee_description) 
 VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
-if ($stmt = $db_connect->prepare($sql)) {
-    $stmt->bind_param("issssssssssss",
-        $id_personal,
-        $date,
-        $user_name_create_employee,
-        $first_name,
-        $last_name,
-        $second_name,
-        $type_department,
-        $department,
-        $position,
-        $number_phone,
-        $date_birth,
-        $status,
-        $employee_description
-    );
-    $stmt->execute();
-    if( count($stmt->error_list) === 0){
-        $res = "Пользователь добавлен";
-    }else {
-        $res = $stmt->error_list;
+    if ($stmt = $db_connect->prepare($sql)) {
+        $stmt->bind_param(
+            "issssssssssss",
+            $id_personal,
+            $date,
+            $user_name_create_employee,
+            $first_name,
+            $last_name,
+            $second_name,
+            $type_department,
+            $department,
+            $position,
+            $number_phone,
+            $date_birth,
+            $status,
+            $employee_description
+        );
+        $stmt->execute();
+        if (count($stmt->error_list) === 0) {
+            $res = "Пользователь добавлен";
+        } else {
+            $res = $stmt->error_list;
+        }
     }
 }
-}else {
-    $res = "Error";
-}
- 
 
 
 
-echo(json_encode($res));
-$db_connect->close();
 
+echo (json_encode($res));

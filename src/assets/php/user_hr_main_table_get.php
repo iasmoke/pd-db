@@ -12,8 +12,9 @@ $_POST = json_decode(file_get_contents('php://input'), true);
 $user_name_create_employee = $_POST['user_name_create_employee'];
 
 
-$sql = "SELECT id_personal,first_name,last_name,second_name,position,type_department,department,number_phone,attraction_channel,attraction_channel_description,interview_date,internship_date,internship_place,rejection_reason,`status`,employee_description FROM db_main";
+$sql = "SELECT id_personal, first_name,last_name,second_name,position,type_department,department,number_phone,attraction_channel,attraction_channel_description,interview_date,internship_date,internship_place,certification_date,rejection_reason,`status`,employee_description FROM db_main WHERE user_name_create_employee=? ORDER BY db_main.id_personal DESC";
 if ($stmt = $db_connect->prepare($sql)) {
+    $stmt->bind_param("s", $user_name_create_employee);
     $stmt->execute();
     $stmt->bind_result(
         $id_personal,
@@ -29,16 +30,15 @@ if ($stmt = $db_connect->prepare($sql)) {
         $interview_date,
         $internship_date,
         $internship_place,
+        $certification_date,
         $rejection_reason,
         $status,
-        $employee_description
+        $employee_description,
     );
     while ($stmt->fetch()) {
         $res[] = array (
-            'id_personal' => (int) $id_personal,
-            'first_name' => (string) $first_name,
-            'last_name' => (string) $last_name,
-            'second_name' =>(string) $second_name,
+            'id_personal' => $id_personal,
+            'fio' => $first_name." ".$last_name." ".$second_name,
             'position' => (string) $position,
             'type_department' => (string) $type_department,
             'department' => $department,
@@ -48,6 +48,7 @@ if ($stmt = $db_connect->prepare($sql)) {
             'interview_date' => (string) $interview_date,
             'internship_date' => (string) $internship_date,
             'internship_place' => (string) $internship_place,
+            'certification_date' => $certification_date,
             'rejection_reason' => (string) $rejection_reason,
             'status' => (string) $status,
             'employee_description' => (string) $employee_description

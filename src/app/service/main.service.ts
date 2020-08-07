@@ -20,11 +20,12 @@ export class MainService {
     );
   }
 
-  get_table_main_user_hr() {
+  get_table_main_user_hr(user_name_create_employee) {
     return this.http.post(
       './assets/php/user_hr_main_table_get.php',
       JSON.stringify(
         {
+          user_name_create_employee:user_name_create_employee
         }
       ),
       { responseType: 'text' }
@@ -102,17 +103,6 @@ export class MainService {
     );
   }
 
-  user_hr_get_data_update(id_personal) {
-    return this.http.post(
-      './assets/php/user_hr_main_get_data_update.php',
-      JSON.stringify(
-        {
-          id_personal: id_personal
-        }
-      ),
-      { responseType: 'text' }
-    );
-  }
   get_id_tt() {
     return this.http.post(
       './assets/php/get_id_tt.php',
