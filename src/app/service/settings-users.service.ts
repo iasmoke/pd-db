@@ -30,7 +30,7 @@ export class SettingsUsersService {
       './assets/php/settings_users_get.php',
       JSON.stringify(
         {
-      
+          
         }
       ),
       { responseType: 'text' }

@@ -95,7 +95,7 @@
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns_user_hr; sticky: true"></tr>
         <tr mat-row class="example-element-row" *matRowDef="let row; columns: displayedColumns_user_hr"
-          (click)="open_edit_employee(row)"></tr>
+          (dblclick)="open_edit_employee(row)"></tr>
       </table>
       <mat-paginator [pageSizeOptions]="[15, 30, 50]" showFirstLastButtons></mat-paginator>
     </div>
@@ -374,7 +374,7 @@
               <mat-error *ngIf="!!form_edit.internship_place.errors?.required">Выберете место стажировки</mat-error>
             </mat-form-field>
 
-            <mat-form-field class="col" appearance="fill">
+            <mat-form-field class="col" appearance="standard">
               <mat-label>Дата стажировки</mat-label>
               <input matInput [matDatepicker]="picker_internship_date" formControlName="internship_date">
               <mat-datepicker-toggle matSuffix [for]="picker_internship_date"></mat-datepicker-toggle>
@@ -404,7 +404,7 @@
               <mat-select matInput formControlName="rejection_reason">
                 <mat-option value="Отказ рекрутера">Отказ рекрутера</mat-option>
                 <mat-option value="Переоценка собстевнных сил">Переоценка собстевнных сил</mat-option>
-                <mat-option value="Не выход на стажировку">Не выход на стажировку</mat-option>
+                <mat-option value="Не выход на стажировку">Невыход на стажировку</mat-option>
                 <mat-option value="Отказ менеджера">Отказ менеджера</mat-option>
               </mat-select>
               <mat-error *ngIf="!!form_edit.rejection_reason.errors?.required">Введите значение</mat-error>

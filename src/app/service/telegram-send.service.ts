@@ -10,6 +10,45 @@ export class TelegramSendService {
     private http:HttpClient
   ) { }
 
+  selectPersonal(department_office){
+    return this.http.post(
+      './assets/php/telegram_get_list_personal.php',
+      JSON.stringify(
+        {
+          department_office:department_office,
+        }
+      ),
+      { responseType: 'text' }
+    );
+  }
+
+  add_TOKEN_user(user_id,user_name,TOKEN_id,TOKEN_name){
+    return this.http.post(
+      './assets/php/telegram_add_token.php',
+      JSON.stringify(
+        {
+          user_id:user_id,
+          user_name:user_name,
+          TOKEN_id:TOKEN_id,
+          TOKEN_name:TOKEN_name,
+        }
+      ),
+      { responseType: 'text' }
+    );
+  }
+
+  get_my_token(user_id){
+    return this.http.post(
+      './assets/php/telegram_get_token_name.php',
+      JSON.stringify(
+        {
+          user_id:user_id
+        }
+      ),
+      { responseType: 'text' }
+    );
+  }
+
   get_city(){
     return this.http.post(
       './assets/php/telegram_get_city.php',

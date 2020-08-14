@@ -1,13 +1,10 @@
-<!-- <mat-toolbar color="primary">Pizza Day (logo)</mat-toolbar>
-<button class="btn btn-primary col-3">Prime</button> -->
 
 <mat-toolbar *ngIf="login_component === false" class="justify-content-between" color="primary">
-    <a class="navbar-brand text-white">Pizza Day<button class="ml-2" mat-fab
-      color="primary">{{program_v}}</button></a>
-    <nav class="justify-content-center" [backgroundColor]="backgroundColorToggle"
-      mat-tab-nav-bar>
+    <a class="navbar-brand text-white">Pizza Day DB<button class="ml-2" mat-fab color="primary">{{program_v}}</button></a>
+    <nav class="justify-content-center" [backgroundColor]="backgroundColorToggle" mat-tab-nav-bar>
       <a mat-tab-link [hidden]="user_role !== 'admin'" [active]="main === true" (click)="select_component('main')">Главная</a>
-      <a mat-tab-link [hidden]="user_role !== 'admin'" [active]="settings_users === true" (click)="select_component('settings_users')">Управление</a>
+      <a mat-tab-link [hidden]="user_role !== 'admin'" [active]="settings_users === true" (click)="select_component('settings_users')">Админ панель</a>
+      <a mat-tab-link [hidden]="user_role !== 'admin'" [active]="list_tt === true" (click)="select_component('list_tt')">Заведение</a>
       <!-- <a mat-tab-link [hidden]="user_role !== 'admin'" [active]="telegram_send === true" (click)="select_component('telegram_send')">Рассылка в Telegram</a> -->
 
     </nav>
@@ -23,4 +20,5 @@
   <app-main-user-hr *ngIf="main_user_hr"></app-main-user-hr>
   <app-main-user-pi *ngIf="main_user_pi"></app-main-user-pi>
   <app-settings-users *ngIf="settings_users"></app-settings-users>
+  <app-list-tt *ngIf="list_tt"></app-list-tt>
   

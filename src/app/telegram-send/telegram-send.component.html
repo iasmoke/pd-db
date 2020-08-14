@@ -1,79 +1,152 @@
-<div class="container mt-2">
-  <h2 class="col text-center">Filter</h2>
+<!-- <div class="container-fluid" [hidden]="user_name !== 'admin'">
+  
   <div class="row">
-    <mat-form-field>
-      <mat-label>Выберете тип подразделения</mat-label>
-      <mat-select [(ngModel)]="type_department" (ngModelChange)="change_select(type_department)">
-        <mat-option [value]="item_type_department"
-          *ngFor="let item_type_department of array_type_department">{{item_type_department}}
+    <mat-form-field class="col" appearance="standard">
+      <mat-label>Введите TOKEN</mat-label>
+      <input matInput [(ngModel)]="new_token_id">
+    </mat-form-field>
+
+    <mat-form-field class="col" appearance="standard">
+      <mat-label>Введите имя TOKEN</mat-label>
+      <input matInput [(ngModel)]="new_token_name">
+    </mat-form-field>
+  </div>
+  <div class="row">
+    <mat-form-field class="col" appearance="standard">
+      <mat-label>Выберете user_name</mat-label>
+      <mat-select [(ngModel)]="get_user_name">
+        <mat-option [value]="item_list_user_name" *ngFor="let item_list_user_name of list_user_name">
+          {{item_list_user_name.user_name}}
         </mat-option>
       </mat-select>
     </mat-form-field>
-    <div class="ml-2" *ngIf="trade_dot">
-      <mat-form-field class="ml-2">
-        <mat-label>Выберете город</mat-label>
-        <mat-select [formControl]="city" (ngModelChange)="get_department_trade_dot()" multiple>
-          <mat-option [value]="item_city.city" *ngFor="let item_city of array_city">{{item_city.city}}</mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field class="ml-2">
-        <mat-label>Выберете подразделения</mat-label>
-        <mat-select [formControl]="department" (ngModelChange)="get_position()" multiple>
-          <mat-option [value]="item_department.id_tt" *ngFor="let item_department of array_department">
-            TT-{{item_department.id_tt}}: {{item_department.city}}, {{item_department.adress}} </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field class="ml-2">
-        <mat-label>Выберете должность</mat-label>
-        <mat-select [formControl]="position" multiple>
-          <mat-option [value]="item_position" *ngFor="let item_position of array_position">
-            {{item_position}}</mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-    <div *ngIf="office">
-      <mat-form-field>
-        <mat-label>Выберете город</mat-label>
-        <mat-select [formControl]="city_office" >
-            <mat-option value="Днепр">Днепр</mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Выберете подразделения</mat-label>
-        <mat-select [(ngModel)]="department_office">
-          <mat-option [value]="item_department_office" *ngFor="let item_department_office of array_department_office">
-            {{item_department_office}}</mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
+
+    <button mat-mini-fab color="primary" (click)="add_TOKEN()">
+      <mat-icon>add_circle</mat-icon>
+    </button>
+
   </div>
-  <h2 class="col text-center">Send messsage</h2>
-  <div class="row mt-2">
-    <mat-form-field class="col-4">
-      <mat-label>Введите текс сообщения</mat-label>
+</div>
+
+<mat-form-field class="col" appearance="standard" [hidden]="user_name !== 'admin'">
+  <mat-label>Выберете Бота</mat-label>
+  <mat-select [(ngModel)]="TOKEN_id">
+    <mat-option [value]="item_list_TOKEN_id.TOKEN_id" *ngFor="let item_list_TOKEN_id of list_TOKEN_id">
+      {{item_list_TOKEN_id.TOKEN_name}}
+    </mat-option>
+  </mat-select>
+</mat-form-field> -->
+
+
+<div class="container-fluid mr-2">
+  <h2 class="col text-center">Рассылка</h2>
+  <div class="row">
+    <mat-form-field class="col" appearance="standard">
+      <mat-label>Выберете тип подразделения</mat-label>
+      <mat-select [(ngModel)]="type_department" (ngModelChange)="change_select(type_department)">
+        <mat-option [value]="item_type_department" *ngFor="let item_type_department of array_type_department">
+          {{item_type_department}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div *ngIf="trade_dot" class="row">
+
+    <mat-form-field class="col" appearance="standard">
+      <mat-label>Выберете город</mat-label>
+      <mat-select [formControl]="city" (ngModelChange)="get_department_trade_dot()" multiple>
+        <mat-option [value]="item_city.city" *ngFor="let item_city of array_city">{{item_city.city}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="col" appearance="standard">
+      <mat-label>Выберете подразделения</mat-label>
+      <mat-select [formControl]="department" (ngModelChange)="get_position()" multiple>
+        <mat-option [value]="item_department.id_tt" *ngFor="let item_department of array_department">
+          TT-{{item_department.id_tt}}: {{item_department.city}}, {{item_department.adress}} </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="col" appearance="standard">
+      <mat-label>Выберете должность</mat-label>
+      <mat-select [formControl]="position" multiple>
+        <mat-option [value]="item_position" *ngFor="let item_position of array_position">
+          {{item_position}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+  </div>
+
+  <div *ngIf="office" class="row">
+    <!-- <mat-form-field class="col" appearance="standard">
+      <mat-label>Выберете город</mat-label>
+      <mat-select [formControl]="city_office">
+        <mat-option value="Днепр">Днепр</mat-option>
+      </mat-select>
+    </mat-form-field> -->
+
+    <mat-form-field class="col" appearance="standard">
+      <mat-label>Выберете подразделения</mat-label>
+      <mat-select [(ngModel)]="department_office" (ngModelChange)="select_personal()">
+        <mat-option [value]="item_department_office" *ngFor="let item_department_office of array_department_office">
+          {{item_department_office}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="standard">
+      <mat-label>Toppings</mat-label>
+      <mat-select [(ngModel)]="list_name_department_office" multiple>
+        <mat-option *ngFor="let item_department_list_names of department_list_names"
+          [value]="item_department_list_names">
+          {{item_department_list_names.first_name + " " + item_department_list_names.last_name}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+  </div>
+
+  <div class="row">
+
+    <mat-form-field class="col" appearance="standard">
+      <mat-label>Введите текст сообщения</mat-label>
       <textarea matInput [formControl]="message_text" multiple></textarea>
     </mat-form-field>
+
     <button mat-fab color="primary" (click)="send_message_bot()">
       <mat-icon>send</mat-icon>
     </button>
-  </div>
-<!-- Алерт успешной отправки -->
-  <div #successfully_sent id="successfully_sent" class="modal fade">
-    <div class="modal-dialog">
-      <div class="alert alert-success text-center" role="alert">{{alert_message_successfully}}</div>
-    </div>
-  </div>
 
-  <!-- Алерт all ERROR -->
-  <div #all_ERROR_sent id="all_ERROR_sent" class="modal fade">
-    <div class="modal-dialog">
-      <div class="alert alert-danger text-center" role="alert">Рассылка не выполенна.Проверти подключение к боту.</div>
-    </div>
   </div>
+</div>
+
+
+
+
+<!-- Алерт успешной отправки -->
+<div #successfully_sent id="successfully_sent" class="modal fade">
+  <div class="modal-dialog">
+    <div class="alert alert-success text-center" role="alert">{{alert_message_successfully}}</div>
+  </div>
+</div>
+
+<!-- Алерт all ERROR -->
+<div #all_ERROR_sent id="all_ERROR_sent" class="modal fade">
+  <div class="modal-dialog">
+    <div class="alert alert-danger text-center" role="alert">Рассылка не выполенна.Проверти подключение к боту.</div>
+  </div>
+</div>
 
 <!-- Алерт ERROR -->
-  <div #ERROR_sent id="ERROR_sent" class="modal fade">
-    <div class="modal-dialog">
-      <div class="alert alert-warning text-center" role="alert">Рассылка выполенна не полностью. Проверти кто еще не подключился к боту.</div>
-    </div>
+<div #ERROR_sent id="ERROR_sent" class="modal fade">
+  <div class="modal-dialog">
+    <div class="alert alert-warning text-center" role="alert">Рассылка выполенна не полностью. Проверти кто еще не
+      подключился к боту.</div>
   </div>
+</div>
+
+<!-- Алерт Good -->
+<div #best_token id="best_token" class="modal fade">
+  <div class="modal-dialog">
+    <div class="alert alert-success text-center" role="alert">{{good_token}}</div>
+  </div>
+</div>

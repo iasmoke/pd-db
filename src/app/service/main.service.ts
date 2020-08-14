@@ -22,7 +22,7 @@ export class MainService {
 
   get_table_main_user_hr(user_name_create_employee) {
     return this.http.post(
-      './assets/php/user_hr_main_table_get.php',
+      './assets/php/user_hr_get_main_table.php',
       JSON.stringify(
         {
           user_name_create_employee:user_name_create_employee

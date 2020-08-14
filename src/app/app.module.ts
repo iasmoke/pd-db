@@ -28,6 +28,8 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MainUserMtComponent } from './main-user-mt/main-user-mt.component';
 import { MainUserPiComponent } from './main-user-pi/main-user-pi.component';
+import { ListTtComponent } from './list-tt/list-tt.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 
 @NgModule({
@@ -39,7 +41,8 @@ import { MainUserPiComponent } from './main-user-pi/main-user-pi.component';
     TelegramSendComponent,
     MainUserHrComponent,
     MainUserMtComponent,
-    MainUserPiComponent
+    MainUserPiComponent,
+    ListTtComponent
   ],
   imports: [
     BrowserModule,
@@ -63,7 +66,8 @@ import { MainUserPiComponent } from './main-user-pi/main-user-pi.component';
     MatCheckboxModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatProgressSpinnerModule
 
 
   ],

@@ -1,0 +1,75 @@
+<mat-spinner *ngIf="spinner" class="spinner"></mat-spinner>
+<div class="container">
+  <mat-accordion [hidden]="item.user_name === 'admin'" *ngFor="let item of list_tt; let i = index"
+    class="example-headers-align" multi>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          TT - {{item.id_tt + ' ' + item.city + ' ' + item.adress}}
+        </mat-panel-title>
+        <mat-panel-description>
+          Персональные данные
+          <mat-icon>store_mall_directory</mat-icon>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <div class="row">
+        <mat-form-field>
+          <mat-label>Number TD</mat-label>
+          <input [(ngModel)]="item.id_tt" matInput>
+          <mat-hint *ngIf="item.id_tt === ''" [ngStyle]="{'color': 'red'}">Введите данные</mat-hint>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>City</mat-label>
+          <input [(ngModel)]="item.city" matInput>
+          <mat-hint *ngIf="item.city === ''" [ngStyle]="{'color': 'red'}">Введите данные</mat-hint>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Adress</mat-label>
+          <input [(ngModel)]="item.adress" matInput>
+          <mat-hint *ngIf="item.adress === ''" [ngStyle]="{'color': 'red'}">Введите данные</mat-hint>
+        </mat-form-field>
+      </div>
+      <div class="row">
+        <mat-form-field>
+          <mat-label>Date open</mat-label>
+          <input [(ngModel)]="item.date_open" matInput>
+          <mat-hint *ngIf="item.date_open === ''" [ngStyle]="{'color': 'red'}">Введите данные</mat-hint>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Manager trade dot</mat-label>
+          <input [(ngModel)]="item.manager" matInput>
+          <mat-hint *ngIf="item.manager === ''" [ngStyle]="{'color': 'red'}">Введите данные</mat-hint>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>RM</mat-label>
+          <input [(ngModel)]="item.rm" matInput>
+          <mat-hint *ngIf="item.rm === ''" [ngStyle]="{'color': 'red'}">Введите данные</mat-hint>
+        </mat-form-field>
+      </div>
+      <!-- <mat-form-field>
+        <mat-label>Password</mat-label>
+        <input matInput [(ngModel)]="item.password" [type]="hide ? 'password' : 'text'">
+        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+          [attr.aria-pressed]="hide">
+          <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+        <mat-hint *ngIf="item.password === ''" [ngStyle]="{'color': 'red'}">Введите данные</mat-hint>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Rights</mat-label>
+        <mat-select [(ngModel)]="item.user_role">
+          <mat-option value="admin">Admin</mat-option>
+          <mat-option value="user_hr">Human resources</mat-option>
+          <mat-option value="user_pi">Кадровый инспектор</mat-option>
+          <mat-option value="user_mt">Менеджер по обучению</mat-option>
+        </mat-select>
+      </mat-form-field> -->
+      <!-- <button mat-raised-button (click)="udpate_user_settings(i)">Обновить</button> -->
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>

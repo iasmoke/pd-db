@@ -117,8 +117,8 @@ export class MainUserHrComponent implements OnInit {
       console.log(this.new_form_employee);
       return console.log('new_form_employee.invalid');
     }
-    let date_now = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
-    let date_interview = moment(this.new_form_employee.value.date_interview).format('YYYY-MM-DD');
+    let date_now = moment(new Date()).format('DD.MM.YYYY HH:mm:ss');
+    let date_interview = moment(this.new_form_employee.value.date_interview).format('DD.MM.YYYY');
     this.new_form_employee.controls['interview_date'].setValue(date_interview);
     this.mainService.user_hr_add_employee(this.new_form_employee.value, date_now, this.user_name_create_employee).subscribe((res) => {
       console.log(res);
@@ -159,9 +159,9 @@ export class MainUserHrComponent implements OnInit {
     this.form_edit_employee.controls['attraction_channel'].setValue(row.attraction_channel);
     this.form_edit_employee.controls['type_department'].setValue(row.type_department);
     this.form_edit_employee.controls['attraction_channel_description'].setValue(row.attraction_channel_description);
-    this.form_edit_employee.controls['interview_date'].setValue(row.interview_date);
-    this.form_edit_employee.controls['internship_date'].setValue(row.internship_date);
-    this.form_edit_employee.controls['certification_date'].setValue(row.certification_date);
+    row.interview_date === '' ? this.form_edit_employee.controls['interview_date'].setValue(row.interview_date) : this.form_edit_employee.controls['interview_date'].setValue(new Date(row.interview_date));
+    row.internship_date === '' ? this.form_edit_employee.controls['internship_date'].setValue(row.internship_date) : this.form_edit_employee.controls['internship_date'].setValue(new Date(row.internship_date)) ;
+    row.certification_date === '' ?  this.form_edit_employee.controls['certification_date'].setValue(row.certification_date) : this.form_edit_employee.controls['certification_date'].setValue(new Date(row.certification_date));
     this.form_edit_employee.controls['internship_place'].setValue(row.internship_place);
     this.form_edit_employee.controls['rejection_reason'].setValue(row.rejection_reason);
     this.form_edit_employee.controls['status'].setValue(row.status);
@@ -175,10 +175,10 @@ export class MainUserHrComponent implements OnInit {
       console.log(this.form_edit_employee)
 
     } else {
-      let date_now = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
-      this.form_edit_employee.get('interview_date').setValue(moment(this.form_edit_employee.value.interview_date).format("YYYY-MM-DD"))
-      this.form_edit_employee.get('internship_date').setValue(moment(this.form_edit_employee.value.internship_date).format("YYYY-MM-DD"))
-      this.form_edit_employee.get('certification_date').setValue(moment(this.form_edit_employee.value.certification_date).format("YYYY-MM-DD"))
+      let date_now = moment(new Date()).format('DD.MM.YYYY HH:mm:ss');
+      this.form_edit_employee.get('interview_date').setValue(moment(this.form_edit_employee.value.interview_date).format("DD.MM.YYYY"))
+      this.form_edit_employee.get('internship_date').setValue(moment(this.form_edit_employee.value.internship_date).format("DD.MM.YYYY"))
+      this.form_edit_employee.get('certification_date').setValue(moment(this.form_edit_employee.value.certification_date).format("DD.MM.YYYY"))
       console.log(this.form_edit_employee);
       
       this.mainService.user_hr_update_employee(this.loginService.user_name,this.form_edit_employee.value,this.id_personal,date_now)

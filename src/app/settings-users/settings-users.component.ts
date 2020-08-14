@@ -42,9 +42,7 @@ export class SettingsUsersComponent implements OnInit {
   // }
   get_users_settings(){
     this.settingsUsers.get_users().subscribe(res => {
-      console.log(res);
       this.users_array = JSON.parse(res);
-      console.log(this.users_array);
     })
   }
 
@@ -94,9 +92,7 @@ export class SettingsUsersComponent implements OnInit {
 
   ngOnInit(): void {
     this.settingsUsers.get_users().subscribe(res => {
-      console.log(res);
       this.users_array = JSON.parse(res);
-      console.log(this.users_array);
     })
 
     // this.user_settings_obj = this.formBuilder.group({
