@@ -296,7 +296,7 @@ export class MainUserHrComponent implements OnInit {
     this.form_edit_employee = this.formBuilder.group({
       first_name: ['', [Validators.required]],
       last_name: ['', [Validators.required]],
-      second_name: ['', [Validators.required]],
+      second_name: new FormControl(''),
       position: ['', [Validators.required]],
       department: ['', [Validators.required]],
       number_phone: ['', [Validators.required, Validators.pattern('[0-9]{10}')],],
@@ -315,7 +315,7 @@ export class MainUserHrComponent implements OnInit {
     this.new_form_employee = this.formBuilder.group({
       first_name: new FormControl('', Validators.required),
       last_name: new FormControl('', Validators.required),
-      second_name: new FormControl('', Validators.required),
+      second_name: new FormControl(''),
       number_phone: new FormControl('', [Validators.required, Validators.pattern('[0-9]{10}')]),
       type_department: new FormControl('', Validators.required),
       position: new FormControl('', Validators.required),

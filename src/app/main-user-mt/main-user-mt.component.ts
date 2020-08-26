@@ -95,7 +95,7 @@ export class MainUserMtComponent implements OnInit {
     this.form_edit_employee = this.formBuilder.group({
       first_name: ['', [Validators.required]],
       last_name: ['', [Validators.required]],
-      second_name: ['', [Validators.required]],
+      second_name: new FormControl(''),
       test_date_1: new FormControl(''),
       test_number_ball_1: ['', [Validators.min(10), Validators.max(100)]],
       test_date_2: new FormControl(''),
