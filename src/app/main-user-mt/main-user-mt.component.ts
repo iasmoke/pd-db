@@ -42,19 +42,16 @@ export class MainUserMtComponent implements OnInit {
   dataTable_user_mt = [];
   displayedColumns_user_hr: string[] = [
     'id_personal',
-    'first_name',
-    'last_name',
-    'second_name',
+    'fio',
+    'department',
     'position',
     'certification_date',
-    'department',
-    'number_phone',
-    'test_date_1',
     'test_number_ball_1',
-    'test_date_2',
+    'test_date_1',
     'test_number_ball_2',
-    'internship_date',
+    'test_date_2',
     'internship_place',
+    'internship_date',
     'status'
   ];
   dataSource = new MatTableDataSource();
@@ -87,7 +84,6 @@ export class MainUserMtComponent implements OnInit {
 
     this.mainService.get_id_tt().subscribe(res => {
       this.id_tt = JSON.parse(res)
-      console.log(this.id_tt);
     })
   }
 
@@ -104,7 +100,7 @@ export class MainUserMtComponent implements OnInit {
       test_number_ball_1: ['', [Validators.min(10), Validators.max(100)]],
       test_date_2: new FormControl(''),
       test_number_ball_2: ['', [Validators.min(10), Validators.max(100)]],
-      number_phone: ['', [Validators.required]],
+      number_phone: ['', [Validators.required, Validators.pattern('[0-9]{10}')]],
       certification_date: new FormControl(''),
       internship_date: new FormControl(''),
       internship_place: [''],
@@ -120,10 +116,11 @@ export class MainUserMtComponent implements OnInit {
 
   open_edit_employee(row) {
     this.id_personal = row.id_personal;
-    this.form_edit_employee.controls['first_name'].setValue(row.first_name);
-    this.form_edit_employee.controls['last_name'].setValue(row.last_name);
-    this.form_edit_employee.controls['second_name'].setValue(row.second_name);
-    this.form_edit_employee.controls['number_phone'].setValue(row.number_phone.substr(1));
+    let array_row = row.fio.split(' ')
+    this.form_edit_employee.controls['first_name'].setValue(array_row[0]);
+    this.form_edit_employee.controls['last_name'].setValue(array_row[1]);
+    this.form_edit_employee.controls['second_name'].setValue(array_row[2]);
+    this.form_edit_employee.controls['number_phone'].setValue(row.number_phone.substr(3));
     this.form_edit_employee.controls['test_number_ball_1'].setValue(row.test_number_ball_1);
     this.form_edit_employee.controls['test_number_ball_2'].setValue(row.test_number_ball_2);
     this.form_edit_employee.controls['internship_place'].setValue(row.internship_place);
@@ -132,7 +129,11 @@ export class MainUserMtComponent implements OnInit {
     this.form_edit_employee.controls['test_date_2'].setValue(row.test_date_2);
     this.form_edit_employee.controls['certification_date'].setValue(row.certification_date);
     this.form_edit_employee.controls['internship_date'].setValue(row.internship_date);
-    this.form_edit_employee.controls['employee_description'].setValue(this.form_edit_employee.value.employee_description);
+    this.form_edit_employee.controls['employee_description'].setValue(row.employee_description);
+    row.test_date_1 === '' ? this.form_edit_employee.controls['test_date_1'].setValue(row.test_date_1) : this.form_edit_employee.controls['test_date_1'].setValue(moment(row.test_date_1, "DD.MM.YYYY"));
+    row.test_date_2 === '' ? this.form_edit_employee.controls['test_date_2'].setValue(row.test_date_2) : this.form_edit_employee.controls['test_date_2'].setValue(moment(row.test_date_2, "DD.MM.YYYY"));
+    row.internship_date === '' ? this.form_edit_employee.controls['internship_date'].setValue(row.internship_date) : this.form_edit_employee.controls['internship_date'].setValue(moment(row.internship_date, "DD.MM.YYYY")) ;
+    row.certification_date === '' ? this.form_edit_employee.controls['certification_date'].setValue(row.certification_date) : this.form_edit_employee.controls['certification_date'].setValue(moment(row.certification_date, "DD.MM.YYYY"));
     $('#modal_edit_employee').modal({
       backdrop: 'static',
       show: true,
@@ -144,10 +145,10 @@ export class MainUserMtComponent implements OnInit {
       console.log('false');
     } else {
       let date_now = moment(new Date()).format('DD.MM.YYYY HH:mm:ss');
-      this.form_edit_employee.get('test_date_1').setValue(moment(this.form_edit_employee.value.test_date_1).format("YYYY-MM-DD"));
-      this.form_edit_employee.get('test_date_2').setValue(moment(this.form_edit_employee.value.test_date_2).format("YYYY-MM-DD"));
-      this.form_edit_employee.get('certification_date').setValue(moment(this.form_edit_employee.value.certification_date).format("YYYY-MM-DD"));
-      this.form_edit_employee.get('internship_date').setValue(moment(this.form_edit_employee.value.internship_date).format("YYYY-MM-DD"));
+      this.form_edit_employee.get('test_date_1').setValue(moment(this.form_edit_employee.value.test_date_1).format("DD.MM.YYYY"));
+      this.form_edit_employee.get('test_date_2').setValue(moment(this.form_edit_employee.value.test_date_2).format("DD.MM.YYYY"));
+      this.form_edit_employee.get('certification_date').setValue(moment(this.form_edit_employee.value.certification_date).format("DD.MM.YYYY"));
+      this.form_edit_employee.get('internship_date').setValue(moment(this.form_edit_employee.value.internship_date).format("DD.MM.YYYY"));
       this.mainService.user_mt_update_employee(this.loginService.user_name, this.form_edit_employee.value, this.id_personal, date_now)
         .subscribe((res) => {
           this.modal_alert_message = JSON.parse(res);

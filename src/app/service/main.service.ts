@@ -62,17 +62,7 @@ export class MainService {
       { responseType: 'text' }
     );
   }
-  get_data_employee(id_personal) {
-    return this.http.post(
-      './assets/php/main_get_data_employee.php',
-      JSON.stringify(
-        {
-          id_personal: id_personal
-        }
-      ),
-      { responseType: 'text' }
-    );
-  }
+  
   update_employee(user_name, form_edit_employee, id_personal, date_now) {
     return this.http.post(
       './assets/php/main_update_employee.php',

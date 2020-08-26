@@ -5,11 +5,13 @@ import { MainService } from '../service/main.service';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { LoginService } from '../service/login.service';
-declare var $: any;
 import * as moment from 'moment';
 import { MAT_DATE_LOCALE, DateAdapter, MAT_DATE_FORMATS } from '@angular/material/core';
 import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS, MAT_MOMENT_DATE_FORMATS } from '@angular/material-moment-adapter';
 moment.locale('ru')
+declare var $: any;
+
+
 
 @Component({
   selector: 'app-main',
@@ -93,8 +95,10 @@ export class MainComponent implements OnInit {
   add_employee() {
     if (this.new_form.invalid) {
       console.log(this.new_form);
-      return console.log('new_form_employee.invalid');
+      return console.log(this.new_form.invalid);
     }
+    let date_birth = moment(this.new_form.value.date_birth).format('DD.MM.YYYY');
+    this.new_form.controls['date_birth'].setValue(date_birth);
     let date_now = moment(new Date()).format('DD.MM.YYYY HH:mm:ss');
     this.mainService.add_employee(this.new_form.value, date_now, this.user_name_create_employee).subscribe((res) => {
       console.log(res);
@@ -122,21 +126,17 @@ export class MainComponent implements OnInit {
   open_edit_employee(row) {
     $("#modal_edit_employee").modal('show');
     console.log(row);
-    this.mainService.get_data_employee(row.id_personal).subscribe(res => {
-      this.array_data_employee = JSON.parse(res)
-      console.log(this.array_data_employee);
       this.id_personal = row.id_personal;
-      this.edit_form.controls['first_name'].setValue(this.array_data_employee[0].first_name);
-      this.edit_form.controls['last_name'].setValue(this.array_data_employee[0].last_name);
-      this.edit_form.controls['second_name'].setValue(this.array_data_employee[0].second_name);
-      this.edit_form.controls['type_department'].setValue(this.array_data_employee[0].type_department);
-      this.edit_form.controls['department'].setValue(this.array_data_employee[0].department);
-      this.edit_form.controls['position'].setValue(this.array_data_employee[0].position);
-      this.edit_form.controls['number_phone'].setValue(this.array_data_employee[0].number_phone);
-      this.edit_form.controls['date_birth'].setValue(this.array_data_employee[0].date_birth);
-      this.edit_form.controls['status'].setValue(this.array_data_employee[0].status);
-      this.edit_form.controls['employee_description'].setValue(this.array_data_employee[0].employee_description);
-    })
+      this.edit_form.controls['first_name'].setValue(row.first_name);
+      this.edit_form.controls['last_name'].setValue(row.last_name);
+      this.edit_form.controls['second_name'].setValue(row.second_name);
+      this.edit_form.controls['type_department'].setValue(row.type_department);
+      this.edit_form.controls['department'].setValue(row.department);
+      this.edit_form.controls['position'].setValue(row.position);
+      this.edit_form.controls['number_phone'].setValue(row.number_phone.substr(3));
+      row.date_birth === '' ? this.edit_form.controls['date_birth'].setValue(row.date_birth) : this.edit_form.controls['date_birth'].setValue(moment(row.date_birth, "DD.MM.YYYY"));
+      this.edit_form.controls['status'].setValue(row.status);
+      this.edit_form.controls['employee_description'].setValue(row.employee_description);
   }
 
   update_employee() {
@@ -145,9 +145,8 @@ export class MainComponent implements OnInit {
     } else {
       console.log(this.edit_form)
       let date_now = moment(new Date()).format('DD.MM.YYYY HH:mm:ss');
-      this.edit_form.get('date_birth').setValue(moment(new Date(this.edit_form.value.date_birth)).format('YYYY-MM-DD'));
-      this.mainService.update_employee(this.loginService.user_name, this.edit_form.value, this.id_personal, date_now)
-        .subscribe((res) => {
+      this.edit_form.get('date_birth').setValue(moment(this.edit_form.value.date_birth).format('DD.MM.YYYY'));
+      this.mainService.update_employee(this.loginService.user_name, this.edit_form.value, this.id_personal, date_now).subscribe((res) => {
           this.modal_alert_message = JSON.parse(res);
           console.log(this.modal_alert_message)
           if (this.modal_alert_message === 'Данные обновлены') {
@@ -200,11 +199,11 @@ export class MainComponent implements OnInit {
     this.edit_form = this.formBuilder.group({
       first_name: ['', Validators.required],
       last_name: ['', Validators.required],
-      second_name: ['', Validators.required],
+      second_name: new FormControl(''),
       department: ['', Validators.required],
       position: ['', Validators.required],
       type_department: ['', Validators.required],
-      number_phone: ['', [Validators.required, Validators.pattern("[0-9]{12}")]],
+      number_phone: ['', [Validators.required, Validators.pattern("[0-9]{10}")]],
       date_birth: new FormControl(''),
       status: ['', [Validators.required]],
       employee_description: [''],
@@ -213,12 +212,12 @@ export class MainComponent implements OnInit {
     this.new_form = this.formBuilder.group({
       first_name: ['', Validators.required],
       last_name: ['', Validators.required],
-      second_name: ['', Validators.required],
+      second_name: new FormControl(''),
       type_department: ['', Validators.required],
       department: ['', Validators.required],
       position: ['', Validators.required],
       date_birth: new FormControl(''),
-      number_phone: ['', [Validators.required, Validators.pattern("[0-9]{12}")]],
+      number_phone: ['', [Validators.required, Validators.pattern("[0-9]{10}")]],
       status: ['', [Validators.required]],
       employee_description: [''],
     });

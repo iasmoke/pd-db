@@ -1,75 +1,176 @@
-<mat-spinner *ngIf="spinner" class="spinner"></mat-spinner>
+<!-- <mat-spinner *ngIf="spinner" class="spinner"></mat-spinner> -->
 <div class="container">
-  <mat-accordion [hidden]="item.user_name === 'admin'" *ngFor="let item of list_tt; let i = index"
-    class="example-headers-align" multi>
-    <mat-expansion-panel>
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-          TT - {{item.id_tt + ' ' + item.city + ' ' + item.adress}}
-        </mat-panel-title>
-        <mat-panel-description>
-          Персональные данные
-          <mat-icon>store_mall_directory</mat-icon>
-        </mat-panel-description>
-      </mat-expansion-panel-header>
-      <div class="row">
-        <mat-form-field>
-          <mat-label>Number TD</mat-label>
-          <input [(ngModel)]="item.id_tt" matInput>
-          <mat-hint *ngIf="item.id_tt === ''" [ngStyle]="{'color': 'red'}">Введите данные</mat-hint>
-        </mat-form-field>
-
-        <mat-form-field>
-          <mat-label>City</mat-label>
-          <input [(ngModel)]="item.city" matInput>
-          <mat-hint *ngIf="item.city === ''" [ngStyle]="{'color': 'red'}">Введите данные</mat-hint>
-        </mat-form-field>
-
-        <mat-form-field>
-          <mat-label>Adress</mat-label>
-          <input [(ngModel)]="item.adress" matInput>
-          <mat-hint *ngIf="item.adress === ''" [ngStyle]="{'color': 'red'}">Введите данные</mat-hint>
-        </mat-form-field>
-      </div>
-      <div class="row">
-        <mat-form-field>
-          <mat-label>Date open</mat-label>
-          <input [(ngModel)]="item.date_open" matInput>
-          <mat-hint *ngIf="item.date_open === ''" [ngStyle]="{'color': 'red'}">Введите данные</mat-hint>
-        </mat-form-field>
-
-        <mat-form-field>
-          <mat-label>Manager trade dot</mat-label>
-          <input [(ngModel)]="item.manager" matInput>
-          <mat-hint *ngIf="item.manager === ''" [ngStyle]="{'color': 'red'}">Введите данные</mat-hint>
-        </mat-form-field>
-
-        <mat-form-field>
-          <mat-label>RM</mat-label>
-          <input [(ngModel)]="item.rm" matInput>
-          <mat-hint *ngIf="item.rm === ''" [ngStyle]="{'color': 'red'}">Введите данные</mat-hint>
-        </mat-form-field>
-      </div>
-      <!-- <mat-form-field>
-        <mat-label>Password</mat-label>
-        <input matInput [(ngModel)]="item.password" [type]="hide ? 'password' : 'text'">
-        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
-          [attr.aria-pressed]="hide">
-          <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-        </button>
-        <mat-hint *ngIf="item.password === ''" [ngStyle]="{'color': 'red'}">Введите данные</mat-hint>
-      </mat-form-field>
-
+  <div class="row mt-3">
+    <div class="col-3">
       <mat-form-field>
-        <mat-label>Rights</mat-label>
-        <mat-select [(ngModel)]="item.user_role">
-          <mat-option value="admin">Admin</mat-option>
-          <mat-option value="user_hr">Human resources</mat-option>
-          <mat-option value="user_pi">Кадровый инспектор</mat-option>
-          <mat-option value="user_mt">Менеджер по обучению</mat-option>
-        </mat-select>
-      </mat-form-field> -->
-      <!-- <button mat-raised-button (click)="udpate_user_settings(i)">Обновить</button> -->
-    </mat-expansion-panel>
-  </mat-accordion>
+        <mat-label>Поиск</mat-label>
+        <input matInput [(ngModel)]="search" (keyup)="applyFilter($event)">
+      </mat-form-field>
+    </div>
+    <div class="ml-auto">
+      <button mat-raised-button color="primary" data-toggle="modal" data-target="#new_outlet_modal"> Добавить
+      </button>
+    </div>
+  </div>
+  <div class="container row mb-3 example-container mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource">
+      <ng-container matColumnDef="id_tt">
+        <th mat-header-cell *matHeaderCellDef> # </th>
+        <td mat-cell *matCellDef="let element"> TT-{{element.id_tt}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="city">
+        <th mat-header-cell *matHeaderCellDef> Город </th>
+        <td mat-cell *matCellDef="let element"> {{element.city}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="adress">
+        <th mat-header-cell *matHeaderCellDef> Адрес </th>
+        <td mat-cell *matCellDef="let element"> {{element.adress}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="date_open">
+        <th mat-header-cell *matHeaderCellDef> Дата открытия </th>
+        <td mat-cell *matCellDef="let element"> {{element.date_open}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="manager">
+        <th mat-header-cell *matHeaderCellDef> Менеджер ТТ </th>
+        <td mat-cell *matCellDef="let element"> {{element.manager}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="rm">
+        <th mat-header-cell *matHeaderCellDef> Региональный менеджер </th>
+        <td mat-cell *matCellDef="let element"> {{element.rm}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="button">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-icon-button (click)="openEdit(element)">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
 </div>
+
+<!-- Новое заведение -->
+<div #new_outlet_modal id="new_outlet_modal" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+        <form [formGroup]="new_outlet">
+
+          <mat-form-field class="col" appearance="outline">
+            <mat-label>Номер торговой точки</mat-label>
+            <input matInput formControlName="id_tt">
+            <mat-error>Поле не заполненно</mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="col" appearance="outline">
+            <mat-label>Город</mat-label>
+            <input matInput formControlName="city">
+            <mat-error>Поле не заполненно</mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="col" appearance="outline">
+            <mat-label>Адрес</mat-label>
+            <input matInput formControlName="adress">
+            <mat-error>Поле не заполненно</mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="col" appearance="outline">
+            <mat-label>Дата открытия</mat-label>
+            <input matInput formControlName="date_open" [matDatepicker]="picker_new_outlet" (focus)="picker_new_outlet.open()" readonly>
+          </mat-form-field>
+          <mat-datepicker #picker_new_outlet ></mat-datepicker>
+
+          <mat-form-field class="col" appearance="outline">
+            <mat-label>Менеджер ТТ</mat-label>
+            <input matInput formControlName="manager">
+            <mat-error>Поле не заполненно</mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="col" appearance="outline">
+            <mat-label>Региональный менеджер</mat-label>
+            <input matInput formControlName="rm">
+            <mat-error>Поле не заполненно</mat-error>
+          </mat-form-field>
+
+          <div class="d-flex">
+            <button mat-raised-button color="primary" class="mr-auto" (click)="add_outlet()">Отправить</button>
+            <button mat-raised-button color="primary" data-dismiss="modal">Отмена</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div #edit_outlet_modal id="edit_outlet_modal" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+        <form [formGroup]="edit_outlet">
+
+          <mat-form-field class="col" appearance="outline">
+            <mat-label>Номер торговой точки</mat-label>
+            <input matInput formControlName="id_tt">
+          </mat-form-field>
+
+          <mat-form-field class="col" appearance="outline">
+            <mat-label>Город</mat-label>
+            <input matInput formControlName="city">
+          </mat-form-field>
+
+          <mat-form-field class="col" appearance="outline">
+            <mat-label>Адрес</mat-label>
+            <input matInput formControlName="adress">
+           
+          </mat-form-field>
+
+          <mat-form-field class="col" appearance="outline">
+            <mat-label>Дата открытия</mat-label>
+            <input matInput formControlName="date_open" [matDatepicker]="picker_edit_outlet" (focus)="picker_edit_outlet.open()" readonly>
+          </mat-form-field>
+          <mat-datepicker #picker_edit_outlet ></mat-datepicker>
+
+          <mat-form-field class="col" appearance="outline">
+            <mat-label>Менеджер ТТ</mat-label>
+            <input matInput formControlName="manager">
+          
+          </mat-form-field>
+
+          <mat-form-field class="col" appearance="outline">
+            <mat-label>Региональный менеджер</mat-label>
+            <input matInput formControlName="rm">
+          </mat-form-field>
+
+          <div class="d-flex">
+            <button mat-raised-button color="primary" class="mr-auto" (click)="pushChanges()">Изменить</button>
+            <button mat-raised-button color="primary" data-dismiss="modal">Отмена</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <!-- Модал alert сотрудник добавлен success -->
+  <div #modalOutlet id="modalOutlet" class="modal fade">
+    <div class="modal-dialog">
+      <div class="alert alert-success text-center" role="alert">{{alert_message}}</div>
+    </div>
+  </div>
+  <!-- Модал alert add ERROR -->
+  <div #modal_alert_error id="modal_alert_add_error" class="modal fade">
+    <div class="modal-dialog">
+      <div class="alert alert-danger text-center" role="alert">Ошибка</div>
+    </div>
+  </div>

@@ -1,11 +1,10 @@
 <div class="container-fluid mt-3 row">
-  <div class="col-3">
-    <app-telegram-send></app-telegram-send>
-  </div>
-  <div class="row">
-
-    <div class="col-9">
-      <mat-accordion [hidden]="item.user_name === 'admin'" *ngFor="let item of users_array; let i = index" class="example-headers-align" multi>
+    <app-telegram-send class="col-lg-3 mt-3"></app-telegram-send>
+  <div class="row col-lg mt-3">
+    <div class="col">
+      <h2 class="col text-center">Пользователи</h2>
+      <mat-accordion [hidden]="item.user_name === 'admin'" *ngFor="let item of users_array; let i = index"
+        class="example-headers-align">
         <mat-expansion-panel>
           <mat-expansion-panel-header>
             <mat-panel-title>
@@ -53,18 +52,15 @@
               <mat-option value="user_mt">Менеджер по обучению</mat-option>
             </mat-select>
           </mat-form-field>
-          <button mat-raised-button (click)="udpate_user_settings(i)">Обновить</button>
+          <button mat-raised-button class="ml-3" (click)="udpate_user_settings(i)">Обновить</button>
         </mat-expansion-panel>
       </mat-accordion>
     </div>
-
-    <button class="col" mat-fab class="ml-auto" color="primary" data-toggle="modal" data-target="#register_user">
+    <button mat-fab color="primary" data-toggle="modal" data-target="#register_user">
       <mat-icon>add</mat-icon>
     </button>
-
   </div>
 </div>
-
 <!-- Регистрация пользователя -->
 <div #register_user id="register_user" class="modal fade">
   <div class="modal-dialog">

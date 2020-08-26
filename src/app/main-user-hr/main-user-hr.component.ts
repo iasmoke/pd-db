@@ -28,7 +28,7 @@ declare var $: any;
       deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
     },
     { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS },
-  ],
+  ]
 })
 
 export class MainUserHrComponent implements OnInit {
@@ -159,9 +159,9 @@ export class MainUserHrComponent implements OnInit {
     this.form_edit_employee.controls['attraction_channel'].setValue(row.attraction_channel);
     this.form_edit_employee.controls['type_department'].setValue(row.type_department);
     this.form_edit_employee.controls['attraction_channel_description'].setValue(row.attraction_channel_description);
-    row.interview_date === '' ? this.form_edit_employee.controls['interview_date'].setValue(row.interview_date) : this.form_edit_employee.controls['interview_date'].setValue(new Date(row.interview_date));
-    row.internship_date === '' ? this.form_edit_employee.controls['internship_date'].setValue(row.internship_date) : this.form_edit_employee.controls['internship_date'].setValue(new Date(row.internship_date)) ;
-    row.certification_date === '' ?  this.form_edit_employee.controls['certification_date'].setValue(row.certification_date) : this.form_edit_employee.controls['certification_date'].setValue(new Date(row.certification_date));
+    row.interview_date === '' ? this.form_edit_employee.controls['interview_date'].setValue(row.interview_date) : this.form_edit_employee.controls['interview_date'].setValue(moment(row.interview_date, "DD.MM.YYYY"));
+    row.internship_date === '' ? this.form_edit_employee.controls['internship_date'].setValue(row.internship_date) : this.form_edit_employee.controls['internship_date'].setValue(moment(row.internship_date, "DD.MM.YYYY")) ;
+    row.certification_date === '' ? this.form_edit_employee.controls['certification_date'].setValue(row.certification_date) : this.form_edit_employee.controls['certification_date'].setValue(moment(row.certification_date, "DD.MM.YYYY"));
     this.form_edit_employee.controls['internship_place'].setValue(row.internship_place);
     this.form_edit_employee.controls['rejection_reason'].setValue(row.rejection_reason);
     this.form_edit_employee.controls['status'].setValue(row.status);
@@ -192,7 +192,7 @@ export class MainUserHrComponent implements OnInit {
             setTimeout(function () {
               $('#modal_alert_edit_employee').modal('hide');
             }, 2000);
-          } else if (this.modal_alert_message === 'Error') {
+          } else {
             $('#modal_edit_employee').modal('hide');
             $('#modal_alert_edit_error').modal('show');
             setTimeout(function () {

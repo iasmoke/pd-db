@@ -1,6 +1,6 @@
 
 <mat-toolbar *ngIf="login_component === false" class="justify-content-between" color="primary">
-    <a class="navbar-brand text-white">Pizza Day DB<button class="ml-2" mat-fab color="primary">{{program_v}}</button></a>
+    <a class="navbar-brand text-white">Pizza Day DB</a>
     <nav class="justify-content-center" [backgroundColor]="backgroundColorToggle" mat-tab-nav-bar>
       <a mat-tab-link [hidden]="user_role !== 'admin'" [active]="main === true" (click)="select_component('main')">Главная</a>
       <a mat-tab-link [hidden]="user_role !== 'admin'" [active]="settings_users === true" (click)="select_component('settings_users')">Админ панель</a>

@@ -48,13 +48,42 @@ if ($stmt = $db_connect->prepare($sql)) {
             'interview_date' => (string) $interview_date,
             'internship_date' => (string) $internship_date,
             'internship_place' => (string) $internship_place,
-            'certification_date' => $certification_date,
+            'certification_date' => (string) $certification_date,
             'rejection_reason' => (string) $rejection_reason,
             'status' => (string) $status,
             'employee_description' => (string) $employee_description
         );
     }
 }
+
+// foreach ($res as $value) {
+//     if($value['interview_date'] === '01.01.1970'){
+//         $newDate_interview_date = '';
+//     }
+//     if($value['internship_date'] === '01.01.1970'){
+//         $newDate_internship_date = '';
+//     }
+//     if($value['certification_date'] === '01.01.1970'){
+//         $newDate_certification_date = '';
+//     }
+
+    // $newDate_interview_date = date("d.m.Y", strtotime($value['interview_date']));
+    // $newDate_internship_date = date("d.m.Y", strtotime($value['internship_date']));
+    // $newDate_certification_date = date("d.m.Y", strtotime($value['certification_date']));
+
+//     $sql = "UPDATE db_main SET interview_date=?, internship_date=?, certification_date=? WHERE id_personal=?";
+//     if ($stmt = $db_connect->prepare($sql)) {
+//         $stmt->bind_param(
+//             "ssss",
+//             $newDate_interview_date,
+//             $newDate_internship_date,
+//             $newDate_certification_date,
+//             $value['id_personal']
+//         );
+//         $stmt->execute();
+//     }
+// }
+
 
 
 echo (json_encode($res));

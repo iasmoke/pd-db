@@ -22,21 +22,25 @@ export class ListTtService {
       { responseType: 'text' }
     );
   }
-  edit_settings() {
+  
+  edit_outlet(edit_outlet) {
     return this.http.post(
-      './assets/php/register_user.php',
+      './assets/php/list_tt_edit.php',
       JSON.stringify(
         {
+          edit_outlet:edit_outlet
         }
       ),
       { responseType: 'text' }
     );
   }
-  add_td(){
+  
+  add_outlet(new_outlet){
     return this.http.post(
-      './assets/php/register_user.php',
+      './assets/php/list_tt_add.php',
       JSON.stringify(
         {
+          new_outlet:new_outlet
         }
       ),
       { responseType: 'text' }

@@ -44,6 +44,8 @@ if ($certification_date === 'Invalid date') {
 
 
 
+
+
 $sql = "UPDATE `db_main` SET date_last_update=?, user_name_last_update=?, first_name=?, last_name=?, second_name=?, type_department=? ,department=?, `position`=?, number_phone=?, attraction_channel=?, attraction_channel_description=?, interview_date=?, internship_date=?, internship_place=?, rejection_reason=?, `status`=?, employee_description=?, certification_date=? WHERE id_personal=?";
 if ($stmt = $db_connect->prepare($sql)) {
   $stmt->bind_param("sssssssssssssssssss", 

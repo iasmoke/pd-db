@@ -19,10 +19,14 @@ $second_name = $new_employee['second_name'];
 $type_department = $new_employee['type_department'];
 $department = $new_employee['department'];
 $position = $new_employee['position'];
-$number_phone = '+380' . $new_employee['number_phone'];
+$number_phone = '+38' . $new_employee['number_phone'];
 $date_birth = $new_employee['date_birth'];
 $status = $new_employee['status'];
 $employee_description = $new_employee['employee_description'];
+
+if ($date_birth === 'Invalid date') {
+    $date_birth = '';
+  }
 
 
 

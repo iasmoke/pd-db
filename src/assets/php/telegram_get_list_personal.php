@@ -13,7 +13,7 @@ $department_office = $_POST['department_office'];
 
 
 
-$sql = "SELECT id_personal,id_telegram_chat, first_name, last_name FROM db_main WHERE department=?";
+$sql = "SELECT id_personal,id_telegram_chat, first_name, last_name FROM db_main WHERE department=? AND `status`='Работает'";
 if ($stmt = $db_connect->prepare($sql)) {
   $stmt->bind_param('s', $department_office);
   $stmt->execute();

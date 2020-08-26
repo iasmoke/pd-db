@@ -35,23 +35,18 @@
             <table mat-table [dataSource]="dataSource" matSort>
 
                 <ng-container matColumnDef="id_personal">
-                    <th mat-header-cell *matHeaderCellDef> No. </th>
+                    <th mat-header-cell *matHeaderCellDef style="padding-right: 20px;"> No. </th>
                     <td mat-cell *matCellDef="let row"> {{row.id_personal}} </td>
                 </ng-container>
 
-                <ng-container matColumnDef="first_name">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Фамилия</th>
-                    <td mat-cell *matCellDef="let row">{{ row.first_name }}</td>
+                <ng-container matColumnDef="fio">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header style="padding-left: 50px;">Ф.И.О.</th>
+                    <td mat-cell *matCellDef="let row">{{ row.fio }}</td>
                 </ng-container>
 
-                <ng-container matColumnDef="last_name">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Имя</th>
-                    <td mat-cell *matCellDef="let row">{{ row.last_name }}</td>
-                </ng-container>
-
-                <ng-container matColumnDef="second_name">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Отчество</th>
-                    <td mat-cell *matCellDef="let row">{{ row.second_name }}</td>
+                <ng-container matColumnDef="department">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>TT,подразделние</th>
+                    <td mat-cell *matCellDef="let row" style="padding-right: 25px;" class="text-center">{{row.department}}</td>
                 </ng-container>
 
                 <ng-container matColumnDef="position">
@@ -59,19 +54,9 @@
                     <td mat-cell *matCellDef="let row">{{row.position}}</td>
                 </ng-container>
 
-                <ng-container matColumnDef="number_phone">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Номер телефона</th>
-                    <td mat-cell *matCellDef="let row">{{row.number_phone}}</td>
-                </ng-container>
-
                 <ng-container matColumnDef="certification_date">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>Дата обучения</th>
                     <td mat-cell *matCellDef="let row">{{ row.certification_date}}</td>
-                </ng-container>
-
-                <ng-container matColumnDef="department">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>TT,подразделние</th>
-                    <td mat-cell *matCellDef="let row">{{row.department}}</td>
                 </ng-container>
 
                 <ng-container matColumnDef="internship_date">
@@ -91,7 +76,7 @@
 
                 <ng-container matColumnDef="test_number_ball_1">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>Оценка теста №1</th>
-                    <td mat-cell *matCellDef="let row"> {{ row.test_number_ball_1}} </td>
+                    <td mat-cell *matCellDef="let row"> {{ row.test_number_ball_1}} {{row.test_number_ball_1 !== "" ? "баллов" : ""}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="test_date_2">
@@ -101,7 +86,7 @@
 
                 <ng-container matColumnDef="test_number_ball_2">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>Оценка теста №2</th>
-                    <td mat-cell *matCellDef="let row"> {{ row.test_number_ball_2 }} </td>
+                    <td mat-cell *matCellDef="let row"> {{ row.test_number_ball_2 }} {{row.test_number_ball_2 !== "" ? "баллов" : ""}}  </td>
                 </ng-container>
 
                 <ng-container matColumnDef="status">
@@ -111,7 +96,7 @@
 
                 <tr mat-header-row *matHeaderRowDef="displayedColumns_user_hr; sticky: true"></tr>
                 <tr mat-row class="example-element-row" *matRowDef="let row; columns: displayedColumns_user_hr"
-                    (click)="open_edit_employee(row)"></tr>
+                    (dblclick)="open_edit_employee(row)"></tr>
             </table>
             <mat-paginator [pageSizeOptions]="[15, 30, 50]" showFirstLastButtons></mat-paginator>
         </div>
