@@ -12,7 +12,7 @@ $_POST = json_decode(file_get_contents('php://input'), true);
  
 $res = [];
 
-$sql = "SELECT id_personal, first_name, last_name, second_name, position, department, number_phone, certification_date, test_date_1, test_number_ball_1, test_date_2, test_number_ball_2, internship_date, internship_place, `status`, employee_description 
+$sql = "SELECT id_personal, first_name, last_name, second_name, position, department, number_phone, certification_date, test_date_1, test_number_ball_1, test_date_2, test_number_ball_2, internship_date, internship_place, `status`, employee_description, test_date_3, test_number_ball_3, test_date_4, test_number_ball_4, test_date_5, test_number_ball_5, color 
 FROM db_main";
 if ($stmt = $db_connect->prepare($sql)) {
     $stmt->execute();
@@ -32,7 +32,14 @@ if ($stmt = $db_connect->prepare($sql)) {
         $internship_date,
         $internship_place,
         $status,
-        $employee_description
+        $employee_description,
+        $test_date_3, 
+        $test_number_ball_3,
+        $test_date_4, 
+        $test_number_ball_4,
+        $test_date_5, 
+        $test_number_ball_5,
+        $color
     );
     while ($stmt->fetch()) {
         $res[] = array(
@@ -49,7 +56,14 @@ if ($stmt = $db_connect->prepare($sql)) {
             'internship_date' => (string) $internship_date,
             'internship_place' => (string) $internship_place,
             'status' => (string) $status,
-            'employee_description' => (string) $employee_description
+            'employee_description' => (string) $employee_description,
+            'test_date_3' => (string) $test_date_3, 
+            'test_number_ball_3'=> (string) $test_number_ball_3,
+            'test_date_4' => (string) $test_date_4, 
+            'test_number_ball_4'=> (string) $test_number_ball_4,
+            'test_date_5' => (string) $test_date_5, 
+            'test_number_ball_5'=> (string) $test_number_ball_5,
+            'color' => (string) $color
         );
     }
     

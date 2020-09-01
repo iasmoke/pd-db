@@ -11,7 +11,7 @@ $_POST = json_decode(file_get_contents('php://input'), true);
 
 $type_department = $_POST['type_department'];
 
-
+$res = [];
 
 $sql = "SELECT DISTINCT department FROM `db_main` WHERE type_department=?";
 if ($stmt = $db_connect->prepare($sql)) {
@@ -21,7 +21,28 @@ if ($stmt = $db_connect->prepare($sql)) {
     $department_office
   );
   while ($stmt->fetch()) {
-    $res[] = $department_office;
+    $res['department_office'] = array($department_office);
+  }
+}
+$sql = "SELECT first_name, last_name, id_telegram_chat, position, department FROM db_main WHERE type_department=?";
+if ($stmt = $db_connect->prepare($sql)) {
+  $stmt->bind_param('s', $type_department);
+  $stmt->execute();
+  $stmt->bind_result(
+    $first_name,
+    $last_name,
+    $id_telegram_chat,
+    $position,
+    $department
+  );
+  while ($stmt->fetch()) {
+    $res['users'] = array(
+      'first_name'=> $first_name,
+      'last_name'=> $last_name,
+      'id_telegram_chat'=> $id_telegram_chat,
+      'position'=> $position,
+      'department'=> $department
+    );
   }
 }
 

@@ -12,18 +12,35 @@ $_POST = json_decode(file_get_contents('php://input'), true);
 
 $new_employee = $_POST['new_form_employee'];
 $date = $_POST['date_now'];
-$first_name = $new_employee['first_name'];
-$last_name = $new_employee['last_name'];
-$second_name = $new_employee['second_name'];
+$first_name = preg_replace("/\s+/", "", $new_employee['first_name']);
+$last_name = preg_replace("/\s+/", "", $new_employee['last_name']);
+$second_name = preg_replace("/\s+/", "", $new_employee['second_name']);
 $department = $new_employee['department'];
 $position = $new_employee['position'];
 $number_phone = '+38' . $new_employee['number_phone'];
 $attraction_channel = $new_employee['attraction_channel'];
 $attraction_channel_description = $new_employee['attraction_channel_description'];
 $type_department = $new_employee['type_department'];
-$interview_date = $new_employee['interview_date'];
+$interview_date = date("d.m.Y", strtotime($new_employee['interview_date']));
 $status = $new_employee['status'];
 $user_name_create_employee = $_POST['user_name_create_employee'];
+$color = $new_employee['color'];
+
+if ($interview_date === 'Invalid date') {
+    $interview_date = '';
+  }
+  if ($interview_date === '01.01.1970') {
+    $interview_date = '';
+  }
+  
+
+$sql = mysqli_query($db_connect, "SELECT number_phone FROM db_main WHERE number_phone='" . mysqli_real_escape_string($db_connect, $number_phone) . "'");
+if (mysqli_num_rows($sql) > 0) {
+    $res = "Этот номер ".$number_phone." закреплен за ".$first_name." ".$last_name;
+    echo (json_encode($res));
+    return;
+}
+
 
 $sql = "SELECT MAX(`id_personal`) FROM db_main";
 if ($stmt = $db_connect->prepare($sql)) {
@@ -36,10 +53,10 @@ if ($stmt = $db_connect->prepare($sql)) {
     }
 
 
-    $sql = "INSERT INTO db_main (id_personal,date_create_employee,user_name_create_employee,first_name,last_name,second_name,type_department,department,position,number_phone,interview_date,attraction_channel,attraction_channel_description,`status`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+    $sql = "INSERT INTO db_main (id_personal,date_create_employee,user_name_create_employee,first_name,last_name,second_name,type_department,department,position,number_phone,interview_date,attraction_channel,attraction_channel_description,`status`,color) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
     if ($stmt = $db_connect->prepare($sql)) {
         $stmt->bind_param(
-            "isssssssssssss",
+            "issssssssssssss",
             $id_personal,
             $date,
             $user_name_create_employee,
@@ -53,7 +70,8 @@ if ($stmt = $db_connect->prepare($sql)) {
             $interview_date,
             $attraction_channel,
             $attraction_channel_description,
-            $status
+            $status,
+            $color
         );
         $stmt->execute();
         if (count($stmt->error_list) === 0) {

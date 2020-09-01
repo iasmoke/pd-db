@@ -13,22 +13,22 @@ $_POST = json_decode(file_get_contents('php://input'), true);
 $new_employee = $_POST['new_form'];
 $date = $_POST['date_now'];
 $user_name_create_employee = $_POST['user_name_create_employee'];
-$first_name = $new_employee['first_name'];
-$last_name = $new_employee['last_name'];
-$second_name = $new_employee['second_name'];
+$first_name = preg_replace("/\s+/", "", $new_employee['first_name']);
+$last_name = preg_replace("/\s+/", "", $new_employee['last_name']);
+$second_name = preg_replace("/\s+/", "", $new_employee['second_name']);
 $type_department = $new_employee['type_department'];
 $department = $new_employee['department'];
 $position = $new_employee['position'];
 $number_phone = '+38' . $new_employee['number_phone'];
-$date_birth = $new_employee['date_birth'];
 $status = $new_employee['status'];
 $employee_description = $new_employee['employee_description'];
 
-if ($date_birth === 'Invalid date') {
-    $date_birth = '';
-  }
-
-
+$sql = mysqli_query($db_connect, "SELECT number_phone FROM db_main WHERE number_phone='" . mysqli_real_escape_string($db_connect, $number_phone) . "'");
+if (mysqli_num_rows($sql) > 0) {
+    $res = "Этот номер ".$number_phone." закреплен за ".$first_name." ".$last_name;
+    echo (json_encode($res));
+    return;
+}
 
 $sql = "SELECT MAX(`id_personal`) FROM db_main";
 if ($stmt = $db_connect->prepare($sql)) {
@@ -40,12 +40,11 @@ if ($stmt = $db_connect->prepare($sql)) {
         $id_personal = ($id_personal + 1);
     }
 
-
-    $sql = "INSERT INTO db_main (id_personal, date_create_employee, user_name_create_employee, first_name, last_name, second_name, type_department, department, position, number_phone, date_birth,`status`,employee_description) 
-VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
+    $sql = "INSERT INTO db_main (id_personal, date_create_employee, user_name_create_employee, first_name, last_name, second_name, type_department, department, position, number_phone, `status`,employee_description) 
+VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
     if ($stmt = $db_connect->prepare($sql)) {
         $stmt->bind_param(
-            "issssssssssss",
+            "isssssssssss",
             $id_personal,
             $date,
             $user_name_create_employee,
@@ -56,7 +55,6 @@ VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
             $department,
             $position,
             $number_phone,
-            $date_birth,
             $status,
             $employee_description
         );

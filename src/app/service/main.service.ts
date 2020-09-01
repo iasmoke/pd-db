@@ -79,6 +79,8 @@ export class MainService {
   }
 
   user_hr_update_employee(user_name, form_edit_employee, id_personal, date_now) {
+    console.log(form_edit_employee);
+    
     return this.http.post(
       './assets/php/user_hr_main_update_employee.php',
       JSON.stringify(
@@ -150,6 +152,18 @@ export class MainService {
           form_edit_employee: form_edit_employee,
           id_personal: id_personal,
           date_now: date_now
+        }
+      ),
+      { responseType: 'text' }
+    );
+  }
+
+  main_delete_employee(id_personal){
+    return this.http.post(
+      './assets/php/main_delete_employee.php',
+      JSON.stringify(
+        {
+          id_personal: id_personal
         }
       ),
       { responseType: 'text' }

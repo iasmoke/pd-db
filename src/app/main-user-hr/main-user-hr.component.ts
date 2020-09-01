@@ -37,8 +37,6 @@ export class MainUserHrComponent implements OnInit {
   filteredOptions: Observable<string[]>;
   myControl = new FormControl();
 
-  colors = {red:'#ef5350',grean:'#b2fab4', gray:'#9e9e9e'}
-
   office = true;
   trade_dot = false;
   if_rejection_reasos = false;
@@ -47,7 +45,7 @@ export class MainUserHrComponent implements OnInit {
 
   dataTable_user_hr = [];
   displayedColumns_user_hr: string[] = [
-    'id_personal',
+    'color',
     'fio',
     'position',
     'interview_date',
@@ -57,6 +55,7 @@ export class MainUserHrComponent implements OnInit {
     'internship_place',
     'rejection_reason',
     'status'
+    
   ];
   dataSource = new MatTableDataSource();
 
@@ -118,8 +117,7 @@ export class MainUserHrComponent implements OnInit {
       return console.log('new_form_employee.invalid');
     }
     let date_now = moment(new Date()).format('DD.MM.YYYY HH:mm:ss');
-    let date_interview = moment(this.new_form_employee.value.date_interview).format('DD.MM.YYYY');
-    this.new_form_employee.controls['interview_date'].setValue(date_interview);
+    this.new_form_employee.value.interview_date === "" ?  this.new_form_employee.get('interview_date').setValue('') : this.new_form_employee.get('interview_date').setValue(moment(this.new_form_employee.value.interview_date).format("DD.MM.YYYY"))
     this.mainService.user_hr_add_employee(this.new_form_employee.value, date_now, this.user_name_create_employee).subscribe((res) => {
       console.log(res);
       console.log(this.new_form_employee);
@@ -127,9 +125,9 @@ export class MainUserHrComponent implements OnInit {
       if (this.alert_message === 'Пользователь добавлен') {
         this.get_table_personal();
         $('#modalNew_user').modal('hide');
-        $('#modalAddEmloyee').modal('show');
+        $('#modalAddEmployee').modal('show');
         setTimeout(function () {
-          $('#modalAddEmloyee').modal('hide');
+          $('#modalAddEmployee').modal('hide');
         }, 2000);
         this.new_form_employee.reset();
       } else {
@@ -137,7 +135,7 @@ export class MainUserHrComponent implements OnInit {
         $('#modal_alert_add_error').modal('show');
         setTimeout(function () {
           $('#modal_alert_add_error').modal('hide');
-        }, 2000);
+        }, 4000);
       }
     });
   }
@@ -166,6 +164,7 @@ export class MainUserHrComponent implements OnInit {
     this.form_edit_employee.controls['rejection_reason'].setValue(row.rejection_reason);
     this.form_edit_employee.controls['status'].setValue(row.status);
     this.form_edit_employee.controls['employee_description'].setValue(row.employee_description);
+    this.form_edit_employee.controls['color'].setValue(row.color);
   }
 
   update_employee() {
@@ -181,7 +180,7 @@ export class MainUserHrComponent implements OnInit {
       this.form_edit_employee.get('certification_date').setValue(moment(this.form_edit_employee.value.certification_date).format("DD.MM.YYYY"))
       console.log(this.form_edit_employee);
       
-      this.mainService.user_hr_update_employee(this.loginService.user_name,this.form_edit_employee.value,this.id_personal,date_now)
+      this.mainService.user_hr_update_employee(this.loginService.user_name,this.form_edit_employee.value, this.id_personal,date_now)
         .subscribe((res) => {
           console.log(res)
           this.modal_alert_message = JSON.parse(res);
@@ -197,7 +196,7 @@ export class MainUserHrComponent implements OnInit {
             $('#modal_alert_edit_error').modal('show');
             setTimeout(function () {
               $('#modal_alert_edit_error').modal('hide');
-            }, 2000);
+            }, 4000);
           }
 
         });
@@ -211,9 +210,7 @@ export class MainUserHrComponent implements OnInit {
   }
 
   onChangesAddForm() {
-    this.new_form_employee
-      .get('attraction_channel')
-      .valueChanges.subscribe((selectAttraction_channel) => {
+    this.new_form_employee.get('attraction_channel').valueChanges.subscribe((selectAttraction_channel) => {
         if (selectAttraction_channel === 'Рекомендация от третих лиц') {
           this.new_form_employee.get('attraction_channel_description').enable();
         } else {
@@ -247,11 +244,11 @@ export class MainUserHrComponent implements OnInit {
 
   onChangesRejection() {
     this.form_edit_employee.get('status').valueChanges.subscribe((select_status) => {
-      if (select_status === 'Отказ') {
+      if (select_status === 'Отказали') {
         this.if_rejection_reasos = true
       } else {
         this.if_rejection_reasos = false;
-        this.form_edit_employee.get('rejection_reason').setValue('-')
+        this.form_edit_employee.get('rejection_reason').setValue('')
       }
     })
   }
@@ -310,6 +307,7 @@ export class MainUserHrComponent implements OnInit {
       rejection_reason: [''],
       status: ['', [Validators.required]],
       employee_description: [''],
+      color: new FormControl('')
     });
 
     this.new_form_employee = this.formBuilder.group({
@@ -324,6 +322,7 @@ export class MainUserHrComponent implements OnInit {
       attraction_channel_description: new FormControl(''),
       interview_date: new FormControl(''),
       status: new FormControl('', Validators.required),
+      color: new FormControl('')
     });
     this.onChangesAddForm();
     this.onChangesEditForm();

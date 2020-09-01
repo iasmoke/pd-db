@@ -12,9 +12,9 @@ $_POST = json_decode(file_get_contents('php://input'), true);
 $form_edit_employee = $_POST['form_edit_employee'];
 $date_last_update = $_POST['date_now'];
 $id_personal = $_POST['id_personal'];
-$first_name = $form_edit_employee['first_name'];
-$last_name = $form_edit_employee['last_name'];
-$second_name = $form_edit_employee['second_name'];
+$first_name = preg_replace("/\s+/", "", $form_edit_employee['first_name']);
+$last_name = preg_replace("/\s+/", "", $form_edit_employee['last_name']);
+$second_name = preg_replace("/\s+/", "", $form_edit_employee['second_name']);
 $position = $form_edit_employee['position'];
 $department = $form_edit_employee['department'];
 $number_phone = '+38' . $form_edit_employee['number_phone'];
@@ -30,11 +30,11 @@ $status = $form_edit_employee['status'];
 $employee_description = $form_edit_employee['employee_description'];
 $certification_date = $form_edit_employee['certification_date'];
 $user_name = $_POST['user_name'];
+$color = $form_edit_employee['color'];
 
 if ($interview_date === 'Invalid date') {
   $interview_date = '';
 }
-
 if ($internship_date === 'Invalid date') {
   $internship_date = '';
 }
@@ -44,14 +44,12 @@ if ($certification_date === 'Invalid date') {
 
 
 
-
-
-$sql = "UPDATE `db_main` SET date_last_update=?, user_name_last_update=?, first_name=?, last_name=?, second_name=?, type_department=? ,department=?, `position`=?, number_phone=?, attraction_channel=?, attraction_channel_description=?, interview_date=?, internship_date=?, internship_place=?, rejection_reason=?, `status`=?, employee_description=?, certification_date=? WHERE id_personal=?";
+$sql = "UPDATE `db_main` SET date_last_update=?, user_name_last_update=?, first_name=?, last_name=?, second_name=?, type_department=? ,department=?, `position`=?, number_phone=?, attraction_channel=?, attraction_channel_description=?, interview_date=?, internship_date=?, internship_place=?, rejection_reason=?, `status`=?, employee_description=?, certification_date=?, color=? WHERE id_personal=?";
 if ($stmt = $db_connect->prepare($sql)) {
-  $stmt->bind_param("sssssssssssssssssss", 
+  $stmt->bind_param("ssssssssssssssssssss", 
   $date_last_update, $user_name, $first_name, $last_name, $second_name, $type_department, $department, $position, 
   $number_phone, $attraction_channel, $attraction_channel_description, $interview_date, $internship_date, $internship_place, 
-  $rejection_reason, $status, $employee_description, $certification_date, $id_personal);
+  $rejection_reason, $status, $employee_description, $certification_date, $color, $id_personal);
 
   $stmt->execute();
   if (count($stmt->error_list) === 0) {

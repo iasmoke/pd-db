@@ -48,6 +48,10 @@
         </mat-option>
       </mat-select>
     </mat-form-field>
+    <section class="example-section ml-2">
+      <mat-checkbox *ngIf="checkbox_office" [(ngModel)]="all_sends_office" (ngModelChange)="check_all_sends()">Отправить всем</mat-checkbox>
+      <mat-checkbox *ngIf="checkbox_td" [(ngModel)]="all_sends_td" (ngModelChange)="check_all_sends()">Отправить всем</mat-checkbox>
+    </section>
 
 
   <div *ngIf="trade_dot">

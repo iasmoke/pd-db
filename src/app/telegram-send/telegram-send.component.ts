@@ -18,7 +18,12 @@ export class TelegramSendComponent implements OnInit {
   array_position: any;
   array_department_office: any;
 
-  alert_message_successfully = 'Успешно отправленно';
+  alert_message_successfully = 'Успешно отправлено';
+
+  checkbox_office = false;
+  all_sends_office = false;
+  checkbox_td = false;
+  all_sends_td = false;
 
   trade_dot = false;
   office = false;
@@ -33,18 +38,17 @@ export class TelegramSendComponent implements OnInit {
   type_department: any;
   department_office: any;
 
-  TOKEN_id = "1200991119:AAE8_piX_1A1OgIVnaYFXwPNBDMleac3xRk";
+  TOKEN_id = '1200991119:AAE8_piX_1A1OgIVnaYFXwPNBDMleac3xRk';
   list_TOKEN_id: any;
   list_user_name: any;
-  get_user_name: any
+  get_user_name: any;
   new_token_id: any;
   new_token_name: any;
   name_bot: any;
   good_token: any;
+  all_users_department_office: any;
 
-
-
-  user_name = this.loginService.user_name
+  user_name = this.loginService.user_name;
 
   city = new FormControl('', [Validators.required]);
   department = new FormControl('', [Validators.required]);
@@ -65,34 +69,53 @@ export class TelegramSendComponent implements OnInit {
       console.log(this.type_department);
     });
 
-    this.telegramSendService.get_my_token(this.loginService.user_id).subscribe(res => {
-      this.list_TOKEN_id = JSON.parse(res);
-      console.log(this.list_TOKEN_id);
-
-    })
-    this.settingsUserService.get_users().subscribe(res => {
+    this.telegramSendService
+      .get_my_token(this.loginService.user_id)
+      .subscribe((res) => {
+        this.list_TOKEN_id = JSON.parse(res);
+        console.log(this.list_TOKEN_id);
+      });
+    this.settingsUserService.get_users().subscribe((res) => {
       this.list_user_name = JSON.parse(res);
       console.log(this.list_user_name);
-
-    })
-
+    });
   }
   select_token_name(item_list_TOKEN_id) {
-    this.name_bot = item_list_TOKEN_id
+    this.name_bot = item_list_TOKEN_id;
   }
 
   add_TOKEN() {
-    this.telegramSendService.add_TOKEN_user(this.get_user_name.user_id, this.get_user_name.user_name, this.new_token_id, this.new_token_name).subscribe(res => {
-      this.good_token = JSON.parse(res)
-      console.log(this.good_token);
-      this.alert_good()
-    })
+    this.telegramSendService
+      .add_TOKEN_user(
+        this.get_user_name.user_id,
+        this.get_user_name.user_name,
+        this.new_token_id,
+        this.new_token_name
+      )
+      .subscribe((res) => {
+        this.good_token = JSON.parse(res);
+        console.log(this.good_token);
+        this.alert_good();
+      });
   }
 
   select_personal() {
-    this.telegramSendService.selectPersonal(this.department_office).subscribe(res => {
-      this.department_list_names = JSON.parse(res);
-    })
+    this.telegramSendService
+      .selectPersonal(this.department_office)
+      .subscribe((res) => {
+        this.department_list_names = JSON.parse(res);
+      });
+  }
+
+  select_all_office() {
+    this.telegramSendService
+      .get_department_office(this.type_department)
+      .subscribe((res) => {
+        this.all_users_department_office = JSON.parse(res)['users'];
+        console.log(this.all_users_department_office);
+
+        this.department_office = null;
+      });
   }
 
   change_select(item) {
@@ -102,16 +125,23 @@ export class TelegramSendComponent implements OnInit {
     if (item === 'Офис') {
       this.trade_dot = false;
       this.office = true;
-      this.telegramSendService.get_department_office(this.type_department).subscribe((res) => {
-        console.log(res);
-        this.array_department_office = JSON.parse(res);
-        this.department_office = null
-      });
+      this.checkbox_office = true;
+      this.checkbox_td = false;
+      this.telegramSendService
+        .get_department_office(this.type_department)
+        .subscribe((res) => {
+          console.log(res);
+          this.array_department_office = JSON.parse(res)['department_office'];
+          this.all_users_department_office = JSON.parse(res)['users'];
+          this.department_office = null;
+        });
       return;
     }
     if (item === 'Торговая точка') {
       this.office = false;
       this.trade_dot = true;
+      this.checkbox_office = false;
+      this.checkbox_td = true;
       console.log(item);
       this.telegramSendService.get_city().subscribe((res) => {
         this.array_city = JSON.parse(res);
@@ -131,41 +161,77 @@ export class TelegramSendComponent implements OnInit {
   //   }
 
   get_department_trade_dot() {
-    this.telegramSendService.get_department_trade_dot(this.city.value).subscribe((res) => {
-      this.array_department = JSON.parse(res);
-      this.array_position = null;
-    });
+    this.telegramSendService
+      .get_department_trade_dot(this.city.value)
+      .subscribe((res) => {
+        console.log(res);
+
+        this.array_department = JSON.parse(res);
+        this.array_position = null;
+      });
   }
 
   get_position() {
     this.telegramSendService.get_position().subscribe((res) => {
       this.array_position = JSON.parse(res);
-
     });
   }
 
+  check_all_sends() {
+    if (this.all_sends_office === true) {
+      this.select_all_office();
+    }
+  }
 
   send_message_bot() {
     console.log(this.department_list_names);
     console.log(this.list_name_department_office);
-
-
     if (this.office === true) {
       if (this.department_list_names.length === 0) {
         console.log('Нету ни одного ID');
         return this.alert_error_danger();
       } else {
         if (this.list_name_department_office.length === 0) {
-          this.not_id_chat_office = []
+          this.not_id_chat_office = [];
           this.department_list_names.forEach((element) => {
             console.log(element);
 
             if (element.id_telegram_chat === '0') {
               this.not_id_chat_office.push({
-                'first_name': element.first_name,
-                'last_name': element.last_name,
-                'department': element.department,
-                'id_telegram_chat': element.id_telegram_chat
+                first_name: element.first_name,
+                last_name: element.last_name,
+                department: element.department,
+                id_telegram_chat: element.id_telegram_chat,
+              });
+            } else {
+            }
+            Telegram.setToken(this.TOKEN_id);
+            Telegram.setRecipient(element.id_telegram_chat);
+            Telegram.setMessage(this.message_text.value);
+            Telegram.send();
+          });
+
+          if (this.not_id_chat_office.length !== 0) {
+            console.log(this.not_id_chat_office);
+            return this.alert_error();
+          } else {
+            $('#successfully_sent').modal('show');
+            setTimeout(function () {
+              $('#successfully_sent').modal('hide');
+            }, 2000);
+          }
+        } else if (this.all_sends_office === true) {
+          this.not_id_chat_office = [];
+          this.all_users_department_office.forEach((element) => {
+            console.log(element);
+
+            if (element.id_telegram_chat === '0') {
+              this.not_id_chat_office.push({
+                first_name: element.first_name,
+                last_name: element.last_name,
+                position: element.position,
+                department: element.department,
+                id_telegram_chat: element.id_telegram_chat,
               });
             } else {
             }
@@ -186,16 +252,16 @@ export class TelegramSendComponent implements OnInit {
           }
         } else {
           console.log(this.list_name_department_office);
-          this.not_id_chat_office = []
+          this.not_id_chat_office = [];
           this.list_name_department_office.forEach((element) => {
             console.log(element);
 
             if (element.id_telegram_chat === '0') {
               this.not_id_chat_office.push({
-                'first_name': element.first_name,
-                'last_name': element.last_name,
-                'department': element.department,
-                'id_telegram_chat': element.id_telegram_chat
+                first_name: element.first_name,
+                last_name: element.last_name,
+                department: element.department,
+                id_telegram_chat: element.id_telegram_chat,
               });
             } else {
             }
@@ -214,55 +280,47 @@ export class TelegramSendComponent implements OnInit {
               $('#successfully_sent').modal('hide');
             }, 2000);
           }
-
         }
       }
       return;
     }
     if (this.trade_dot === true) {
-      if (this.position.invalid) {
-        console.log('position.invalid');
-        return this.position.markAsTouched();
-      }
       if (this.message_text.invalid) {
         console.log('message_text.invalid');
         return this.message_text.markAsTouched();
       }
-      if (this.department.invalid) {
-        console.log('type_department.invalid');
-
-        return this.department.markAsTouched();
-      }
-      this.telegramSendService.get_data_send_bot(this.department.value).subscribe((res) => {
-        console.log(res);
-        this.id_telegram_bot_pdp = JSON.parse(res);
-        if (this.id_telegram_bot_pdp === null) {
-          console.log('Нету ни одного ID');
-          return this.alert_error_danger();
-        } else {
-          this.not_id_chat_trade_dot = []
-          this.id_telegram_bot_pdp.forEach((element) => {
-            console.log(element.id_telegram_chat);
-            if (element.id_telegram_chat === '0') {
-              this.not_id_chat_trade_dot.push({
-                'first_name': element.first_name,
-                'last_name': element.last_name,
-                'department': element.department,
-                'id_telegram_chat': element.id_telegram_chat
-              });
-            }
-            Telegram.setToken(this.TOKEN_id);
-            Telegram.setRecipient(element.id_telegram_chat);
-            Telegram.setMessage(this.message_text.value);
-            Telegram.send();
-          });
-          $('#successfully_sent').modal('show');
-          setTimeout(function () {
-            $('#successfully_sent').modal('hide');
-          }, 2000);
-          console.log(this.not_id_chat_trade_dot);
-        }
-      });
+      this.telegramSendService
+        .get_data_send_bot(this.department.value)
+        .subscribe((res) => {
+          console.log(res);
+          this.id_telegram_bot_pdp = JSON.parse(res);
+          if (this.id_telegram_bot_pdp === null) {
+            console.log('Нету ни одного ID');
+            return this.alert_error_danger();
+          } else {
+            this.not_id_chat_trade_dot = [];
+            this.id_telegram_bot_pdp.forEach((element) => {
+              console.log(element.id_telegram_chat);
+              if (element.id_telegram_chat === '0') {
+                this.not_id_chat_trade_dot.push({
+                  first_name: element.first_name,
+                  last_name: element.last_name,
+                  department: element.department,
+                  id_telegram_chat: element.id_telegram_chat,
+                });
+              }
+              Telegram.setToken(this.TOKEN_id);
+              Telegram.setRecipient(element.id_telegram_chat);
+              Telegram.setMessage(this.message_text.value);
+              Telegram.send();
+            });
+            $('#successfully_sent').modal('show');
+            setTimeout(function () {
+              $('#successfully_sent').modal('hide');
+            }, 2000);
+            console.log(this.not_id_chat_trade_dot);
+          }
+        });
       return;
     }
   }
@@ -279,17 +337,13 @@ export class TelegramSendComponent implements OnInit {
     setTimeout(function () {
       $('#all_ERROR_sent').modal('hide');
     }, 5000);
-
   }
   alert_good() {
     $('#best_token').modal('show');
     setTimeout(function () {
       $('#best_token').modal('hide');
     }, 5000);
-
   }
 
-
-
-  ngOnInit(): void { }
+  ngOnInit(): void {}
 }

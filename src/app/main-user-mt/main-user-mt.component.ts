@@ -41,7 +41,7 @@ export class MainUserMtComponent implements OnInit {
 
   dataTable_user_mt = [];
   displayedColumns_user_hr: string[] = [
-    'id_personal',
+    'color',
     'fio',
     'department',
     'position',
@@ -50,6 +50,12 @@ export class MainUserMtComponent implements OnInit {
     'test_date_1',
     'test_number_ball_2',
     'test_date_2',
+    'test_number_ball_3',
+    'test_date_3',
+    'test_number_ball_4',
+    'test_date_4',
+    'test_number_ball_5',
+    'test_date_5',
     'internship_place',
     'internship_date',
     'status'
@@ -100,12 +106,19 @@ export class MainUserMtComponent implements OnInit {
       test_number_ball_1: ['', [Validators.min(10), Validators.max(100)]],
       test_date_2: new FormControl(''),
       test_number_ball_2: ['', [Validators.min(10), Validators.max(100)]],
+      test_date_3: new FormControl(''),
+      test_number_ball_3: ['', [Validators.min(10), Validators.max(100)]],
+      test_date_4: new FormControl(''),
+      test_number_ball_4: ['', [Validators.min(10), Validators.max(100)]],
+      test_date_5: new FormControl(''),
+      test_number_ball_5: ['', [Validators.min(10), Validators.max(100)]],
       number_phone: ['', [Validators.required, Validators.pattern('[0-9]{10}')]],
       certification_date: new FormControl(''),
       internship_date: new FormControl(''),
       internship_place: [''],
       status: ['', [Validators.required]],
       employee_description: [''],
+      color: new FormControl('')
     });
   }
 
@@ -123,15 +136,18 @@ export class MainUserMtComponent implements OnInit {
     this.form_edit_employee.controls['number_phone'].setValue(row.number_phone.substr(3));
     this.form_edit_employee.controls['test_number_ball_1'].setValue(row.test_number_ball_1);
     this.form_edit_employee.controls['test_number_ball_2'].setValue(row.test_number_ball_2);
+    this.form_edit_employee.controls['test_number_ball_3'].setValue(row.test_number_ball_3);
+    this.form_edit_employee.controls['test_number_ball_4'].setValue(row.test_number_ball_4);
+    this.form_edit_employee.controls['test_number_ball_5'].setValue(row.test_number_ball_5);
     this.form_edit_employee.controls['internship_place'].setValue(row.internship_place);
     this.form_edit_employee.controls['status'].setValue(row.status);
-    this.form_edit_employee.controls['test_date_1'].setValue(row.test_date_1);
-    this.form_edit_employee.controls['test_date_2'].setValue(row.test_date_2);
-    this.form_edit_employee.controls['certification_date'].setValue(row.certification_date);
-    this.form_edit_employee.controls['internship_date'].setValue(row.internship_date);
+    this.form_edit_employee.controls['color'].setValue(row.color);
     this.form_edit_employee.controls['employee_description'].setValue(row.employee_description);
     row.test_date_1 === '' ? this.form_edit_employee.controls['test_date_1'].setValue(row.test_date_1) : this.form_edit_employee.controls['test_date_1'].setValue(moment(row.test_date_1, "DD.MM.YYYY"));
     row.test_date_2 === '' ? this.form_edit_employee.controls['test_date_2'].setValue(row.test_date_2) : this.form_edit_employee.controls['test_date_2'].setValue(moment(row.test_date_2, "DD.MM.YYYY"));
+    row.test_date_3 === '' ? this.form_edit_employee.controls['test_date_3'].setValue(row.test_date_3) : this.form_edit_employee.controls['test_date_3'].setValue(moment(row.test_date_3, "DD.MM.YYYY"));
+    row.test_date_4 === '' ? this.form_edit_employee.controls['test_date_4'].setValue(row.test_date_4) : this.form_edit_employee.controls['test_date_4'].setValue(moment(row.test_date_4, "DD.MM.YYYY"));
+    row.test_date_5 === '' ? this.form_edit_employee.controls['test_date_5'].setValue(row.test_date_5) : this.form_edit_employee.controls['test_date_5'].setValue(moment(row.test_date_5, "DD.MM.YYYY"));
     row.internship_date === '' ? this.form_edit_employee.controls['internship_date'].setValue(row.internship_date) : this.form_edit_employee.controls['internship_date'].setValue(moment(row.internship_date, "DD.MM.YYYY")) ;
     row.certification_date === '' ? this.form_edit_employee.controls['certification_date'].setValue(row.certification_date) : this.form_edit_employee.controls['certification_date'].setValue(moment(row.certification_date, "DD.MM.YYYY"));
     $('#modal_edit_employee').modal({
@@ -147,6 +163,9 @@ export class MainUserMtComponent implements OnInit {
       let date_now = moment(new Date()).format('DD.MM.YYYY HH:mm:ss');
       this.form_edit_employee.get('test_date_1').setValue(moment(this.form_edit_employee.value.test_date_1).format("DD.MM.YYYY"));
       this.form_edit_employee.get('test_date_2').setValue(moment(this.form_edit_employee.value.test_date_2).format("DD.MM.YYYY"));
+      this.form_edit_employee.get('test_date_3').setValue(moment(this.form_edit_employee.value.test_date_3).format("DD.MM.YYYY"));
+      this.form_edit_employee.get('test_date_4').setValue(moment(this.form_edit_employee.value.test_date_4).format("DD.MM.YYYY"));
+      this.form_edit_employee.get('test_date_5').setValue(moment(this.form_edit_employee.value.test_date_5).format("DD.MM.YYYY"));
       this.form_edit_employee.get('certification_date').setValue(moment(this.form_edit_employee.value.certification_date).format("DD.MM.YYYY"));
       this.form_edit_employee.get('internship_date').setValue(moment(this.form_edit_employee.value.internship_date).format("DD.MM.YYYY"));
       this.mainService.user_mt_update_employee(this.loginService.user_name, this.form_edit_employee.value, this.id_personal, date_now)

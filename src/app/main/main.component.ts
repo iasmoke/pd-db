@@ -34,7 +34,19 @@ declare var $: any;
 export class MainComponent implements OnInit {
 
   dataTable = [];
-  displayedColumns: string[] = ['id_personal', 'first_name', 'last_name', 'second_name', 'department', 'position', 'number_phone', 'certification_date', 'date_birth', 'status', 'employee_description'];
+  displayedColumns: string[] = [
+    'id_personal',
+    'first_name',
+    'last_name',
+    'second_name',
+    'department',
+    'position',
+    'number_phone',
+    'certification_date',
+    'status',
+    'employee_description',
+    'delete'
+  ];
   dataSource = new MatTableDataSource(this.dataTable);
 
   new_form: FormGroup;
@@ -45,6 +57,10 @@ export class MainComponent implements OnInit {
   search: any
 
   id_tt: string[];
+
+  row_first_name: any
+  row_last_name: any
+  row_pesonal_id: any
 
   array_data_employee = null
   modal_alert_message: any
@@ -97,8 +113,6 @@ export class MainComponent implements OnInit {
       console.log(this.new_form);
       return console.log(this.new_form.invalid);
     }
-    let date_birth = moment(this.new_form.value.date_birth).format('DD.MM.YYYY');
-    this.new_form.controls['date_birth'].setValue(date_birth);
     let date_now = moment(new Date()).format('DD.MM.YYYY HH:mm:ss');
     this.mainService.add_employee(this.new_form.value, date_now, this.user_name_create_employee).subscribe((res) => {
       console.log(res);
@@ -107,9 +121,9 @@ export class MainComponent implements OnInit {
       this.get_table_personal();
       if (this.modal_alert_message === 'Пользователь добавлен') {
         $('#modalNew_user').modal('hide');
-        $('#modalAddEmloyee').modal('show');
+        $('#modal_alert_success').modal('show');
         setTimeout(function () {
-          $('#modalAddEmloyee').modal('hide');
+          $('#modal_alert_success').modal('hide');
         }, 2000);
         this.new_form.reset();
       } else {
@@ -117,26 +131,54 @@ export class MainComponent implements OnInit {
         $('#modal_alert_error').modal('show');
         setTimeout(function () {
           $('#modal_alert_error').modal('hide');
-        }, 2000);
+        }, 5000);
         console.log(Error);
       }
     });
   }
 
+  open_delete_modal(row) {
+    $("#modal_delete_employee").modal('show');
+    this.row_first_name = row.first_name
+    this.row_last_name = row.last_name
+    this.row_pesonal_id = row.id_personal
+  }
+
+  delete_employee() {
+    this.mainService.main_delete_employee(this.row_pesonal_id).subscribe(res => {
+      this.modal_alert_message = JSON.parse(res);
+      console.log(this.modal_alert_message);
+      if (this.modal_alert_message === 'Пользователь удален') {
+        this.get_table_personal();
+        $('#modal_delete_employee').modal('hide');
+        $('#modal_alert_success').modal('show');
+        setTimeout(function () {
+          $('#modal_alert_success').modal('hide');
+        }, 2000);
+      } else {
+        $('#modal_edit_employee').modal('hide');
+        $('#modal_alert_error').modal('show');
+        setTimeout(function () {
+          $('#modal_alert_error').modal('hide');
+        }, 2000);
+      }
+
+    })
+  }
+
   open_edit_employee(row) {
     $("#modal_edit_employee").modal('show');
     console.log(row);
-      this.id_personal = row.id_personal;
-      this.edit_form.controls['first_name'].setValue(row.first_name);
-      this.edit_form.controls['last_name'].setValue(row.last_name);
-      this.edit_form.controls['second_name'].setValue(row.second_name);
-      this.edit_form.controls['type_department'].setValue(row.type_department);
-      this.edit_form.controls['department'].setValue(row.department);
-      this.edit_form.controls['position'].setValue(row.position);
-      this.edit_form.controls['number_phone'].setValue(row.number_phone.substr(3));
-      row.date_birth === '' ? this.edit_form.controls['date_birth'].setValue(row.date_birth) : this.edit_form.controls['date_birth'].setValue(moment(row.date_birth, "DD.MM.YYYY"));
-      this.edit_form.controls['status'].setValue(row.status);
-      this.edit_form.controls['employee_description'].setValue(row.employee_description);
+    this.id_personal = row.id_personal;
+    this.edit_form.controls['first_name'].setValue(row.first_name);
+    this.edit_form.controls['last_name'].setValue(row.last_name);
+    this.edit_form.controls['second_name'].setValue(row.second_name);
+    this.edit_form.controls['type_department'].setValue(row.type_department);
+    this.edit_form.controls['department'].setValue(row.department);
+    this.edit_form.controls['position'].setValue(row.position);
+    this.edit_form.controls['number_phone'].setValue(row.number_phone.substr(3));
+    this.edit_form.controls['status'].setValue(row.status);
+    this.edit_form.controls['employee_description'].setValue(row.employee_description);
   }
 
   update_employee() {
@@ -145,26 +187,25 @@ export class MainComponent implements OnInit {
     } else {
       console.log(this.edit_form)
       let date_now = moment(new Date()).format('DD.MM.YYYY HH:mm:ss');
-      this.edit_form.get('date_birth').setValue(moment(this.edit_form.value.date_birth).format('DD.MM.YYYY'));
       this.mainService.update_employee(this.loginService.user_name, this.edit_form.value, this.id_personal, date_now).subscribe((res) => {
-          this.modal_alert_message = JSON.parse(res);
-          console.log(this.modal_alert_message)
-          if (this.modal_alert_message === 'Данные обновлены') {
-            this.get_table_personal();
-            $('#modal_edit_employee').modal('hide');
-            $('#modal_alert_edit_employee').modal('show');
-            setTimeout(function () {
-              $('#modal_alert_edit_employee').modal('hide');
-            }, 2000);
-            this.search = ''
-          } else if (this.modal_alert_message === 'Error') {
-            $('#modal_edit_employee').modal('hide');
-            $('#modal_alert_edit_error').modal('show');
-            setTimeout(function () {
-              $('#modal_alert_edit_error').modal('hide');
-            }, 2000);
-          }
-        });
+        this.modal_alert_message = JSON.parse(res);
+        console.log(this.modal_alert_message)
+        if (this.modal_alert_message === 'Данные обновлены') {
+          this.get_table_personal();
+          $('#modal_edit_employee').modal('hide');
+          $('#modal_alert_success').modal('show');
+          setTimeout(function () {
+            $('#modal_alert_success').modal('hide');
+          }, 2000);
+          this.search = ''
+        } else if (this.modal_alert_message === 'Error') {
+          $('#modal_edit_employee').modal('hide');
+          $('#modal_alert_error').modal('show');
+          setTimeout(function () {
+            $('#modal_alert_error').modal('hide');
+          }, 2000);
+        }
+      });
     }
   }
 
@@ -204,7 +245,6 @@ export class MainComponent implements OnInit {
       position: ['', Validators.required],
       type_department: ['', Validators.required],
       number_phone: ['', [Validators.required, Validators.pattern("[0-9]{10}")]],
-      date_birth: new FormControl(''),
       status: ['', [Validators.required]],
       employee_description: [''],
     });
@@ -216,7 +256,6 @@ export class MainComponent implements OnInit {
       type_department: ['', Validators.required],
       department: ['', Validators.required],
       position: ['', Validators.required],
-      date_birth: new FormControl(''),
       number_phone: ['', [Validators.required, Validators.pattern("[0-9]{10}")]],
       status: ['', [Validators.required]],
       employee_description: [''],
