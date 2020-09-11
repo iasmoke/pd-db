@@ -21,7 +21,7 @@ $number_phone = '+38' . $new_employee['number_phone'];
 $attraction_channel = $new_employee['attraction_channel'];
 $attraction_channel_description = $new_employee['attraction_channel_description'];
 $type_department = $new_employee['type_department'];
-$interview_date = date("d.m.Y", strtotime($new_employee['interview_date']));
+$interview_date = $new_employee['interview_date'];
 $status = $new_employee['status'];
 $user_name_create_employee = $_POST['user_name_create_employee'];
 $color = $new_employee['color'];
@@ -36,7 +36,7 @@ if ($interview_date === 'Invalid date') {
 
 $sql = mysqli_query($db_connect, "SELECT number_phone FROM db_main WHERE number_phone='" . mysqli_real_escape_string($db_connect, $number_phone) . "'");
 if (mysqli_num_rows($sql) > 0) {
-    $res = "Этот номер ".$number_phone." закреплен за ".$first_name." ".$last_name;
+    $res = "Ошибка!!. Этот номер ".$number_phone." закреплен за '".$first_name." ".$last_name."'";
     echo (json_encode($res));
     return;
 }

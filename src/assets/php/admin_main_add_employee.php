@@ -25,7 +25,7 @@ $employee_description = $new_employee['employee_description'];
 
 $sql = mysqli_query($db_connect, "SELECT number_phone FROM db_main WHERE number_phone='" . mysqli_real_escape_string($db_connect, $number_phone) . "'");
 if (mysqli_num_rows($sql) > 0) {
-    $res = "Этот номер ".$number_phone." закреплен за ".$first_name." ".$last_name;
+    $res = "Ошибка!!. Этот номер ".$number_phone." закреплен за '".$first_name." ".$last_name."'";
     echo (json_encode($res));
     return;
 }

@@ -10,13 +10,9 @@ import { AppComponent } from '../app.component';
 })
 export class LoginService {
 
-
-
-
   user_id: string = JSON.parse(localStorage.getItem('id_user_pd'));
   user_name: string = localStorage.getItem('user_name_pd');
   user_role: string = localStorage.getItem('user_role_pd')
-
 
 
   constructor(
@@ -29,7 +25,7 @@ export class LoginService {
       './assets/php/register_user.php',
       JSON.stringify(
         {
-          user_form:user_form
+          user_form: user_form
         }
       ),
       { responseType: 'text' }
@@ -61,4 +57,26 @@ export class LoginService {
     );
   }
 
+  getUsersSettingsDistribution(user_id) {
+    return this.http.post(
+      './assets/php/users_settings_distribution_get.php',
+      JSON.stringify({
+        'user_id': user_id,
+      }
+      ),
+      { responseType: 'text' }
+    );
+  }
+
+  toggleUsersSettingsDistribution(user_id) {
+    return this.http.post(
+      './assets/php/users_settings_distribution_toggle.php',
+      JSON.stringify(
+        {
+          'user_id': user_id,
+        }
+      ),
+      { responseType: 'text' }
+    );
+  }
 }

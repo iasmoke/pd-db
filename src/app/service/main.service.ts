@@ -12,7 +12,7 @@ export class MainService {
 
   get_table_main() {
     return this.http.post(
-      './assets/php/main_table_get.php',
+      './assets/php/admin_main_table_get.php',
       JSON.stringify(
         {}
       ),
@@ -36,7 +36,7 @@ export class MainService {
   add_employee(new_form, date_now, user_name_create_employee) {
     console.log(new_form);
     return this.http.post(
-      './assets/php/main_add_employee.php',
+      './assets/php/admin_main_add_employee.php',
       JSON.stringify(
         {
           new_form: new_form,
@@ -65,7 +65,7 @@ export class MainService {
   
   update_employee(user_name, form_edit_employee, id_personal, date_now) {
     return this.http.post(
-      './assets/php/main_update_employee.php',
+      './assets/php/admin_main_update_employee.php',
       JSON.stringify(
         {
           user_name: user_name,
@@ -160,7 +160,7 @@ export class MainService {
 
   main_delete_employee(id_personal){
     return this.http.post(
-      './assets/php/main_delete_employee.php',
+      './assets/php/admin_main_delete_employee.php',
       JSON.stringify(
         {
           id_personal: id_personal

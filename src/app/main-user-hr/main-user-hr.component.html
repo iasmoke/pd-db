@@ -201,8 +201,8 @@
             <mat-select matInput formControlName="position">
               <mat-option value="Продавец">Продавец</mat-option>
               <mat-option value="Повар">Повар</mat-option>
-              <mat-option value="Продавец">Продавец 0.5</mat-option>
-              <mat-option value="Повар">Повар 0.5</mat-option>
+              <mat-option value="Продавец(0.5)">Продавец 0.5</mat-option>
+              <mat-option value="Повар(0.5)">Повар 0.5</mat-option>
               <mat-option value="Продавец(У)">Продавец(У)</mat-option>
               <mat-option value="Повар(У)">Повар(У)</mat-option>
             </mat-select>
@@ -220,28 +220,28 @@
           </mat-form-field>
 
           <div class="container" *ngIf="candidat">
-            
-            <div class="row">
-            <mat-form-field class="col" appearance="standard">
-              <mat-label>Откуда узнал о вакансии</mat-label>
-              <mat-select formControlName="attraction_channel">
-                <mat-option value="Work.ua">Work.ua</mat-option>
-                <mat-option value="Rabota.ua">Rabota.ua</mat-option>
-                <mat-option value="Instagram">Instagram</mat-option>
-                <mat-option value="Facebook">Facebook</mat-option>
-                <mat-option value="Telegram">Telegram</mat-option>
-                <mat-option value="Реклама на магазине">Реклама на магазине</mat-option>
-                <mat-option value="OLX">OLX</mat-option>
-                <mat-option value="Рекомендация от третьих лиц">Рекомендация от третьих лиц</mat-option>
-              </mat-select>
-              <mat-error *ngIf="!!f.attraction_channel.errors?.required">Выберет значение</mat-error>
-            </mat-form-field>
 
-            <mat-form-field class="col" appearance="standard">
-              <mat-label>Комментарий</mat-label>
-              <input matInput formControlName="attraction_channel_description">
-            </mat-form-field>
-          </div>
+            <div class="row">
+              <mat-form-field class="col" appearance="standard">
+                <mat-label>Откуда узнал о вакансии</mat-label>
+                <mat-select formControlName="attraction_channel">
+                  <mat-option value="Work.ua">Work.ua</mat-option>
+                  <mat-option value="Rabota.ua">Rabota.ua</mat-option>
+                  <mat-option value="Instagram">Instagram</mat-option>
+                  <mat-option value="Facebook">Facebook</mat-option>
+                  <mat-option value="Telegram">Telegram</mat-option>
+                  <mat-option value="Реклама на магазине">Реклама на магазине</mat-option>
+                  <mat-option value="OLX">OLX</mat-option>
+                  <mat-option value="Рекомендация от третьих лиц">Рекомендация от третьих лиц</mat-option>
+                </mat-select>
+                <mat-error *ngIf="!!f.attraction_channel.errors?.required">Выберет значение</mat-error>
+              </mat-form-field>
+
+              <mat-form-field class="col" appearance="standard">
+                <mat-label>Комментарий</mat-label>
+                <input matInput formControlName="attraction_channel_description">
+              </mat-form-field>
+            </div>
 
             <mat-form-field class="col" appearance="standard">
               <mat-label>Дата собеседования</mat-label>
@@ -359,8 +359,8 @@
               <mat-select formControlName="position">
                 <mat-option value="Продавец">Продавец</mat-option>
                 <mat-option value="Повар">Повар</mat-option>
-                <mat-option value="Продавец">Продавец 0.5</mat-option>
-                <mat-option value="Повар">Повар 0.5</mat-option>
+                <mat-option value="Продавец(0.5)">Продавец 0.5</mat-option>
+                <mat-option value="Повар(0.5)">Повар 0.5</mat-option>
                 <mat-option value="Продавец(У)">Продавец(У)</mat-option>
                 <mat-option value="Повар(У)">Повар(У)</mat-option>
               </mat-select>

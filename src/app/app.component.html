@@ -1,24 +1,39 @@
+<mat-toolbar *ngIf="user_id !== null" color="primary">
+  <button mat-icon-button (click)="drawer.toggle()">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <a class="navbar-brand text-white">Pizza Day DB</a>
+  <div class="ml-auto">
+    <a class="mr-3">{{user_name}}</a>
+    <button mat-raised-button color="warn" *ngIf="user_id !== null" class="ml-1" (click)="logout()">Выйти</button>
+  </div>
+</mat-toolbar>
 
-<mat-toolbar *ngIf="login_component === false" class="justify-content-between" color="primary">
-    <a class="navbar-brand text-white">Pizza Day DB</a>
-    <nav class="justify-content-center" [backgroundColor]="backgroundColorToggle" mat-tab-nav-bar>
-      <a mat-tab-link [hidden]="user_role !== 'admin'" [active]="main === true" (click)="select_component('main')">Главная</a>
-      <a mat-tab-link [hidden]="user_role !== 'admin'" [active]="settings_users === true" (click)="select_component('settings_users')">Админ панель</a>
-      <a mat-tab-link [hidden]="user_role !== 'admin'" [active]="list_tt === true" (click)="select_component('list_tt')">Заведение</a>
-      <!-- <a mat-tab-link [hidden]="user_role !== 'admin'" [active]="telegram_send === true" (click)="select_component('telegram_send')">Рассылка в Telegram</a> -->
+<mat-drawer-container [hasBackdrop]="false">
+  <mat-drawer #drawer [mode]="mode">
+    <mat-list>
+      <mat-list-item><mat-icon url="https://img.icons8.com/color/48/000000/overview-pages-4.png"></mat-icon><a>Таблица</a></mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item><button mat-flat-button>Пользователи</button></mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item><button mat-flat-button>Заведение</button></mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item><button mat-flat-button>Рассылка в Telegram</button></mat-list-item>
+    </mat-list>
+  </mat-drawer>
+  <app-main *ngIf="main_page && user_role === 'admin'"></app-main>
+  <app-main-user-mt *ngIf="main_page && user_role === 'user_mt'"></app-main-user-mt>
+  <app-main-user-hr *ngIf="main_page && user_role === 'user_hr'"></app-main-user-hr>
+  <app-main-user-pi *ngIf="main_page && user_role === 'user_pi'"></app-main-user-pi>
+  <app-settings-users *ngIf="settings_page"></app-settings-users>
+  <app-list-tt *ngIf="list_tt_page"></app-list-tt>
+  <app-telegram-send *ngIf="distribution_page"></app-telegram-send>
+</mat-drawer-container>
 
-    </nav>
-    <div>
-      <a class="mr-3">Привет, {{user_name}}</a>
-      <button mat-raised-button color="warn" *ngIf="user_id !== null" class="ml-1" (click)="logout()">Выйти</button>
-    </div>
-  </mat-toolbar>
-  
-  <app-login *ngIf="login_component" ></app-login>
-  <app-main *ngIf="main" ></app-main>
-  <app-main-user-mt *ngIf="main_user_mt"></app-main-user-mt>
-  <app-main-user-hr *ngIf="main_user_hr"></app-main-user-hr>
-  <app-main-user-pi *ngIf="main_user_pi"></app-main-user-pi>
-  <app-settings-users *ngIf="settings_users"></app-settings-users>
-  <app-list-tt *ngIf="list_tt"></app-list-tt>
-  
+<app-login *ngIf="login_page"></app-login>
+
+
+
+<!-- Copyright 2020 Google LLC. All Rights Reserved.
+      Use of this source code is governed by an MIT-style license that
+      can be found in the LICENSE file at http://angular.io/license -->

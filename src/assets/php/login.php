@@ -34,8 +34,13 @@ if (isset($_POST['user_name']) && isset($_POST['password'])) {
         }
         if ($user_id == null) {
             $res = 'Wrong login or password';
-        }else {
+        } else {
             $res = 'Successful';
+            $sql = "UPDATE users_settings_content SET main_page=1, settings_page=0, list_tt_page=0, distribution_page=0 WHERE `user_id`=?";
+            if ($stmt = $db_connect->prepare($sql)) {
+                $stmt->bind_param("i", $user_id);
+                $stmt->execute();
+            }
         }
     }
 }
@@ -47,9 +52,10 @@ if (isset($_POST['user_name']) && isset($_POST['password'])) {
 
 
 echo (json_encode(array(
-  'user_id' => $user_id,
-  'user_name' => $user_name,
-  'user_role' => $user_role,
-  'error'=> $res)));
+    'user_id' => $user_id,
+    'user_name' => $user_name,
+    'user_role' => $user_role,
+    'error' => $res
+)));
 
 $db_connect->close();

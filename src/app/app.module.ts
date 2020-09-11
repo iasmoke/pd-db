@@ -53,10 +53,12 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSnackBarModule, MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTreeModule } from '@angular/material/tree';
 import { OverlayModule } from '@angular/cdk/overlay';
+import { ModalAdminComponent } from './modal-admin/modal-admin.component';
+ 
 
 
 
@@ -71,7 +73,8 @@ import { OverlayModule } from '@angular/cdk/overlay';
     MainUserHrComponent,
     MainUserMtComponent,
     MainUserPiComponent,
-    ListTtComponent
+    ListTtComponent,
+    ModalAdminComponent
   ],
   imports: [
     BrowserModule,
@@ -79,7 +82,6 @@ import { OverlayModule } from '@angular/cdk/overlay';
     FormsModule,
     HttpClientModule,
     ReactiveFormsModule,
-    MatDialogModule,
     MatToolbarModule,
     MatIconModule,
     NgbModule,
@@ -134,14 +136,13 @@ import { OverlayModule } from '@angular/cdk/overlay';
     MatTreeModule,
     OverlayModule,
     PortalModule,
-    ScrollingModule,
-
-
+    ScrollingModule
   ],
   providers: [
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
   ],
+  entryComponents: [ModalAdminComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

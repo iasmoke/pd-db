@@ -1,0 +1,222 @@
+<h1 *ngIf="formValueAdd" mat-dialog-title>Новый сотрудник</h1>
+<h1 *ngIf="formValueEdit" mat-dialog-title>Данные сотрудника</h1>
+<h2 *ngIf="valueDelete">Вы хотите удалить сотрудник?</h2>
+<div mat-dialog-content>
+  <div *ngIf="valueDelete">
+    <h3>{{data.row.last_name}} {{data.row.first_name}}</h3>
+  </div>
+  <form *ngIf="formValueAdd" [formGroup]="newPerson">
+    <mat-form-field class="col" appearance="standard">
+      <mat-label>Фамилия</mat-label>
+      <input matInput formControlName="last_name">
+      <mat-error *ngIf="!!fn.last_name.errors?.required">Поле не заполнено</mat-error>
+    </mat-form-field>
+
+    <div class="container row">
+      <mat-form-field class="col" appearance="standard">
+        <mat-label>Имя</mat-label>
+        <input matInput formControlName="first_name">
+        <mat-error *ngIf="!!fn.first_name.errors?.required">Поле не заполнено</mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="col" appearance="standard">
+        <mat-label>Отчество</mat-label>
+        <input matInput formControlName="second_name">
+        <mat-error *ngIf="!!fn.second_name.errors?.required">Поле не заполнено</mat-error>
+      </mat-form-field>
+
+    </div>
+
+    <mat-form-field class="col" appearance="outline">
+      <input type="tel" matInput formControlName="number_phone" placeholder="0988788181">
+      <mat-icon matSuffix>stay_current_portrait</mat-icon>
+      <mat-error *ngIf="!!fn.number_phone.errors?.required">Поле не заполнено</mat-error>
+      <mat-error *ngIf="!!fn.number_phone.errors?.pattern">Неверный формат номера телефона</mat-error>
+    </mat-form-field>
+
+
+    <mat-form-field class="col" appearance="standard">
+      <mat-label>Тип подразделения</mat-label>
+      <mat-select formControlName="type_department">
+        <mat-option value="Торговая точка">Торговая точка</mat-option>
+        <mat-option value="Офис">Офис</mat-option>
+      </mat-select>
+      <mat-error *ngIf="!!fn.type_department.errors?.required">Поле не заполнено</mat-error>
+    </mat-form-field>
+
+
+    <div class="container row" *ngIf="office">
+      <mat-form-field class="col" appearance="standard">
+        <mat-label>Должность</mat-label>
+        <input matInput formControlName="position">
+        <mat-error *ngIf="!!fn.position.errors?.required">Поле не заполнено</mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="col" appearance="standard">
+        <mat-label>Подразделение</mat-label>
+        <input matInput formControlName="department">
+        <mat-error *ngIf="!!fn.department.errors?.required">Поле не заполнено</mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="container row" *ngIf="trade_dot">
+      <mat-form-field class="col" appearance="standard">
+        <mat-label>Должность</mat-label>
+        <mat-select matInput formControlName="position">
+          <mat-option value="Продавец">Продавец</mat-option>
+          <mat-option value="Повар">Повар</mat-option>
+          <mat-option value="Продавец(0.5)">Продавец 0.5</mat-option>
+          <mat-option value="Повар(0.5)">Повар 0.5</mat-option>
+          <mat-option value="Продавец(У)">Продавец(У)</mat-option>
+          <mat-option value="Повар(У)">Повар(У)</mat-option>
+        </mat-select>
+        <mat-error *ngIf="!!fn.position.errors?.required">Поле не заполнено</mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="col" appearance="standard">
+        <mat-label>Место работы (ТТ)</mat-label>
+        <mat-select formControlName="department">
+          <mat-option [value]="option.substring(0, 2)" *ngFor="let option of id_tt">
+            {{option}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="!!fn.department.errors?.required">Поле не заполнено</mat-error>
+      </mat-form-field>
+
+    </div>
+
+    <mat-form-field class="col" appearance="standard">
+      <mat-label>Статус</mat-label>
+      <mat-select matInput formControlName="status">
+        <mat-option value="Кандидат">Кандидат</mat-option>
+        <mat-option value="Резерв">Резерв</mat-option>
+        <mat-option value="Отказали">Отказали</mat-option>
+        <mat-option value="Стажёр">Стажёр</mat-option>
+        <mat-option value="Работает">Работает</mat-option>
+        <mat-option value="Уволен">Уволен</mat-option>
+      </mat-select>
+      <mat-error *ngIf="!!fn.status.errors?.required">Поле не заполнено</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="col" appearance="standard">
+      <mat-label>Комментарий</mat-label>
+      <input matInput formControlName="employee_description">
+      <mat-error *ngIf="!!fn.employee_description.errors?.required">Поле не заполнено</mat-error>
+    </mat-form-field>
+  </form>
+
+  <form *ngIf="formValueEdit" [formGroup]="editPerson">
+
+    <mat-form-field class="col" appearance="standard">
+      <mat-label>Фамилия</mat-label>
+      <input matInput formControlName="first_name">
+      <mat-error *ngIf="!!fn.first_name.errors?.required">Поле не заполнено</mat-error>
+    </mat-form-field>
+
+    <div class="container row">
+      <mat-form-field class="col" appearance="standard">
+        <mat-label>Имя</mat-label>
+        <input matInput formControlName="last_name">
+        <mat-error *ngIf="!!fn.last_name.errors?.required">Поле не заполнено</mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="col" appearance="standard">
+        <mat-label>Отчество</mat-label>
+        <input matInput formControlName="second_name">
+        <mat-error *ngIf="!!fn.second_name.errors?.required">Поле не заполнено</mat-error>
+      </mat-form-field>
+
+    </div>
+
+    <mat-form-field class="col" appearance="outline">
+      <input type="tel" matInput formControlName="number_phone" placeholder="0988788181">
+      <mat-icon matSuffix>stay_current_portrait</mat-icon>
+      <mat-error *ngIf="!!fn.number_phone.errors?.required">Поле не заполнено</mat-error>
+      <mat-error *ngIf="!!fn.number_phone.errors?.pattern">Неверный формат номера телефона</mat-error>
+    </mat-form-field>
+
+
+    <mat-form-field class="col" appearance="standard">
+      <mat-label>Тип подразделения</mat-label>
+      <mat-select formControlName="type_department">
+        <mat-option value="Торговая точка">Торговая точка</mat-option>
+        <mat-option value="Офис">Офис</mat-option>
+      </mat-select>
+      <mat-error *ngIf="!!fn.type_department.errors?.required">Поле не заполнено</mat-error>
+    </mat-form-field>
+
+
+    <div class="container row">
+      <mat-form-field class="col" *ngIf="office" appearance="standard">
+        <mat-label>Должность</mat-label>
+        <input matInput formControlName="position">
+        <mat-error *ngIf="!!fn.position.errors?.required">Поле не заполнено</mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="col" *ngIf="office" appearance="standard">
+        <mat-label>Подразделение</mat-label>
+        <input matInput formControlName="department">
+        <mat-error *ngIf="!!fn.department.errors?.required">Поле не заполнено</mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="container row">
+      <mat-form-field class="col" *ngIf="trade_dot" appearance="standard">
+        <mat-label>Должность</mat-label>
+        <mat-select matInput formControlName="position">
+          <mat-option value="Продавец">Продавец</mat-option>
+          <mat-option value="Повар">Повар</mat-option>
+          <mat-option value="Продавец(0.5)">Продавец 0.5</mat-option>
+          <mat-option value="Повар(0.5)">Повар 0.5</mat-option>
+          <mat-option value="Продавец(У)">Продавец(У)</mat-option>
+          <mat-option value="Повар(У)">Повар(У)</mat-option>
+        </mat-select>
+        <mat-error *ngIf="!!fn.position.errors?.required">Поле не заполнено</mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="col" *ngIf="trade_dot" appearance="standard">
+        <mat-label>Место работы (ТТ)</mat-label>
+        <mat-select formControlName="department">
+          <mat-option [value]="option.substring(0, 2)" *ngFor="let option of id_tt">
+            {{option}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="!!fn.department.errors?.required">Поле не заполнено</mat-error>
+      </mat-form-field>
+
+    </div>
+
+    <mat-form-field class="col" appearance="standard">
+      <mat-label>Статус</mat-label>
+      <mat-select matInput formControlName="status">
+        <mat-option value="Кандидат">Кандидат</mat-option>
+        <mat-option value="Резерв">Резерв</mat-option>
+        <mat-option value="Отказали">Отказали</mat-option>
+        <mat-option value="Стажёр">Стажёр</mat-option>
+        <mat-option value="Работает">Работает</mat-option>
+        <mat-option value="Уволен">Уволен</mat-option>
+      </mat-select>
+      <mat-error *ngIf="!!fn.status.errors?.required">Поле не заполнено</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="col" appearance="standard">
+      <mat-label>Комментарий</mat-label>
+      <input matInput formControlName="employee_description">
+      <mat-error *ngIf="!!fn.employee_description.errors?.required">Поле не заполнено</mat-error>
+    </mat-form-field>
+
+
+  </form>
+</div>
+<div mat-dialog-actions *ngIf="formValueAdd">
+  <button mat-raised-button color="primary" style="margin-bottom: 12px" (click)="add_employee()">Отправить</button>
+  <button mat-raised-button color="primary" mat-dialog-close style="margin-left: auto; margin-bottom: 12px">Отмена</button>
+</div>
+<div mat-dialog-actions *ngIf="formValueEdit">
+  <button mat-raised-button color="primary" style="margin-bottom: 12px" (click)="update_employee()">Обновить</button>
+  <button mat-raised-button color="primary" mat-dialog-close style="margin-left: auto; margin-bottom: 12px">Отмена</button>
+</div>
+<div mat-dialog-actions *ngIf="valueDelete">
+  <button mat-raised-button color="primary" style="margin-bottom: 12px" (click)="delete_employee()">Да</button>
+  <button mat-raised-button color="primary" mat-dialog-close style="margin-left: auto; margin-bottom: 12px">Отмена</button>
+</div>
