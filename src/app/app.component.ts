@@ -1,4 +1,6 @@
+import { FocusMonitor } from '@angular/cdk/a11y';
 import { Component } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { LoginService } from './service/login.service';
 
 declare var $: any;
@@ -31,22 +33,32 @@ export class AppComponent {
   // settings_users = false;
   // list_tt = false
   // telegram_send = false;
-  main_page = false
-  login_page = this.user_id === null ? true : false
-  settings_page = false
-  list_tt_page = false
-  distribution_page = false
+  main_page:boolean = false
+  login_page:boolean = this.user_id === null ? true : false
+  settings_page:boolean = false
+  list_tt_page:boolean = false
+  distribution_page:boolean = false
+
+  access_main:boolean
+  access_settings:boolean
+  access_list_tt:boolean 
+  access_distribution:boolean
 
   constructor(
     private loginService: LoginService,
+    private _snackBar: MatSnackBar,
+    private _focusMonitor: FocusMonitor
   ){
     this.loginService.getUsersSettingsDistribution(this.user_id).subscribe(res => {
       this.array_page = JSON.parse(res)
       this.main_page = this.array_page[0].main_page
-      this.login_page = this.array_page[0].login_page
+      this.list_tt_page = this.array_page[0].list_tt_page
       this.settings_page = this.array_page[0].settings_page
       this.distribution_page = this.array_page[0].distribution_page
-      console.log(this.array_page);
+      this.access_main = this.array_page[0].access_main
+      this.access_settings = this.array_page[0].access_settings
+      this.access_list_tt = this.array_page[0].access_list_tt
+      this.access_distribution = this.array_page[0].access_distribution
     })
 
     // console.log({'main':this.main = (this.user_id !== null) && (this.loginService.user_role === 'admin') ? true : false,'var main': this.main});
@@ -57,15 +69,35 @@ export class AppComponent {
     
   }
 
-  // toggle_component(items) {
-  //   this.loginService
-  //   this.main_page = false
-  //   this.login_page = false
-  //   this.settings_page = false
-  //   this.list_tt_page = false
-  //   this.distribution_page = false
-  //   this[items] = true
-  // }
+  ngAfterViewInit() {
+    this._focusMonitor.stopMonitoring(document.getElementById('buttonNav_1'));
+}
+
+  togglePage(items,access) {
+    switch(this[access]){
+      case true:
+        this.main_page = false
+        this.settings_page = false
+        this.list_tt_page = false
+        this.distribution_page = false
+        this[items] = true
+        this.loginService.toggleUsersSettingsDistribution(this.user_id,this.main_page,this.settings_page,this.list_tt_page,this.distribution_page).subscribe(res =>{          
+        })
+        break;
+       case false:
+        this._snackBar.open('У Вас нету прав!', '', {
+          duration: 2000,
+          horizontalPosition: 'center',
+          verticalPosition: 'top',
+          panelClass: 'alert-style-error'
+        });
+         break; 
+    }
+    
+   
+    // console.log(this[items])
+    // console.log(this.main_page,this.settings_page,this.list_tt_page,this.distribution_page);
+  }
 
   logout() {
       localStorage.removeItem('id_user_pd')

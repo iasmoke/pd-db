@@ -56,14 +56,14 @@ export class ModalAdminComponent implements OnInit {
     switch (this.data.value) {
       case 'new':
         this.newPerson = this.formBuilder.group({
-          first_name: ['', Validators.required],
-          last_name: ['', Validators.required],
+          first_name:new FormControl('', Validators.required),
+          last_name: new FormControl('', Validators.required),
           second_name: new FormControl(''),
-          type_department: ['', Validators.required],
-          department: ['', Validators.required],
-          position: ['', Validators.required],
-          number_phone: ['', [Validators.required, Validators.pattern("[0-9]{10}")]],
-          status: ['', [Validators.required]],
+          type_department: new FormControl('', Validators.required),
+          department: new FormControl('', Validators.required),
+          position: new FormControl('', Validators.required),
+          number_phone:new FormControl('', [Validators.required, Validators.pattern("[0-9]{10}")]),
+          status: new FormControl('', Validators.required),
           employee_description: [''],
         });
         break;

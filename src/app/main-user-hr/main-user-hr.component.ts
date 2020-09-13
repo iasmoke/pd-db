@@ -211,7 +211,7 @@ export class MainUserHrComponent implements OnInit {
 
   onChangesAddForm() {
     this.new_form_employee.get('attraction_channel').valueChanges.subscribe((selectAttraction_channel) => {
-        if (selectAttraction_channel === 'Рекомендация от третих лиц') {
+        if (selectAttraction_channel === 'Рекомендация от третьих лиц') {
           this.new_form_employee.get('attraction_channel_description').enable();
         } else {
           this.new_form_employee.get('attraction_channel_description').reset();
@@ -255,7 +255,7 @@ export class MainUserHrComponent implements OnInit {
 
   onChangesEditForm() {
     this.form_edit_employee.get('attraction_channel').valueChanges.subscribe((selectAttraction_channel) => {
-      if (selectAttraction_channel === 'Рекомендация от третих лиц') {
+      if (selectAttraction_channel === 'Рекомендация от третьих лиц') {
         this.form_edit_employee.get('attraction_channel_description').enable();
       } else {
         this.form_edit_employee.get('attraction_channel_description').reset();

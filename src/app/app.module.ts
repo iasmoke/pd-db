@@ -24,7 +24,7 @@ import { TelegramSendComponent } from './telegram-send/telegram-send.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MainUserHrComponent } from './main-user-hr/main-user-hr.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
+import { DateAdapter, MatNativeDateModule, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MainUserMtComponent } from './main-user-mt/main-user-mt.component';
 import { MainUserPiComponent } from './main-user-pi/main-user-pi.component';
@@ -58,11 +58,12 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTreeModule } from '@angular/material/tree';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { ModalAdminComponent } from './modal-admin/modal-admin.component';
+import { ModalListTtComponent } from './modal-list-tt/modal-list-tt.component';
+import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
+
+
+
  
-
-
-
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -74,7 +75,8 @@ import { ModalAdminComponent } from './modal-admin/modal-admin.component';
     MainUserMtComponent,
     MainUserPiComponent,
     ListTtComponent,
-    ModalAdminComponent
+    ModalAdminComponent,
+    ModalListTtComponent
   ],
   imports: [
     BrowserModule,
@@ -141,8 +143,19 @@ import { ModalAdminComponent } from './modal-admin/modal-admin.component';
   providers: [
     MatDatepickerModule,
     MatNativeDateModule,
+   
+      {
+        provide: MAT_DATE_LOCALE,
+        useValue: 'ru-RU'
+      },
+      {
+        provide: DateAdapter,
+        useClass: MomentDateAdapter,
+        deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
+      },
+      { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS }
   ],
-  entryComponents: [ModalAdminComponent],
+  entryComponents: [ModalAdminComponent,ModalListTtComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

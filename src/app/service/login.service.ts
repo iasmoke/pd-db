@@ -68,12 +68,17 @@ export class LoginService {
     );
   }
 
-  toggleUsersSettingsDistribution(user_id) {
+  toggleUsersSettingsDistribution(user_id,main_page,settings_page,list_tt_page,distribution_page) {
     return this.http.post(
       './assets/php/users_settings_distribution_toggle.php',
       JSON.stringify(
         {
-          'user_id': user_id,
+          user_id: user_id,
+          main_page:main_page,
+          settings_page:settings_page,
+          list_tt_page:list_tt_page,
+          distribution_page:distribution_page
+
         }
       ),
       { responseType: 'text' }

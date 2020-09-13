@@ -5,8 +5,6 @@ import { MainService } from '../service/main.service';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { LoginService } from '../service/login.service';
-import { MAT_DATE_LOCALE, DateAdapter, MAT_DATE_FORMATS } from '@angular/material/core';
-import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS, MAT_MOMENT_DATE_FORMATS } from '@angular/material-moment-adapter';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalAdminComponent } from '../modal-admin/modal-admin.component';
 import * as moment from 'moment';
@@ -24,19 +22,7 @@ export interface DialogData {
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
-  styleUrls: ['./main.component.scss'],
-  providers: [
-    {
-      provide: MAT_DATE_LOCALE,
-      useValue: 'ru-RU'
-    },
-    {
-      provide: DateAdapter,
-      useClass: MomentDateAdapter,
-      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
-    },
-    { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS },
-  ],
+  styleUrls: ['./main.component.scss']
 })
 
 export class MainComponent implements OnInit {
@@ -57,13 +43,8 @@ export class MainComponent implements OnInit {
   ];
   dataSource = new MatTableDataSource(this.dataTable);
 
-
-
   value: any;
-
-
   search: any
-
   id_tt: string[];
 
   row_first_name: any
@@ -111,13 +92,6 @@ export class MainComponent implements OnInit {
     })
   }
 
-
-
-  open_delete_modal(row) {
-    this.row_first_name = row.first_name
-    this.row_last_name = row.last_name
-    this.row_personal_id = row.id_personal
-  }
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -174,5 +148,4 @@ export class MainComponent implements OnInit {
       }
     })
   }
-
 }

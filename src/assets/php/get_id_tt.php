@@ -10,16 +10,16 @@ require_once('connect_db.php');
 $_POST = json_decode(file_get_contents('php://input'), true);
 
 
-$sql = "SELECT id_tt, adress FROM `list_tt` ORDER BY `list_tt`.`id_tt` ASC";
+$sql = "SELECT number_td, `address` FROM `list_tt` ORDER BY `list_tt`.`number_td` ASC";
 if ($stmt = $db_connect->prepare($sql)) {
     $stmt->execute();
     $stmt->bind_result(
-        $id_tt,
-        $adress
+        $number_td,
+        $address
      
     );
     while ($stmt->fetch()) {
-        $res[] =  $id_tt.' - ' .$adress;
+        $res[] =  $number_td.' - ' .$address;
         }
 }
 

@@ -15,8 +15,9 @@ if ($stmt = $db_connect->prepare($sql)) {
     $stmt->execute();
     $stmt->bind_result(
         $id_tt,
+        $number_td,
         $city,
-        $adress,
+        $address,
         $date_open,
         $manager,
         $rm
@@ -24,8 +25,9 @@ if ($stmt = $db_connect->prepare($sql)) {
     while ($stmt->fetch()) {
         $res[] = array(
             'id_tt' => (int) $id_tt,
+            'number_td' => (int) $number_td,
             'city' => (string) $city,
-            'adress' => (string) $adress,
+            'address' => (string) $address,
             'date_open' => (string) $date_open,
             'manager' => $manager,
             'rm' => (string) $rm,

@@ -1,0 +1,91 @@
+<h1 *ngIf="formValueAdd" mat-dialog-title>Новая торговая точка</h1>
+<div mat-dialog-content>
+    <form *ngIf="formValueAdd" [formGroup]="new_outlet">
+        <mat-form-field class="col">
+            <mat-label>Номер торговой точки</mat-label>
+            <input matInput formControlName="number_td">
+            <mat-error>Поле не заполнено</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="col">
+            <mat-label>Город</mat-label>
+            <input matInput formControlName="city">
+            <mat-error>Поле не заполнено</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="col">
+            <mat-label>Адрес</mat-label>
+            <input matInput formControlName="address">
+            <mat-error>Поле не заполнено</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="col">
+            <mat-label>Дата открытия</mat-label>
+            <input matInput formControlName="date_open" [matDatepicker]="picker_new_outlet"
+                (focus)="picker_new_outlet.open()" readonly>
+        </mat-form-field>
+        <mat-datepicker #picker_new_outlet></mat-datepicker>
+
+        <mat-form-field class="col">
+            <mat-label>Менеджер ТТ</mat-label>
+            <input matInput formControlName="manager">
+            <mat-error>Поле не заполнено</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="col">
+            <mat-label>Региональный менеджер</mat-label>
+            <input matInput formControlName="rm">
+            <mat-error>Поле не заполнено</mat-error>
+        </mat-form-field>
+    </form>
+
+    <form *ngIf="formValueEdit" [formGroup]="edit_outlet">
+
+        <mat-form-field class="col">
+            <mat-label>Номер торговой точки</mat-label>
+            <input matInput formControlName="number_td">
+        </mat-form-field>
+        
+        <mat-form-field class="col">
+            <mat-label>Дата открытия</mat-label>
+            <input matInput formControlName='date_open' [matDatepicker]="picker_edit_outlet"
+                (focus)="picker_edit_outlet.open()" readonly>
+            <mat-datepicker-toggle matSuffix [for]="picker_edit_outlet"></mat-datepicker-toggle>
+            <mat-datepicker #picker_edit_outlet></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field class="col">
+            <mat-label>Город</mat-label>
+            <input matInput formControlName="city">
+        </mat-form-field>
+
+        <mat-form-field class="col">
+            <mat-label>Адрес</mat-label>
+            <input matInput formControlName="address">
+        </mat-form-field>
+
+
+        <mat-form-field class="col">
+            <mat-label>Менеджер ТТ</mat-label>
+            <input matInput formControlName="manager">
+
+        </mat-form-field>
+
+        <mat-form-field class="col">
+            <mat-label>Региональный менеджер</mat-label>
+            <input matInput formControlName="rm">
+        </mat-form-field>
+    </form>
+</div>
+
+<div mat-dialog-actions *ngIf="formValueAdd">
+    <button mat-raised-button color="primary" style="margin-bottom: 12px" (click)="addOutlet()">Добавить</button>
+    <button mat-raised-button color="primary" mat-dialog-close
+        style="margin-left: auto; margin-bottom: 12px">Отмена</button>
+</div>
+
+<div mat-dialog-actions *ngIf="formValueEdit">
+    <button mat-raised-button color="primary" style="margin-bottom: 12px" (click)="editOutlet()">Добавить</button>
+    <button mat-raised-button color="primary" mat-dialog-close
+        style="margin-left: auto; margin-bottom: 12px">Отмена</button>
+</div>

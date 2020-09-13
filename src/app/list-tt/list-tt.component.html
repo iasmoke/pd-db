@@ -8,15 +8,16 @@
       </mat-form-field>
     </div>
     <div class="ml-auto">
-      <button mat-raised-button color="primary" data-toggle="modal" data-target="#new_outlet_modal"> Добавить
+      <button mat-raised-button color="primary" (click)="openDialog('','new')"> Добавить
       </button>
     </div>
   </div>
-  <div class="container row mb-3 example-container mat-elevation-z8">
+  <div class="mat-elevation-z8 container mb-3"></div>
     <table mat-table [dataSource]="dataSource">
-      <ng-container matColumnDef="id_tt">
+
+      <ng-container matColumnDef="number_td">
         <th mat-header-cell *matHeaderCellDef> # </th>
-        <td mat-cell *matCellDef="let element"> TT-{{element.id_tt}}</td>
+        <td mat-cell *matCellDef="let element"> TT-{{element.number_td}}</td>
       </ng-container>
 
       <ng-container matColumnDef="city">
@@ -24,9 +25,9 @@
         <td mat-cell *matCellDef="let element"> {{element.city}} </td>
       </ng-container>
 
-      <ng-container matColumnDef="adress">
+      <ng-container matColumnDef="address">
         <th mat-header-cell *matHeaderCellDef> Адрес </th>
-        <td mat-cell *matCellDef="let element"> {{element.adress}} </td>
+        <td mat-cell *matCellDef="let element"> {{element.address}} </td>
       </ng-container>
 
       <ng-container matColumnDef="date_open">
@@ -47,7 +48,7 @@
       <ng-container matColumnDef="button">
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let element">
-          <button mat-icon-button (click)="openEdit(element)">
+          <button mat-icon-button (click)="openDialog(element,'edit')">
             <mat-icon>more_vert</mat-icon>
           </button>
         </td>
@@ -57,120 +58,16 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
   </div>
-</div>
-
-<!-- Новое заведение -->
-<div #new_outlet_modal id="new_outlet_modal" class="modal fade">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-body">
-        <form [formGroup]="new_outlet">
-
-          <mat-form-field class="col" appearance="outline">
-            <mat-label>Номер торговой точки</mat-label>
-            <input matInput formControlName="id_tt">
-            <mat-error>Поле не заполненно</mat-error>
-          </mat-form-field>
-
-          <mat-form-field class="col" appearance="outline">
-            <mat-label>Город</mat-label>
-            <input matInput formControlName="city">
-            <mat-error>Поле не заполненно</mat-error>
-          </mat-form-field>
-
-          <mat-form-field class="col" appearance="outline">
-            <mat-label>Адрес</mat-label>
-            <input matInput formControlName="adress">
-            <mat-error>Поле не заполненно</mat-error>
-          </mat-form-field>
-
-          <mat-form-field class="col" appearance="outline">
-            <mat-label>Дата открытия</mat-label>
-            <input matInput formControlName="date_open" [matDatepicker]="picker_new_outlet" (focus)="picker_new_outlet.open()" readonly>
-          </mat-form-field>
-          <mat-datepicker #picker_new_outlet ></mat-datepicker>
-
-          <mat-form-field class="col" appearance="outline">
-            <mat-label>Менеджер ТТ</mat-label>
-            <input matInput formControlName="manager">
-            <mat-error>Поле не заполненно</mat-error>
-          </mat-form-field>
-
-          <mat-form-field class="col" appearance="outline">
-            <mat-label>Региональный менеджер</mat-label>
-            <input matInput formControlName="rm">
-            <mat-error>Поле не заполненно</mat-error>
-          </mat-form-field>
-
-          <div class="d-flex">
-            <button mat-raised-button color="primary" class="mr-auto" (click)="add_outlet()">Отправить</button>
-            <button mat-raised-button color="primary" data-dismiss="modal">Отмена</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-<div #edit_outlet_modal id="edit_outlet_modal" class="modal fade">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-body">
-        <form [formGroup]="edit_outlet">
-
-          <mat-form-field class="col" appearance="outline">
-            <mat-label>Номер торговой точки</mat-label>
-            <input matInput formControlName="id_tt">
-          </mat-form-field>
-
-          <mat-form-field class="col" appearance="outline">
-            <mat-label>Город</mat-label>
-            <input matInput formControlName="city">
-          </mat-form-field>
-
-          <mat-form-field class="col" appearance="outline">
-            <mat-label>Адрес</mat-label>
-            <input matInput formControlName="adress">
-           
-          </mat-form-field>
-
-          <mat-form-field class="col" appearance="outline">
-            <mat-label>Дата открытия</mat-label>
-            <input matInput formControlName="date_open" [matDatepicker]="picker_edit_outlet" (focus)="picker_edit_outlet.open()" readonly>
-          </mat-form-field>
-          <mat-datepicker #picker_edit_outlet ></mat-datepicker>
-
-          <mat-form-field class="col" appearance="outline">
-            <mat-label>Менеджер ТТ</mat-label>
-            <input matInput formControlName="manager">
-          
-          </mat-form-field>
-
-          <mat-form-field class="col" appearance="outline">
-            <mat-label>Региональный менеджер</mat-label>
-            <input matInput formControlName="rm">
-          </mat-form-field>
-
-          <div class="d-flex">
-            <button mat-raised-button color="primary" class="mr-auto" (click)="pushChanges()">Изменить</button>
-            <button mat-raised-button color="primary" data-dismiss="modal">Отмена</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
 
   <!-- Модал alert сотрудник добавлен success -->
-  <div #modalOutlet id="modalOutlet" class="modal fade">
+  <!-- <div #modalOutlet id="modalOutlet" class="modal fade">
     <div class="modal-dialog">
       <div class="alert alert-success text-center" role="alert">{{alert_message}}</div>
     </div>
-  </div>
+  </div> -->
   <!-- Модал alert add ERROR -->
-  <div #modal_alert_error id="modal_alert_add_error" class="modal fade">
+  <!-- <div #modal_alert_error id="modal_alert_add_error" class="modal fade">
     <div class="modal-dialog">
       <div class="alert alert-danger text-center" role="alert">Ошибка</div>
     </div>
-  </div>
+  </div> -->

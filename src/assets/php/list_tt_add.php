@@ -11,10 +11,17 @@ require_once('connect_db.php');
 $_POST = json_decode(file_get_contents('php://input'), true);
 
 $new_outlet = $_POST['new_outlet'];
-$id_tt = $new_outlet['id_tt'];
+$number_td = $new_outlet['number_td'];
 $city = $new_outlet['city'];
-$adress = $new_outlet['adress'];
-$date_open = date("d.m.Y", strtotime($new_outlet['date_open']));
+$address = $new_outlet['address'];
+switch ($new_outlet['date_open']) {
+    case null:
+    $date_open = $new_outlet['date_open'];
+        break;
+    default:
+    $date_open = date("d.m.Y", strtotime($new_outlet['date_open']));
+        break;
+}
 $manager = $new_outlet['manager'];
 $rm = $new_outlet['rm'];
 
@@ -23,12 +30,12 @@ $rm = $new_outlet['rm'];
 
 
 
-$sql = "INSERT INTO list_tt (id_tt, city, adress, date_open ,manager ,rm) VALUES (?,?,?,?,?,?)";
+$sql = "INSERT INTO list_tt (number_td, city, `address`, date_open ,manager ,rm) VALUES (?,?,?,?,?,?)";
 if ($stmt = $db_connect->prepare($sql)) {
     $stmt->bind_param("ssssss",
-        $id_tt,
+        $number_td,
         $city,
-        $adress,
+        $address,
         $date_open,
         $manager,
         $rm

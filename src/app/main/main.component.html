@@ -1,56 +1,3 @@
-<!-- Модал alert edit success -->
-<div #modal_alert_success id="modal_alert_success" class="modal fade">
-  <div class="modal-dialog">
-    <div class="alert alert-success text-center" role="alert">{{modal_alert_message}}</div>
-  </div>
-</div>
-
-<!-- Модал alert add ERROR -->
-<div #modal_alert_error id="modal_alert_error" class="modal fade">
-  <div class="modal-dialog">
-    <div class="alert alert-danger text-center" role="alert">{{modal_alert_message}}</div>
-  </div>
-</div>
-
-
-<!-- Модал новый сотрудник -->
-<!-- <div #modalNew_user id="modalNew_user" class="modal fade">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-       
-      </div>
-    </div>
-  </div>
-</div> -->
-
-<!-- Модал Удаление сотрудника -->
-<div #modal_delete_employee id="modal_delete_employee" class="modal fade">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-body">
-
-      
-
-        <div class="d-flex">
-         
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Модал редактирование сотрудника -->
-<!-- <div #modal_edit_employee id="modal_edit_employee" class="modal fade">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-body">
-        
-      </div>
-    </div>
-  </div>
-</div> -->
-
 <div class="container-fluid row mt-2">
   <div class="col">
     <div class="row">
@@ -66,7 +13,7 @@
         </button>
       </div>
     </div>
-    <div class="mat-elevation-z8 mt-1">
+    <div class="mat-elevation-z8 mt-1 mb-2">
       <table mat-table [dataSource]="dataSource" matSort>
 
         <ng-container matColumnDef="id_personal">
@@ -135,7 +82,14 @@
         <tr mat-row class="example-element-row" *matRowDef="let row; columns: displayedColumns"
           (dblclick)="openDialog(row, this.value='edit')"></tr>
       </table>
-      <mat-paginator [pageSizeOptions]="[15,30,50]" showFirstLastButtons></mat-paginator>
+      <mat-paginator [pageSizeOptions]="[20,30,50]" showFirstLastButtons></mat-paginator>
     </div>
   </div>
 </div>
+
+<!-- Модал alert edit success -->
+<!-- <div #modal_alert_success id="modal_alert_success" class="modal fade">
+  <div class="modal-dialog">
+    <div class="alert alert-success text-center" role="alert">{{modal_alert_message}}</div>
+  </div>
+</div> -->

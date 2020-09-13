@@ -18,19 +18,29 @@ if ($stmt = $db_connect->prepare($sql)) {
     $stmt->bind_result(
         $user_id,
         $main_page,
+        $main_access,
         $settings_page,
+        $settings_access,
         $list_tt_page,
-        $distribution_page
+        $list_tt_access,
+        $distribution_page,
+        $distribution_access
     );
     while ($stmt->fetch()) {
         $res[] = array(
             'main_page' => (bool) $main_page,
+            'access_main' => (bool) $main_access,
             'settings_page' => (bool) $settings_page,
+            'access_settings' => (bool) $settings_access,
             'list_tt_page' => (bool) $list_tt_page,
-            'distribution_page' => (bool) $distribution_page
+            'access_list_tt' => (bool) $list_tt_access,
+            'distribution_page' => (bool) $distribution_page,
+            'access_distribution' => (bool) $distribution_access
         );
     }
 }
 
 
 echo (json_encode($res));
+    // $res = $stmt->get_result();
+    // $res = $res->fetch_assoc();
