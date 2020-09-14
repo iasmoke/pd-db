@@ -39,7 +39,7 @@ export class AppComponent {
   list_tt_page:boolean = false
   distribution_page:boolean = false
 
-  access_main:boolean
+  access_main = true
   access_settings:boolean
   access_list_tt:boolean 
   access_distribution:boolean
@@ -55,7 +55,6 @@ export class AppComponent {
       this.list_tt_page = this.array_page[0].list_tt_page
       this.settings_page = this.array_page[0].settings_page
       this.distribution_page = this.array_page[0].distribution_page
-      this.access_main = this.array_page[0].access_main
       this.access_settings = this.array_page[0].access_settings
       this.access_list_tt = this.array_page[0].access_list_tt
       this.access_distribution = this.array_page[0].access_distribution

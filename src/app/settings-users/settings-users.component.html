@@ -1,143 +1,64 @@
-<div class="container-fluid mt-3 row">
-  <div class="row col-lg mt-3">
-    <div class="col">
-      <h2 class="col text-center">Пользователи</h2>
-      <mat-accordion [hidden]="item.user_name === 'admin'" *ngFor="let item of users_array; let i = index"
-        class="example-headers-align">
-        <mat-expansion-panel>
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-              {{item.first_name + ' ' + item.last_name}}
-            </mat-panel-title>
-            <mat-panel-description>
-              Персональные данные
-              <mat-icon>account_circle</mat-icon>
-            </mat-panel-description>
-          </mat-expansion-panel-header>
+<mat-toolbar-row>
+    <span>Пользователи</span>
+</mat-toolbar-row>
+<div class="container mt-3 ">
+    <mat-accordion [hidden]="item.user_name==='admin'" *ngFor="let item of users_array; let i = index">
+        <mat-expansion-panel hideToggle (opened)="panelOpenState=true " (closed)="panelOpenState=false">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    {{item.first_name + ' ' + item.last_name}}
+                </mat-panel-title>
+                <mat-panel-description>
+                    Персональные данные
+                    <mat-icon>account_circle</mat-icon>
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+            <div class="row">
 
-          <mat-form-field>
-            <mat-label>First name</mat-label>
-            <input [(ngModel)]="item.first_name" matInput>
-            <mat-hint *ngIf="item.first_name === ''" [ngStyle]="{'color': 'red'}">Введите данные</mat-hint>
-          </mat-form-field>
+                <mat-form-field>
+                    <mat-label>First name</mat-label>
+                    <input [(ngModel)]="item.first_name" matInput>
+                    <mat-hint *ngIf="item.first_name === ''" [ngStyle]="{ 'color': 'red'}">Введите данные</mat-hint>
+                </mat-form-field>
 
-          <mat-form-field>
-            <mat-label>Last name</mat-label>
-            <input [(ngModel)]="item.last_name" matInput>
-            <mat-hint *ngIf="item.last_name === ''" [ngStyle]="{'color': 'red'}">Введите данные</mat-hint>
-          </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Last name</mat-label>
+                    <input [(ngModel)]="item.last_name" matInput>
+                    <mat-hint *ngIf="item.last_name==='' " [ngStyle]="{ 'color': 'red'} ">Введите данные</mat-hint>
+                </mat-form-field>
 
-          <mat-form-field>
-            <mat-label>User name</mat-label>
-            <input [(ngModel)]="item.user_name" matInput>
-            <mat-hint *ngIf="item.user_name === ''" [ngStyle]="{'color': 'red'}">Введите данные</mat-hint>
-          </mat-form-field>
+                <mat-form-field>
+                    <mat-label>User name</mat-label>
+                    <input [(ngModel)]="item.user_name" matInput>
+                    <mat-hint *ngIf="item.user_name==='' " [ngStyle]="{ 'color': 'red'}">Введите данные</mat-hint>
+                </mat-form-field>
 
-          <mat-form-field>
-            <mat-label>Password</mat-label>
-            <input matInput [(ngModel)]="item.password" [type]="hide ? 'password' : 'text'">
-            <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
-              [attr.aria-pressed]="hide">
-              <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-            </button>
-            <mat-hint *ngIf="item.password === ''" [ngStyle]="{'color': 'red'}">Введите данные</mat-hint>
-          </mat-form-field>
-          <mat-form-field>
-            <mat-label>Rights</mat-label>
-            <mat-select [(ngModel)]="item.user_role">
-              <mat-option value="admin">Admin</mat-option>
-              <mat-option value="user_hr">Human resources</mat-option>
-              <mat-option value="user_pi">Кадровый инспектор</mat-option>
-              <mat-option value="user_mt">Менеджер по обучению</mat-option>
-            </mat-select>
-          </mat-form-field>
-          <button mat-raised-button class="ml-3" (click)="udpate_user_settings(i)">Обновить</button>
-        </mat-expansion-panel>
-      </mat-accordion>
-    </div>
-    <button mat-fab color="primary" data-toggle="modal" data-target="#register_user">
-      <mat-icon>add</mat-icon>
-    </button>
-  </div>
-</div>
-<!-- Регистрация пользователя -->
-<div #register_user id="register_user" class="modal fade">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5>Регестрация пользователя</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
+                <mat-form-field>
+                    <mat-label>Password</mat-label>
+                    <input matInput [(ngModel)]="item.password" [type]="hide ? 'password' : 'text'">
+                    <button mat-icon-button matSuffix (click)="hide =! hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+          <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
         </button>
-      </div>
-      <div class="modal-body">
-        <form [formGroup]="registerForm">
+                    <mat-hint *ngIf="item.password === ''" [ngStyle]="{ 'color': 'red'}">Введите данные</mat-hint>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Rights</mat-label>
+                    <mat-select [(ngModel)]="item.user_role">
+                        <mat-option value="admin">Admin</mat-option>
+                        <mat-option value="user_hr">Human resources</mat-option>
+                        <mat-option value="user_pi">Кадровый инспектор</mat-option>
+                        <mat-option value="user_mt">Менеджер по обучению</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <h2 class="text-center">Доступы</h2>
+            <div class="row">
+                <mat-checkbox class="example-margin" [(ngModel)]="item.access_list_tt">Заведение</mat-checkbox>
+                <mat-checkbox class="example-margin" [(ngModel)]="item.access_distribution">Рассылка в Telegram</mat-checkbox>
+                <button mat-raised-button class="ml-auto" (click)="update_user_settings(i) ">Обновить</button>
+            </div>
 
-          <div class="row">
-            <mat-form-field class="col" appearance="outline">
-              <mat-label>Фамилия</mat-label>
-              <input matInput formControlName="first_name">
-              <mat-error *ngIf="!!f.userName.errors?.required">Поле не заполненно</mat-error>
-            </mat-form-field>
-
-            <mat-form-field class="col" appearance="outline">
-              <mat-label>Имя</mat-label>
-              <input matInput formControlName="last_name">
-              <mat-error *ngIf="!!f.userName.errors?.required">Поле не заполненно</mat-error>
-            </mat-form-field>
-          </div>
-          <mat-form-field class="col" appearance="outline">
-            <mat-label>User name</mat-label>
-            <input matInput formControlName="userName">
-            <mat-error *ngIf="!!f.userName.errors?.required">Поле не заполненно</mat-error>
-          </mat-form-field>
-
-          <mat-form-field class="col" appearance="outline">
-            <mat-label>Пароль</mat-label>
-            <input matInput type="password" formControlName="password">
-            <mat-error *ngIf="!!f.password.errors?.required">Поле не заполненно</mat-error>
-            <mat-error *ngIf="!!f.password.errors?.minlength">Пароль должен быть не меньше 6 символов</mat-error>
-          </mat-form-field>
-
-          <mat-form-field class="col" appearance="outline">
-            <mat-label>Повторите пароль</mat-label>
-            <input matInput type="password" formControlName="confirmPassword">
-            <mat-error *ngIf="!!f.confirmPassword.errors?.required">Поле не заполненно</mat-error>
-            <mat-error *ngIf="!!f.confirmPassword.errors?.mustMatch">Введенный пароль не совпадает</mat-error>
-          </mat-form-field>
-
-          <mat-form-field class="col" appearance="outline">
-            <mat-label>Привилегии пользователя</mat-label>
-            <mat-select formControlName="user_role">
-              <mat-option value="admin">Admin</mat-option>
-              <mat-option value="user_hr">Human resources</mat-option>
-              <mat-option value="user_pi">Кадровый инспектор</mat-option>
-              <mat-option value="user_mt">Менеджер по обучению</mat-option>
-            </mat-select>
-            <mat-error>Выберете привилегии</mat-error>
-          </mat-form-field>
-          <div>
-            <button mat-raised-button color="primary" class="mr-auto" (click)="register()">Отправить</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-<div #alert_users_settings_update id="alert_users_settings_update" class="modal fade">
-  <div class="modal-dialog">
-    <div class="alert alert-success text-center" role="alert">
-      {{alert_update}}
-    </div>
-  </div>
-</div>
-
-<div #myModalError_register id="myModalError_register" class="modal fade">
-  <div class="modal-dialog">
-    <div class="alert alert-success text-center" role="alert">
-      {{error_register}}
-    </div>
-  </div>
+        </mat-expansion-panel>
+    </mat-accordion>
+    <button mat-fab color="primary"><mat-icon>add</mat-icon></button>
 </div>

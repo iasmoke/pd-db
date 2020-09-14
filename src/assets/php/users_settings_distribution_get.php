@@ -18,7 +18,6 @@ if ($stmt = $db_connect->prepare($sql)) {
     $stmt->bind_result(
         $user_id,
         $main_page,
-        $main_access,
         $settings_page,
         $settings_access,
         $list_tt_page,
@@ -29,7 +28,6 @@ if ($stmt = $db_connect->prepare($sql)) {
     while ($stmt->fetch()) {
         $res[] = array(
             'main_page' => (bool) $main_page,
-            'access_main' => (bool) $main_access,
             'settings_page' => (bool) $settings_page,
             'access_settings' => (bool) $settings_access,
             'list_tt_page' => (bool) $list_tt_page,

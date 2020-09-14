@@ -10,7 +10,7 @@ require_once('connect_db.php');
 $_POST = json_decode(file_get_contents('php://input'), true);
 
 
-$sql = "SELECT * FROM list_tt";
+$sql = "SELECT * FROM list_tt ORDER BY `list_tt`.`id_tt` DESC";
 if ($stmt = $db_connect->prepare($sql)) {
     $stmt->execute();
     $stmt->bind_result(

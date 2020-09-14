@@ -1,72 +1,73 @@
 <!-- <mat-spinner *ngIf="spinner" class="spinner"></mat-spinner> -->
 <div class="container">
-  <div class="row mt-3">
-    <div class="col-3">
-      <mat-form-field>
-        <mat-label>Поиск</mat-label>
-        <input matInput [(ngModel)]="search" (keyup)="applyFilter($event)">
-      </mat-form-field>
-    </div>
-    <div class="ml-auto">
-      <button mat-raised-button color="primary" (click)="openDialog('','new')"> Добавить
+    <div class="row mt-3">
+        <div class="col-3">
+            <mat-form-field>
+                <mat-label>Поиск</mat-label>
+                <input matInput [(ngModel)]="search" (keyup)="applyFilter($event)">
+            </mat-form-field>
+        </div>
+        <div class="ml-auto">
+            <button mat-raised-button color="primary" (click)="openDialog('','new')"> Добавить
       </button>
+        </div>
     </div>
-  </div>
-  <div class="mat-elevation-z8 container mb-3"></div>
-    <table mat-table [dataSource]="dataSource">
+    <div class="mat-elevation-z8 mb-3">
+        <table mat-table [dataSource]="dataSource">
 
-      <ng-container matColumnDef="number_td">
-        <th mat-header-cell *matHeaderCellDef> # </th>
-        <td mat-cell *matCellDef="let element"> TT-{{element.number_td}}</td>
-      </ng-container>
+            <ng-container matColumnDef="number_td">
+                <th mat-header-cell *matHeaderCellDef> # </th>
+                <td mat-cell *matCellDef="let element"> TT-{{element.number_td}}</td>
+            </ng-container>
 
-      <ng-container matColumnDef="city">
-        <th mat-header-cell *matHeaderCellDef> Город </th>
-        <td mat-cell *matCellDef="let element"> {{element.city}} </td>
-      </ng-container>
+            <ng-container matColumnDef="city">
+                <th mat-header-cell *matHeaderCellDef> Город </th>
+                <td mat-cell *matCellDef="let element"> {{element.city}} </td>
+            </ng-container>
 
-      <ng-container matColumnDef="address">
-        <th mat-header-cell *matHeaderCellDef> Адрес </th>
-        <td mat-cell *matCellDef="let element"> {{element.address}} </td>
-      </ng-container>
+            <ng-container matColumnDef="address">
+                <th mat-header-cell *matHeaderCellDef> Адрес </th>
+                <td mat-cell *matCellDef="let element"> {{element.address}} </td>
+            </ng-container>
 
-      <ng-container matColumnDef="date_open">
-        <th mat-header-cell *matHeaderCellDef> Дата открытия </th>
-        <td mat-cell *matCellDef="let element"> {{element.date_open}} </td>
-      </ng-container>
+            <ng-container matColumnDef="date_open">
+                <th mat-header-cell *matHeaderCellDef> Дата открытия </th>
+                <td mat-cell *matCellDef="let element"> {{element.date_open}} </td>
+            </ng-container>
 
-      <ng-container matColumnDef="manager">
-        <th mat-header-cell *matHeaderCellDef> Менеджер ТТ </th>
-        <td mat-cell *matCellDef="let element"> {{element.manager}} </td>
-      </ng-container>
+            <ng-container matColumnDef="manager">
+                <th mat-header-cell *matHeaderCellDef> Менеджер ТТ </th>
+                <td mat-cell *matCellDef="let element"> {{element.manager}} </td>
+            </ng-container>
 
-      <ng-container matColumnDef="rm">
-        <th mat-header-cell *matHeaderCellDef> Региональный менеджер </th>
-        <td mat-cell *matCellDef="let element"> {{element.rm}} </td>
-      </ng-container>
+            <ng-container matColumnDef="rm">
+                <th mat-header-cell *matHeaderCellDef> Региональный менеджер </th>
+                <td mat-cell *matCellDef="let element"> {{element.rm}} </td>
+            </ng-container>
 
-      <ng-container matColumnDef="button">
-        <th mat-header-cell *matHeaderCellDef></th>
-        <td mat-cell *matCellDef="let element">
-          <button mat-icon-button (click)="openDialog(element,'edit')">
+            <ng-container matColumnDef="button">
+                <th mat-header-cell *matHeaderCellDef></th>
+                <td mat-cell *matCellDef="let element">
+                    <button mat-icon-button (click)="openDialog(element,'edit')">
             <mat-icon>more_vert</mat-icon>
           </button>
-        </td>
-      </ng-container>
+                </td>
+            </ng-container>
 
-      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
-  </div>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+    </div>
+</div>
 
-  <!-- Модал alert сотрудник добавлен success -->
-  <!-- <div #modalOutlet id="modalOutlet" class="modal fade">
+<!-- Модал alert сотрудник добавлен success -->
+<!-- <div #modalOutlet id="modalOutlet" class="modal fade">
     <div class="modal-dialog">
       <div class="alert alert-success text-center" role="alert">{{alert_message}}</div>
     </div>
   </div> -->
-  <!-- Модал alert add ERROR -->
-  <!-- <div #modal_alert_error id="modal_alert_add_error" class="modal fade">
+<!-- Модал alert add ERROR -->
+<!-- <div #modal_alert_error id="modal_alert_add_error" class="modal fade">
     <div class="modal-dialog">
       <div class="alert alert-danger text-center" role="alert">Ошибка</div>
     </div>

@@ -33,7 +33,7 @@ if (isset($_POST['user_name']) && isset($_POST['password'])) {
             $user_role = $user_role;
         }
         if ($user_id == null) {
-            $res = 'Wrong login or password';
+            $res = 'Логин или пароль не верный';
         } else {
             $res = 'Successful';
             $sql = "UPDATE users_settings_content SET main_page=1, settings_page=0, list_tt_page=0, distribution_page=0 WHERE `user_id`=?";

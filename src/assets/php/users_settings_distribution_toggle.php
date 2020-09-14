@@ -10,7 +10,7 @@ require_once('connect_db.php');
 $_POST = json_decode(file_get_contents('php://input'), true);
 
 $user_id = $_POST['user_id'];
-$main_page= (int) $_POST['main_page']; 
+$main_page= (int) $_POST['main_page'];
 $settings_page= (int) $_POST['settings_page'];
 $list_tt_page= (int) $_POST['list_tt_page'];
 $distribution_page= (int) $_POST['distribution_page'];

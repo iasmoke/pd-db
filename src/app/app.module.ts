@@ -60,6 +60,7 @@ import { OverlayModule } from '@angular/cdk/overlay';
 import { ModalAdminComponent } from './modal-admin/modal-admin.component';
 import { ModalListTtComponent } from './modal-list-tt/modal-list-tt.component';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
+import { ModalUsersSettingsComponent } from './modal-users-settings/modal-users-settings.component';
 
 
 
@@ -76,7 +77,8 @@ import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MAT_MOMENT_DATE_FORMATS, MomentDateAda
     MainUserPiComponent,
     ListTtComponent,
     ModalAdminComponent,
-    ModalListTtComponent
+    ModalListTtComponent,
+    ModalUsersSettingsComponent
   ],
   imports: [
     BrowserModule,
@@ -155,7 +157,7 @@ import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MAT_MOMENT_DATE_FORMATS, MomentDateAda
       },
       { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS }
   ],
-  entryComponents: [ModalAdminComponent,ModalListTtComponent],
+  entryComponents: [ModalAdminComponent,ModalListTtComponent,ModalUsersSettingsComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,37 +1,38 @@
 <mat-toolbar *ngIf="user_id !== null" color="primary">
-  <button mat-icon-button (click)="drawer.toggle()">
+    <button mat-icon-button (click)="drawer.toggle()">
     <mat-icon>menu</mat-icon>
   </button>
-  <a class="navbar-brand text-white">Pizza Day DB</a>
-  <div class="ml-auto">
-    <!-- <span class="material-icons">
-      account_circle
-      </span> -->
-    <a class="mr-3">{{user_name}}</a>
-    <button mat-raised-button color="warn" *ngIf="user_id !== null" class="ml-1" (click)="logout()">Выйти</button>
-  </div>
+    <a class="navbar-brand text-white">Pizza Day DB</a>
+    <div class="ml-auto row">
+        <h3 class="mr-3">{{user_name}}</h3>
+        <button mat-raised-button color="warn" *ngIf="user_id !== null" class="ml-1" (click)="logout()">Выйти</button>
+    </div>
 </mat-toolbar>
 
 <mat-drawer-container [hasBackdrop]="false">
-  <mat-drawer #drawer [mode]="mode">
-    <mat-list>
-      <mat-list-item><mat-icon>dns</mat-icon><button id='buttonNav_1' mat-flat-button (click)="togglePage('main_page','access_main')">Главная</button></mat-list-item>
-      <mat-divider></mat-divider>
-      <mat-list-item><mat-icon>perm_contact_calendar</mat-icon><button mat-flat-button (click)="togglePage('settings_page','access_settings')">Пользователи</button></mat-list-item>
-      <mat-divider></mat-divider>
-      <mat-list-item><mat-icon>store</mat-icon><button mat-flat-button (click)="togglePage('list_tt_page','access_list_tt')">Заведение</button></mat-list-item>
-      <mat-divider></mat-divider>
-      <mat-list-item><mat-icon>reply_all</mat-icon><button mat-flat-button (click)="togglePage('distribution_page','access_distribution')">Рассылка в Telegram</button></mat-list-item>
-      <mat-divider></mat-divider>
-    </mat-list>
-  </mat-drawer>
-  <app-main *ngIf="main_page && user_role === 'admin'"></app-main>
-  <app-main-user-mt *ngIf="main_page && user_role === 'user_mt'"></app-main-user-mt>
-  <app-main-user-hr *ngIf="main_page && user_role === 'user_hr'"></app-main-user-hr>
-  <app-main-user-pi *ngIf="main_page && user_role === 'user_pi'"></app-main-user-pi>
-  <app-settings-users *ngIf="settings_page"></app-settings-users>
-  <app-list-tt *ngIf="list_tt_page"></app-list-tt>
-  <app-telegram-send *ngIf="distribution_page"></app-telegram-send>
+    <mat-drawer #drawer [mode]="mode">
+        <mat-list>
+            <mat-list-item>
+                <mat-icon>dns</mat-icon><button id='buttonNav_1' mat-flat-button (click)="togglePage('main_page','access_main')">Главная</button></mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item>
+                <mat-icon>perm_contact_calendar</mat-icon><button mat-flat-button (click)="togglePage('settings_page','access_settings')">Пользователи</button></mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item>
+                <mat-icon>store</mat-icon><button mat-flat-button (click)="togglePage('list_tt_page','access_list_tt')">Заведение</button></mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item>
+                <mat-icon>reply_all</mat-icon><button mat-flat-button (click)="togglePage('distribution_page','access_distribution')">Рассылка в Telegram</button></mat-list-item>
+            <mat-divider></mat-divider>
+        </mat-list>
+    </mat-drawer>
+    <app-main *ngIf="main_page && user_role === 'admin'"></app-main>
+    <app-main-user-mt *ngIf="main_page && user_role === 'user_mt'"></app-main-user-mt>
+    <app-main-user-hr *ngIf="main_page && user_role === 'user_hr'"></app-main-user-hr>
+    <app-main-user-pi *ngIf="main_page && user_role === 'user_pi'"></app-main-user-pi>
+    <app-settings-users *ngIf="settings_page"></app-settings-users>
+    <app-list-tt *ngIf="list_tt_page"></app-list-tt>
+    <app-telegram-send *ngIf="distribution_page"></app-telegram-send>
 </mat-drawer-container>
 
 <app-login *ngIf="login_page"></app-login>
