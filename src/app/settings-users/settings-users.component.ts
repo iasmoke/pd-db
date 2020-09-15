@@ -2,8 +2,17 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { SettingsUsersService } from '../service/settings-users.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { LoginService } from '../service/login.service';
-import { MustMatch } from '../login/must-match.validator';
 import { MatAccordion } from '@angular/material/expansion';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ModalUsersSettingsComponent } from '../modal-users-settings/modal-users-settings.component';
+
+export interface DialogData {
+  user_name: string,
+  value: string,
+  row: any
+
+}
 
 
 declare var $: any;
@@ -31,6 +40,9 @@ export class SettingsUsersComponent implements OnInit {
     private settingsUsers:SettingsUsersService,
     private loginService:LoginService,
     private formBuilder: FormBuilder,
+    public dialog: MatDialog,
+    private _snackBar: MatSnackBar,
+
   ) {
     this.settingsUsers.get_users().subscribe(res => {
       this.users_array = JSON.parse(res);
@@ -70,6 +82,28 @@ export class SettingsUsersComponent implements OnInit {
       }
     })
     
+  }
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(ModalUsersSettingsComponent, {
+      maxWidth: '500px',
+      disableClose: true,
+      data: {}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result);
+      switch (result) {
+        case 'Пользователь добавлен':
+          this._snackBar.open(result, '', {
+            duration: 2000,
+            horizontalPosition: 'center',
+            verticalPosition: 'top',
+            panelClass: 'alert-style-success'
+          });
+          break;
+        }
+      })
   }
   
 

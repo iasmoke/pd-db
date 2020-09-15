@@ -1,5 +1,6 @@
 import { FocusMonitor } from '@angular/cdk/a11y';
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import { MatSidenav } from '@angular/material/sidenav';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { LoginService } from './service/login.service';
 
@@ -12,6 +13,11 @@ declare var $: any;
 })
 export class AppComponent {
 
+
+  @ViewChild('drawer') drawer: MatSidenav;
+
+  
+  
   title = 'Pizza Day DB';
   backgroundColorToggle = 'primary'
   program_v = ''
@@ -19,7 +25,7 @@ export class AppComponent {
   user_name = this.loginService.user_name
   user_role = this.loginService.user_role
 
-  mode = 'push'
+  mode = 'over'
 
   array_page: any
   
@@ -43,6 +49,8 @@ export class AppComponent {
   access_settings:boolean
   access_list_tt:boolean 
   access_distribution:boolean
+
+  name_page= this.settings_page === true ? '' : 'Пользователи'
 
   constructor(
     private loginService: LoginService,
@@ -80,7 +88,8 @@ export class AppComponent {
         this.list_tt_page = false
         this.distribution_page = false
         this[items] = true
-        this.loginService.toggleUsersSettingsDistribution(this.user_id,this.main_page,this.settings_page,this.list_tt_page,this.distribution_page).subscribe(res =>{          
+        this.loginService.toggleUsersSettingsDistribution(this.user_id,this.main_page,this.settings_page,this.list_tt_page,this.distribution_page).subscribe(res =>{
+          this.drawer.close();   
         })
         break;
        case false:

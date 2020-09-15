@@ -1,40 +1,42 @@
-<form [formGroup]="registerForm ">
-    <div class="row ">
-        <mat-form-field class="col " appearance="outline ">
+<h1 mat-dialog-title>Новый пользователь</h1>
+<div mat-dialog-content>
+<div [formGroup]="registerForm">
+    <div class="row">
+        <mat-form-field class="col" appearance="outline">
             <mat-label>Фамилия</mat-label>
-            <input matInput formControlName="first_name ">
-            <mat-error *ngIf="!!f.userName.errors?.required ">Поле не заполненно</mat-error>
+            <input matInput formControlName="first_name">
+            <mat-error *ngIf="!!f.userName.errors?.required ">Поле не заполнено</mat-error>
         </mat-form-field>
 
-        <mat-form-field class="col " appearance="outline ">
+        <mat-form-field class="col" appearance="outline">
             <mat-label>Имя</mat-label>
-            <input matInput formControlName="last_name ">
-            <mat-error *ngIf="!!f.userName.errors?.required ">Поле не заполненно</mat-error>
+            <input matInput formControlName="last_name">
+            <mat-error *ngIf="!!f.userName.errors?.required ">Поле не заполнено</mat-error>
         </mat-form-field>
     </div>
-    <mat-form-field class="col " appearance="outline ">
+    <mat-form-field class="col" appearance="outline">
         <mat-label>User name</mat-label>
-        <input matInput formControlName="userName ">
-        <mat-error *ngIf="!!f.userName.errors?.required ">Поле не заполненно</mat-error>
+        <input matInput formControlName="userName">
+        <mat-error *ngIf="!!f.userName.errors?.required ">Поле не заполнено</mat-error>
     </mat-form-field>
 
-    <mat-form-field class="col " appearance="outline ">
+    <mat-form-field class="col" appearance="outline">
         <mat-label>Пароль</mat-label>
-        <input matInput type="password " formControlName="password ">
-        <mat-error *ngIf="!!f.password.errors?.required ">Поле не заполненно</mat-error>
+        <input matInput type="password" formControlName="password">
+        <mat-error *ngIf="!!f.password.errors?.required ">Поле не заполнено</mat-error>
         <mat-error *ngIf="!!f.password.errors?.minlength ">Пароль должен быть не меньше 6 символов</mat-error>
     </mat-form-field>
 
-    <mat-form-field class="col " appearance="outline ">
+    <mat-form-field class="col" appearance="outline">
         <mat-label>Повторите пароль</mat-label>
         <input matInput type="password " formControlName="confirmPassword ">
-        <mat-error *ngIf="!!f.confirmPassword.errors?.required ">Поле не заполненно</mat-error>
+        <mat-error *ngIf="!!f.confirmPassword.errors?.required ">Поле не заполнено</mat-error>
         <mat-error *ngIf="!!f.confirmPassword.errors?.mustMatch ">Введенный пароль не совпадает</mat-error>
     </mat-form-field>
 
-    <mat-form-field class="col " appearance="outline ">
+    <mat-form-field class="col" appearance="outline">
         <mat-label>Привилегии пользователя</mat-label>
-        <mat-select formControlName="user_role ">
+        <mat-select formControlName="user_role">
             <mat-option value="admin ">Admin</mat-option>
             <mat-option value="user_hr ">Human resources</mat-option>
             <mat-option value="user_pi ">Кадровый инспектор</mat-option>
@@ -42,7 +44,15 @@
         </mat-select>
         <mat-error>Выберете привилегии</mat-error>
     </mat-form-field>
-    <div>
-        <button mat-raised-button color="primary " class="mr-auto " (click)="register() ">Отправить</button>
+    <h2>Доступ</h2>
+    <div class="container">
+        <div class="row">
+            <mat-checkbox class="mr-2" formControlName="item.access_list_tt">Заведение</mat-checkbox>
+            <mat-checkbox formControlName="item.access_distribution">Рассылка в Telegram</mat-checkbox>
+        </div>
     </div>
-</form>
+</div>
+</div>
+    <div mat-dialog-actions>
+        <button mat-raised-button color="primary" class="mr-auto" (click)="register()">Отправить</button>
+    </div>

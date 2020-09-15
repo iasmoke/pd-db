@@ -157,7 +157,7 @@ import { ModalUsersSettingsComponent } from './modal-users-settings/modal-users-
       },
       { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS }
   ],
-  entryComponents: [ModalAdminComponent,ModalListTtComponent,ModalUsersSettingsComponent],
+  entryComponents: [ModalAdminComponent, ModalListTtComponent, ModalUsersSettingsComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

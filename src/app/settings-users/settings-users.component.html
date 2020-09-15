@@ -1,64 +1,64 @@
-<mat-toolbar-row>
-    <span>Пользователи</span>
-</mat-toolbar-row>
-<div class="container mt-3 ">
-    <mat-accordion [hidden]="item.user_name==='admin'" *ngFor="let item of users_array; let i = index">
-        <mat-expansion-panel hideToggle (opened)="panelOpenState=true " (closed)="panelOpenState=false">
+<div class="container">
+    <button mat-fab color="primary" class="m-2" (click)="openDialog()">
+        <mat-icon>add</mat-icon>
+    </button>
+</div>
+<div class="height example-headers-align container">
+    <mat-accordion>
+        <mat-expansion-panel [hidden]="item.user_name==='admin' " *ngFor="let item of users_array; let i = index ">
             <mat-expansion-panel-header>
-                <mat-panel-title>
-                    {{item.first_name + ' ' + item.last_name}}
+                <mat-panel-title class="col">
+                    <mat-icon class="ml-2">account_circle</mat-icon> {{ item.first_name + " " + item.last_name }}
                 </mat-panel-title>
-                <mat-panel-description>
-                    Персональные данные
-                    <mat-icon>account_circle</mat-icon>
-                </mat-panel-description>
+                <mat-panel-description class="col">Персональные данные</mat-panel-description>
             </mat-expansion-panel-header>
-            <div class="row">
-
+            <div class="row ">
                 <mat-form-field>
                     <mat-label>First name</mat-label>
-                    <input [(ngModel)]="item.first_name" matInput>
-                    <mat-hint *ngIf="item.first_name === ''" [ngStyle]="{ 'color': 'red'}">Введите данные</mat-hint>
+                    <input [(ngModel)]="item.first_name " matInput />
+                    <mat-hint *ngIf="item.first_name==='' " [ngStyle]="{ color: 'red' } ">Введите данные</mat-hint>
                 </mat-form-field>
 
                 <mat-form-field>
                     <mat-label>Last name</mat-label>
-                    <input [(ngModel)]="item.last_name" matInput>
-                    <mat-hint *ngIf="item.last_name==='' " [ngStyle]="{ 'color': 'red'} ">Введите данные</mat-hint>
+                    <input [(ngModel)]="item.last_name " matInput />
+                    <mat-hint *ngIf="item.last_name==='' " [ngStyle]="{ color: 'red' } ">Введите данные</mat-hint>
                 </mat-form-field>
 
                 <mat-form-field>
                     <mat-label>User name</mat-label>
-                    <input [(ngModel)]="item.user_name" matInput>
-                    <mat-hint *ngIf="item.user_name==='' " [ngStyle]="{ 'color': 'red'}">Введите данные</mat-hint>
+                    <input [(ngModel)]="item.user_name " matInput />
+                    <mat-hint *ngIf="item.user_name==='' " [ngStyle]="{ color: 'red' } ">Введите данные</mat-hint>
                 </mat-form-field>
 
                 <mat-form-field>
                     <mat-label>Password</mat-label>
-                    <input matInput [(ngModel)]="item.password" [type]="hide ? 'password' : 'text'">
-                    <button mat-icon-button matSuffix (click)="hide =! hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
-          <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-        </button>
-                    <mat-hint *ngIf="item.password === ''" [ngStyle]="{ 'color': 'red'}">Введите данные</mat-hint>
+                    <input matInput [(ngModel)]="item.password " [type]="hide ? 'password' : 'text' " />
+                    <button mat-icon-button matSuffix (click)="hide=! hide " [attr.aria-label]=" 'Hide password' " [attr.aria-pressed]="hide ">
+                        <mat-icon>{{ hide ? "visibility_off " : "visibility " }}</mat-icon>
+                    </button>
+                    <mat-hint *ngIf="item.password==='' " [ngStyle]="{ color: 'red' } ">Введите данные</mat-hint>
                 </mat-form-field>
                 <mat-form-field>
                     <mat-label>Rights</mat-label>
-                    <mat-select [(ngModel)]="item.user_role">
-                        <mat-option value="admin">Admin</mat-option>
-                        <mat-option value="user_hr">Human resources</mat-option>
-                        <mat-option value="user_pi">Кадровый инспектор</mat-option>
-                        <mat-option value="user_mt">Менеджер по обучению</mat-option>
+                    <mat-select [(ngModel)]="item.user_role ">
+                        <mat-option value="admin ">Admin</mat-option>
+                        <mat-option value="user_hr ">Human resources</mat-option>
+                        <mat-option value="user_pi ">Кадровый инспектор</mat-option>
+                        <mat-option value="user_mt ">Менеджер по обучению</mat-option>
                     </mat-select>
                 </mat-form-field>
             </div>
-            <h2 class="text-center">Доступы</h2>
-            <div class="row">
-                <mat-checkbox class="example-margin" [(ngModel)]="item.access_list_tt">Заведение</mat-checkbox>
-                <mat-checkbox class="example-margin" [(ngModel)]="item.access_distribution">Рассылка в Telegram</mat-checkbox>
-                <button mat-raised-button class="ml-auto" (click)="update_user_settings(i) ">Обновить</button>
+            <h2 class="text-center ">Доступ</h2>
+            <div class="container row ">
+                <div class="row ">
+                    <mat-checkbox class="mr-2" [(ngModel)]="item.access_list_tt ">Заведение</mat-checkbox>
+                    <mat-checkbox [(ngModel)]="item.access_distribution ">Рассылка в Telegram</mat-checkbox>
+                </div>
+                <button mat-raised-button class="ml-auto " color="primary" (click)="update_user_settings(i) ">Обновить</button>
             </div>
-
         </mat-expansion-panel>
     </mat-accordion>
-    <button mat-fab color="primary"><mat-icon>add</mat-icon></button>
+
+
 </div>
