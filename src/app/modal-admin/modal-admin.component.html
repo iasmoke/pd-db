@@ -109,15 +109,15 @@
 
     <mat-form-field class="col" appearance="standard">
       <mat-label>Фамилия</mat-label>
-      <input matInput formControlName="first_name">
-      <mat-error *ngIf="!!fn.first_name.errors?.required">Поле не заполнено</mat-error>
+      <input matInput formControlName="last_name">
+      <mat-error *ngIf="!!fn.last_name.errors?.required">Поле не заполнено</mat-error>
     </mat-form-field>
 
     <div class="container row">
       <mat-form-field class="col" appearance="standard">
         <mat-label>Имя</mat-label>
-        <input matInput formControlName="last_name">
-        <mat-error *ngIf="!!fn.last_name.errors?.required">Поле не заполнено</mat-error>
+        <input matInput formControlName="first_name">
+        <mat-error *ngIf="!!fn.first_name.errors?.required">Поле не заполнено</mat-error>
       </mat-form-field>
 
       <mat-form-field class="col" appearance="standard">

@@ -71,17 +71,29 @@ export class SettingsUsersComponent implements OnInit {
     this.users_array[index].user_name,
     this.users_array[index].password,
     this.users_array[index].user_role,
+    this.users_array[index].access_list_tt,
+    this.users_array[index].access_distribution,
     ).subscribe(res => {
-      console.log(res);
-      this.modal_alert_message = JSON.parse(res).toString()
-      if (this.modal_alert_message === 'Данные обновлены') {
-        $("#alert_users_settings_update").modal('show');
-        setTimeout(function () {
-          $("#alert_users_settings_update").modal('hide');
-        }, 2000);
+      this.modal_alert_message = JSON.parse(res)
+      switch(this.modal_alert_message){
+        case 'Данные обновлены':
+          this._snackBar.open(this.modal_alert_message, '', {
+            duration: 2000,
+            horizontalPosition: 'center',
+            verticalPosition: 'top',
+            panelClass: 'alert-style-success'
+          });
+          break;
+          default:
+            this._snackBar.open(this.modal_alert_message[0].error, '', {
+              duration: 7000,
+              horizontalPosition: 'center',
+              verticalPosition: 'top',
+              panelClass: 'alert-style-error'
+            });
+            break;
       }
-    })
-    
+    }) 
   }
 
   openDialog(): void {

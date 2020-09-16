@@ -19,7 +19,6 @@ if ($stmt = $db_connect->prepare($sql)) {
         $user_id,
         $main_page,
         $settings_page,
-        $settings_access,
         $list_tt_page,
         $list_tt_access,
         $distribution_page,
@@ -29,7 +28,6 @@ if ($stmt = $db_connect->prepare($sql)) {
         $res[] = array(
             'main_page' => (bool) $main_page,
             'settings_page' => (bool) $settings_page,
-            'access_settings' => (bool) $settings_access,
             'list_tt_page' => (bool) $list_tt_page,
             'access_list_tt' => (bool) $list_tt_access,
             'distribution_page' => (bool) $distribution_page,

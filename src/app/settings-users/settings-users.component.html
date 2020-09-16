@@ -5,55 +5,55 @@
 </div>
 <div class="height example-headers-align container">
     <mat-accordion>
-        <mat-expansion-panel [hidden]="item.user_name==='admin' " *ngFor="let item of users_array; let i = index ">
+        <mat-expansion-panel [hidden]="item.user_name==='admin'" *ngFor="let item of users_array; let i = index ">
             <mat-expansion-panel-header>
                 <mat-panel-title class="col">
                     <mat-icon class="ml-2">account_circle</mat-icon> {{ item.first_name + " " + item.last_name }}
                 </mat-panel-title>
                 <mat-panel-description class="col">Персональные данные</mat-panel-description>
             </mat-expansion-panel-header>
-            <div class="row ">
+            <div class="row">
                 <mat-form-field>
-                    <mat-label>First name</mat-label>
-                    <input [(ngModel)]="item.first_name " matInput />
+                    <mat-label>Имя</mat-label>
+                    <input [(ngModel)]="item.first_name" matInput />
                     <mat-hint *ngIf="item.first_name==='' " [ngStyle]="{ color: 'red' } ">Введите данные</mat-hint>
                 </mat-form-field>
 
                 <mat-form-field>
-                    <mat-label>Last name</mat-label>
-                    <input [(ngModel)]="item.last_name " matInput />
+                    <mat-label>Фамилия</mat-label>
+                    <input [(ngModel)]="item.last_name" matInput />
                     <mat-hint *ngIf="item.last_name==='' " [ngStyle]="{ color: 'red' } ">Введите данные</mat-hint>
                 </mat-form-field>
 
                 <mat-form-field>
-                    <mat-label>User name</mat-label>
-                    <input [(ngModel)]="item.user_name " matInput />
+                    <mat-label>Имя пользователя</mat-label>
+                    <input [(ngModel)]="item.user_name" matInput />
                     <mat-hint *ngIf="item.user_name==='' " [ngStyle]="{ color: 'red' } ">Введите данные</mat-hint>
                 </mat-form-field>
 
                 <mat-form-field>
-                    <mat-label>Password</mat-label>
-                    <input matInput [(ngModel)]="item.password " [type]="hide ? 'password' : 'text' " />
+                    <mat-label>Пароль</mat-label>
+                    <input matInput [(ngModel)]="item.password" [type]="hide ? 'password' : 'text' " />
                     <button mat-icon-button matSuffix (click)="hide=! hide " [attr.aria-label]=" 'Hide password' " [attr.aria-pressed]="hide ">
                         <mat-icon>{{ hide ? "visibility_off " : "visibility " }}</mat-icon>
                     </button>
                     <mat-hint *ngIf="item.password==='' " [ngStyle]="{ color: 'red' } ">Введите данные</mat-hint>
                 </mat-form-field>
                 <mat-form-field>
-                    <mat-label>Rights</mat-label>
-                    <mat-select [(ngModel)]="item.user_role ">
-                        <mat-option value="admin ">Admin</mat-option>
-                        <mat-option value="user_hr ">Human resources</mat-option>
-                        <mat-option value="user_pi ">Кадровый инспектор</mat-option>
-                        <mat-option value="user_mt ">Менеджер по обучению</mat-option>
+                    <mat-label>Интерфейс</mat-label>
+                    <mat-select [(ngModel)]="item.user_role">
+                        <mat-option *ngIf="item.user_name==='admin'" value="admin">Admin</mat-option>
+                        <mat-option value="user_hr">Human resources</mat-option>
+                        <mat-option value="user_pi">Кадровый инспектор</mat-option>
+                        <mat-option value="user_mt">Менеджер по обучению</mat-option>
                     </mat-select>
                 </mat-form-field>
             </div>
             <h2 class="text-center ">Доступ</h2>
             <div class="container row ">
                 <div class="row ">
-                    <mat-checkbox class="mr-2" [(ngModel)]="item.access_list_tt ">Заведение</mat-checkbox>
-                    <mat-checkbox [(ngModel)]="item.access_distribution ">Рассылка в Telegram</mat-checkbox>
+                    <mat-checkbox class="mr-2" [(ngModel)]="item.access_list_tt">Заведение</mat-checkbox>
+                    <mat-checkbox [(ngModel)]="item.access_distribution">Рассылка в Telegram</mat-checkbox>
                 </div>
                 <button mat-raised-button class="ml-auto " color="primary" (click)="update_user_settings(i) ">Обновить</button>
             </div>

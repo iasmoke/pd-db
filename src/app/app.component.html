@@ -21,7 +21,7 @@
             <mat-list-item>
                 <mat-icon>dns</mat-icon><button id='buttonNav_1' mat-flat-button (click)="togglePage('main_page','access_main')">Главная</button></mat-list-item>
             <mat-divider></mat-divider>
-            <mat-list-item>
+            <mat-list-item *ngIf="user_role === 'admin'">
                 <mat-icon>perm_contact_calendar</mat-icon><button mat-flat-button (click)="togglePage('settings_page','access_settings')">Пользователи</button></mat-list-item>
             <mat-divider></mat-divider>
             <mat-list-item>

@@ -1,0 +1,340 @@
+<h1 *ngIf="formValueAdd" mat-dialog-title>Новый сотрудник</h1>
+<h1 *ngIf="formValueEdit" mat-dialog-title>Данные сотрудника</h1>
+<div mat-dialog-content>
+  <form *ngIf="formValueAdd" [formGroup]="newPerson">
+      <mat-form-field class="col" appearance="standard">
+        <mat-label>Фамилия</mat-label>
+        <input matInput formControlName="last_name">
+        <mat-error *ngIf="!!fn.last_name.errors?.required">Введите фамилию</mat-error>
+      </mat-form-field>
+
+      <div class="container row">
+        <mat-form-field class="col" appearance="standard">
+          <mat-label>Имя</mat-label>
+          <input matInput formControlName="first_name">
+          <mat-error *ngIf="!!fn.first_name.errors?.required">Введите имя</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="col" appearance="standard">
+          <mat-label>Отчество</mat-label>
+          <input matInput formControlName="second_name">
+        </mat-form-field>
+      </div>
+
+      <div class="container row">
+
+        <mat-form-field class="col" appearance="standard">
+          <mat-label>Статус</mat-label>
+          <mat-select matInput formControlName="status">
+            <mat-option value="Кандидат">Кандидат</mat-option>
+            <mat-option value="Резерв">Резерв</mat-option>
+            <mat-option value="Отказали">Отказали</mat-option>
+            <mat-option value="Стажёр">Стажёр</mat-option>
+            <mat-option value="Работает">Работает</mat-option>
+            <mat-option value="Уволен">Уволен</mat-option>
+          </mat-select>
+          <mat-error *ngIf="!!fn.status.errors?.required">Выберет статус</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="col" appearance="standard">
+          <mat-label>Маркер</mat-label>
+          <mat-select formControlName="color">
+            <mat-option value="#f44336">Красный</mat-option>
+            <mat-option value="#ffff00">Желтый</mat-option>
+            <mat-option value="#76ff03">Зелёный</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="container row">
+        <mat-form-field class="col" appearance="outline">
+          <mat-label>Номер телефона</mat-label>
+          <input type="tel" matInput formControlName="number_phone" placeholder="0988788181">
+          <mat-icon matSuffix>stay_current_portrait</mat-icon>
+          <mat-error *ngIf="!!fn.number_phone.errors?.required">Введите телефон</mat-error>
+          <mat-error *ngIf="!!fn.number_phone.errors?.pattern">Неверный формат номера телефона</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="col" appearance="standard">
+          <mat-label>Тип подразделения</mat-label>
+          <mat-select formControlName="type_department">
+            <mat-option value="Торговая точка">Торговая точка</mat-option>
+            <mat-option value="Офис">Офис</mat-option>
+          </mat-select>
+          <mat-error *ngIf="!!fn.type_department.errors?.required">Выберете подразделения</mat-error>
+        </mat-form-field>
+      </div>
+
+      <mat-form-field class="col" *ngIf="office" appearance="standard">
+        <mat-label>Должность</mat-label>
+        <input matInput formControlName="position">
+        <mat-error *ngIf="!!fn.position.errors?.required">Выберете должность</mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="col" *ngIf="office">
+        <mat-label>Подразделение</mat-label>
+        <input matInput formControlName="department">
+        <mat-error *ngIf="!!fn.department.errors?.required">Выберете подразделение</mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="col" *ngIf="trade_dot" appearance="standard">
+        <mat-label>Должность</mat-label>
+        <mat-select matInput formControlName="position">
+          <mat-option value="Продавец">Продавец</mat-option>
+          <mat-option value="Повар">Повар</mat-option>
+          <mat-option value="Продавец(0.5)">Продавец 0.5</mat-option>
+          <mat-option value="Повар(0.5)">Повар 0.5</mat-option>
+          <mat-option value="Продавец(У)">Продавец(У)</mat-option>
+          <mat-option value="Повар(У)">Повар(У)</mat-option>
+        </mat-select>
+        <mat-error *ngIf="!!fn.position.errors?.required">Выберете должность</mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="col" *ngIf="trade_dot">
+        <mat-label>Место работы (ТТ)</mat-label>
+        <mat-select formControlName="department">
+          <mat-option [value]="option.substring(0, 2)" *ngFor="let option of id_tt">
+            {{option}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="!!fn.department.errors?.required">Выберете ТТ</mat-error>
+      </mat-form-field>
+
+      <div class="container" *ngIf="candidate">
+        <div class="row">
+          <mat-form-field class="col" appearance="standard">
+            <mat-label>Откуда узнал о вакансии</mat-label>
+            <mat-select formControlName="attraction_channel">
+              <mat-option value="Work.ua">Work.ua</mat-option>
+              <mat-option value="Rabota.ua">Rabota.ua</mat-option>
+              <mat-option value="Instagram">Instagram</mat-option>
+              <mat-option value="Facebook">Facebook</mat-option>
+              <mat-option value="Telegram">Telegram</mat-option>
+              <mat-option value="Реклама на магазине">Реклама на магазине</mat-option>
+              <mat-option value="OLX">OLX</mat-option>
+              <mat-option value="Рекомендация от третьих лиц">Рекомендация от третьих лиц</mat-option>
+            </mat-select>
+            <mat-error *ngIf="!!fn.attraction_channel.errors?.required">Выберет значение</mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="col" appearance="standard">
+            <mat-label>Комментарий</mat-label>
+            <input matInput formControlName="attraction_channel_description">
+          </mat-form-field>
+        </div>
+
+        <mat-form-field class="col" appearance="standard">
+          <mat-label>Дата собеседования</mat-label>
+          <input matInput formControlName="interview_date" [matDatepicker]="picker_interview_date">
+          <mat-datepicker-toggle matSuffix [for]="picker_interview_date"></mat-datepicker-toggle>
+          <mat-datepicker #picker_interview_date></mat-datepicker>
+        </mat-form-field>
+
+      </div>
+
+      <div class="container row">
+
+      </div>
+
+      <div class="d-flex">
+        <button mat-raised-button color="primary" class="mr-auto" (click)="add_employee()">Добавить</button>
+        <button mat-raised-button color="primary" data-dismiss="modal">Отмена</button>
+      </div>
+    </form>
+
+  <div *ngIf="formValueEdit" [formGroup]="editPerson">
+
+    <mat-form-field class="col" appearance="standard">
+      <mat-label>Фамилия</mat-label>
+      <input matInput formControlName="first_name">
+      <mat-error *ngIf="!!fn.first_name.errors?.required">Введите фамилию</mat-error>
+    </mat-form-field>
+
+    <div class="container row">
+
+      <mat-form-field class="col" appearance="standard">
+        <mat-label>Имя</mat-label>
+        <input matInput formControlName="last_name">
+        <mat-error *ngIf="!!fn.last_name.errors?.required">Введите имя</mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="col" appearance="standard">
+        <mat-label>Отчество</mat-label>
+        <input matInput formControlName="second_name">
+      </mat-form-field>
+
+    </div>
+
+
+    <div class="container row">
+
+      <mat-form-field class="col" appearance="outline">
+        <input type="tel" matInput formControlName="number_phone" placeholder="0988788181">
+        <mat-icon matSuffix>stay_current_portrait</mat-icon>
+        <mat-error *ngIf="!!fn.number_phone.errors?.required">Введите телефон</mat-error>
+        <mat-error *ngIf="!!fn.number_phone.errors?.pattern">Неверный формат номера телефона</mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="col" appearance="standard">
+        <mat-label>Маркер</mat-label>
+        <mat-select formControlName="color">
+          <mat-option value="#f44336">Красный</mat-option>
+          <mat-option value="#ffff00">Желтый</mat-option>
+          <mat-option value="#76ff03">Зелёный</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+    </div>
+
+    <div class="container row">
+
+      <mat-form-field class="col" appearance="standard">
+        <mat-label>Дата собеседования</mat-label>
+        <input matInput formControlName="interview_date" [matDatepicker]="picker_edit_form1">
+        <mat-datepicker-toggle matSuffix [for]="picker_edit_form1"></mat-datepicker-toggle>
+        <mat-datepicker #picker_edit_form1></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field class="col" appearance="standard">
+        <mat-label>Дата обучения</mat-label>
+        <input matInput formControlName="certification_date" [matDatepicker]="picker_certification_date">
+        <mat-datepicker-toggle matSuffix [for]="picker_certification_date"></mat-datepicker-toggle>
+        <mat-datepicker #picker_certification_date></mat-datepicker>
+      </mat-form-field>
+
+    </div>
+
+    <mat-form-field class="col" appearance="standard">
+      <mat-label>Тип подразделения</mat-label>
+      <mat-select formControlName="type_department">
+        <mat-option value='Офис'>Офис</mat-option>
+        <mat-option value='Торговая точка'>Торговая точка</mat-option>
+      </mat-select>
+      <mat-error *ngIf="!!fn.type_department.errors?.required">Выберете подразделение</mat-error>
+    </mat-form-field>
+
+    <div class="container row">
+
+      <mat-form-field class="col" appearance="standard" *ngIf="trade_dot">
+        <mat-label>Подразделение</mat-label>
+        <mat-select formControlName="department">
+          <mat-option [value]="option.substring(0, 2)" *ngFor="let option of id_tt">
+            {{option}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="!!fn.department.errors?.required">Выберете ТТ</mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="col" *ngIf="trade_dot" appearance="standard">
+        <mat-label>Должность</mat-label>
+        <mat-select formControlName="position">
+          <mat-option value="Продавец">Продавец</mat-option>
+          <mat-option value="Повар">Повар</mat-option>
+          <mat-option value="Продавец(0.5)">Продавец 0.5</mat-option>
+          <mat-option value="Повар(0.5)">Повар 0.5</mat-option>
+          <mat-option value="Продавец(У)">Продавец(У)</mat-option>
+          <mat-option value="Повар(У)">Повар(У)</mat-option>
+        </mat-select>
+        <mat-error *ngIf="!!fn.position.errors?.required">Выберете должность</mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="col" *ngIf="office" appearance="standard">
+        <mat-label>Подразделение</mat-label>
+        <input matInput formControlName="department">
+        <mat-error *ngIf="!!fn.position.errors?.required">Введите название подразделение</mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="col" *ngIf="office" appearance="standard">
+        <mat-label>Должность</mat-label>
+        <input matInput formControlName="position">
+        <mat-error *ngIf="!!fn.position.errors?.required">Введите должность</mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="container row">
+      <mat-form-field class="col" appearance="standard">
+        <mat-label>Откуда узнал о вакансии</mat-label>
+        <mat-select formControlName="attraction_channel">
+          <mat-option value="Work.ua">Work.ua</mat-option>
+          <mat-option value="Rabota.ua">Rabota.ua</mat-option>
+          <mat-option value="Instagram">Instagram</mat-option>
+          <mat-option value="Facebook">Facebook</mat-option>
+          <mat-option value="Telegram">Telegram</mat-option>
+          <mat-option value="Реклама на магазине">Реклама на магазине</mat-option>
+          <mat-option value="OLX">OLX</mat-option>
+          <mat-option value="Рекомендация от третьих лиц">Рекомендация от третих лиц</mat-option>
+        </mat-select>
+        <mat-error *ngIf="!!fn.attraction_channel.errors?.required">Выберете значение</mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="col" appearance="standard">
+        <mat-label>Комментарий</mat-label>
+        <input matInput formControlName="attraction_channel_description">
+      </mat-form-field>
+
+    </div>
+
+    <div class="container row" *ngIf="internships">
+
+      <mat-form-field class="col" appearance="standard">
+        <mat-label>Место стажировки</mat-label>
+        <mat-select formControlName="internship_place">
+          <mat-option [value]="option.substring(0, 2)" *ngFor="let option of id_tt">
+            {{option}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="!!fn.internship_place.errors?.required">Выберете место стажировки</mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="col" appearance="standard">
+        <mat-label>Дата стажировки</mat-label>
+        <input matInput [matDatepicker]="picker_internship_date" formControlName="internship_date">
+        <mat-datepicker-toggle matSuffix [for]="picker_internship_date"></mat-datepicker-toggle>
+        <mat-datepicker #picker_internship_date></mat-datepicker>
+      </mat-form-field>
+
+    </div>
+
+    <div class="container row">
+
+      <mat-form-field class="col" appearance="standard">
+        <mat-label>Статус</mat-label>
+        <mat-select matInput formControlName="status">
+          <mat-option value="Кандидат">Кандидат</mat-option>
+          <mat-option value="Обучение">Обучение</mat-option>
+          <mat-option value="Резерв">Резерв</mat-option>
+          <mat-option value="Стажёр">Стажёр</mat-option>
+          <mat-option value="Работает">Работает</mat-option>
+          <mat-option value="Уволен">Уволен</mat-option>
+          <mat-option value="Отказали">Отказали</mat-option>
+        </mat-select>
+        <mat-error *ngIf="!!fn.status.errors?.required">Выберете статус</mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="col" appearance="standard" *ngIf="if_rejection_reasons">
+        <mat-label>Причина отказа</mat-label>
+        <mat-select matInput formControlName="rejection_reason">
+          <mat-option value="Отказ рекрутера">Отказ рекрутера</mat-option>
+          <mat-option value="Переоценка собственных сил">Переоценка собственных сил</mat-option>
+          <mat-option value="Не выход на стажировку">Невыход на стажировку</mat-option>
+          <mat-option value="Отказ менеджера">Отказ менеджера</mat-option>
+        </mat-select>
+        <mat-error *ngIf="!!fn.rejection_reason.errors?.required">Введите значение</mat-error>
+      </mat-form-field>
+
+    </div>
+
+    <mat-form-field class="col">
+      <mat-label>Комментарий к сотруднику</mat-label>
+      <textarea matInput formControlName="employee_description"></textarea>
+    </mat-form-field>
+
+</div>
+<div mat-dialog-actions *ngIf="formValueAdd">
+  <button mat-raised-button color="primary" style="margin-bottom: 12px" (click)="add_employee()">Отправить</button>
+  <button mat-raised-button color="primary" mat-dialog-close style="margin-left: auto; margin-bottom: 12px">Отмена</button>
+</div>
+<div mat-dialog-actions *ngIf="formValueEdit">
+  <button mat-raised-button color="primary" style="margin-bottom: 12px" (click)="update_employee()">Обновить</button>
+  <button mat-raised-button color="primary" mat-dialog-close style="margin-left: auto; margin-bottom: 12px">Отмена</button>
+</div>

@@ -57,6 +57,7 @@ switch ($sql) {
 }
         break;
 }
+echo (json_encode($res));
 
 // $sql = "SELECT * FROM db_main WHERE user_id=0";
 // if ($stmt = $db_connect->prepare($sql)) {
@@ -359,4 +360,4 @@ switch ($sql) {
 
 
 
-echo (json_encode($err['error']));
+

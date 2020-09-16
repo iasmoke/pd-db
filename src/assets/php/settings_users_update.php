@@ -15,9 +15,18 @@ $last_name = $_POST['last_name'];
 $user_name = $_POST['user_name'];
 $password = $_POST['password'];
 $user_role = $_POST['user_role'];
-// $settings_access = $_POST[]
-// $list_tt_access
-// $distribution_access
+$access_list_tt = $_POST['access_list_tt'];
+$access_distribution = $_POST['access_distribution'];
+switch ($access_list_tt) {
+  case '':
+    $access_list_tt = 0;
+  break;
+}
+switch ($access_distribution) {
+  case '':
+    $access_distribution = 0;
+  break;
+}
 
 
 
@@ -25,16 +34,15 @@ $user_role = $_POST['user_role'];
 
 $sql = "UPDATE users SET first_name=?, last_name=?, user_name=?, password=?, user_role=? WHERE user_id=?";
 if ($stmt = $db_connect->prepare($sql)) {
-  $stmt->bind_param("ssssss",$first_name, $last_name, $user_name, base64_encode($password), $user_role, $user_id);
+  $stmt->bind_param("ssssss", $first_name, $last_name, $user_name, base64_encode($password), $user_role, $user_id);
   $stmt->execute();
   if (count($stmt->error_list) === 0) {
-    $res = 'Данные обновлены';
   } else {
-    $res = $stmt->error_list;
+    return $res = $stmt->error_list;
   }
-  $sql = "UPDATE users_settings_content SET faccess_settings=?, list_tt_access=?, distribution_access=?  WHERE user_id=?";
-if ($stmt = $db_connect->prepare($sql)) {
-  $stmt->bind_param("ssss", $settings_access, $list_tt_access, $distribution_access, $user_id);
+  $sql = "UPDATE users_settings_content SET access_list_tt=?, access_distribution=? WHERE user_id=?";
+  if ($stmt = $db_connect->prepare($sql)) {
+  $stmt->bind_param("sss", $access_list_tt, $access_distribution, $user_id);
   $stmt->execute();
   if (count($stmt->error_list) === 0) {
     $res = 'Данные обновлены';

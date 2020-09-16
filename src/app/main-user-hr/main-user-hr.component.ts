@@ -7,43 +7,30 @@ import { MainService } from '../service/main.service';
 import { LoginService } from '../service/login.service';
 import * as moment from 'moment';
 import { Observable, } from 'rxjs';
-import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
-import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
+import { ModalHrComponent } from '../modal-hr/modal-hr.component';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 moment.locale('ru');
 declare var $: any;
 
+export interface DialogData {
+  user_name: string,
+  value: string,
+  row: any
+
+}
 
 @Component({
   selector: 'app-main-user-hr',
   templateUrl: './main-user-hr.component.html',
   styleUrls: ['./main-user-hr.component.scss'],
-  providers: [
-    {
-      provide: MAT_DATE_LOCALE,
-      useValue: 'ru-RU'
-    },
-    {
-      provide: DateAdapter,
-      useClass: MomentDateAdapter,
-      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
-    },
-    { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS },
-  ]
 })
 
 export class MainUserHrComponent implements OnInit {
 
   id_tt: string[];
-  filteredOptions: Observable<string[]>;
-  myControl = new FormControl();
-
-  office = true;
-  trade_dot = false;
-  if_rejection_reasos = false;
-  internships = false;
-  candidat = false;
-
   dataTable_user_hr = [];
+
   displayedColumns_user_hr: string[] = [
     'color',
     'fio',
@@ -55,20 +42,16 @@ export class MainUserHrComponent implements OnInit {
     'internship_place',
     'rejection_reason',
     'status'
-    
+
   ];
   dataSource = new MatTableDataSource();
 
-  new_form_employee: FormGroup;
-  form_edit_employee: FormGroup;
+
   interview_date:any
   internship_date:any
 
-  alert_message: any;
-
-  array_data_employee = null;
   modal_alert_message: any;
-  user_name_create_employee = this.loginService.user_name;
+  search:any
 
   id_personal: any;
 
@@ -77,15 +60,16 @@ export class MainUserHrComponent implements OnInit {
 
   constructor(
     private mainService: MainService,
-    private formBuilder: FormBuilder,
-    public loginService: LoginService
+    public loginService: LoginService,
+    public dialog: MatDialog,
+    private _snackBar: MatSnackBar
   ) {
-    this.mainService.get_table_main_user_hr(this.user_name_create_employee).subscribe((res) => {
+
+    this.mainService.get_table_main_user_hr(this.loginService.user_name).subscribe((res) => {
       this.dataTable_user_hr = JSON.parse(res);
       this.dataSource = new MatTableDataSource(this.dataTable_user_hr);
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
-      this.new_form_employee.get('attraction_channel_description').disable();
     });
 
     this.mainService.get_id_tt().subscribe(res => {
@@ -95,7 +79,7 @@ export class MainUserHrComponent implements OnInit {
   }
 
   get_table_personal() {
-    this.mainService.get_table_main_user_hr(this.user_name_create_employee).subscribe((res) => {
+    this.mainService.get_table_main_user_hr(this.loginService.user_name).subscribe((res) => {
       this.dataTable_user_hr = JSON.parse(res);
       this.dataSource = new MatTableDataSource(this.dataTable_user_hr);
       this.dataSource.sort = this.sort;
@@ -111,232 +95,57 @@ export class MainUserHrComponent implements OnInit {
   }
 
 
-  add_employee() {
-    if (this.new_form_employee.invalid) {
-      console.log(this.new_form_employee);
-      return console.log('new_form_employee.invalid');
-    }
-    let date_now = moment(new Date()).format('DD.MM.YYYY HH:mm:ss');
-    this.new_form_employee.value.interview_date === "" ?  this.new_form_employee.get('interview_date').setValue('') : this.new_form_employee.get('interview_date').setValue(moment(this.new_form_employee.value.interview_date).format("DD.MM.YYYY"))
-    this.mainService.user_hr_add_employee(this.new_form_employee.value, date_now, this.user_name_create_employee).subscribe((res) => {
-      console.log(res);
-      console.log(this.new_form_employee);
-      this.alert_message = JSON.parse(res);
-      if (this.alert_message === 'Пользователь добавлен') {
-        this.get_table_personal();
-        $('#modalNew_user').modal('hide');
-        $('#modalAddEmployee').modal('show');
-        setTimeout(function () {
-          $('#modalAddEmployee').modal('hide');
-        }, 2000);
-        this.new_form_employee.reset();
-      } else {
-        $('#modalNew_user').modal('hide');
-        $('#modal_alert_add_error').modal('show');
-        setTimeout(function () {
-          $('#modal_alert_add_error').modal('hide');
-        }, 4000);
-      }
-    });
-  }
-
-  open_edit_employee(row) {
-    $('#modal_edit_employee').modal({
-      backdrop: 'static',
-      show: true,
-    });
-    console.log(row);
-    this.id_personal = row.id_personal;
-    let array_row = row.fio.split(' ')
-    this.form_edit_employee.controls['first_name'].setValue(array_row[0]);
-    this.form_edit_employee.controls['last_name'].setValue(array_row[1]);
-    this.form_edit_employee.controls['second_name'].setValue(array_row[2]);
-    this.form_edit_employee.controls['position'].setValue(row.position);
-    this.form_edit_employee.controls['department'].setValue(row.department);
-    this.form_edit_employee.controls['number_phone'].setValue(row.number_phone.substr(3));
-    this.form_edit_employee.controls['attraction_channel'].setValue(row.attraction_channel);
-    this.form_edit_employee.controls['type_department'].setValue(row.type_department);
-    this.form_edit_employee.controls['attraction_channel_description'].setValue(row.attraction_channel_description);
-    row.interview_date === '' ? this.form_edit_employee.controls['interview_date'].setValue(row.interview_date) : this.form_edit_employee.controls['interview_date'].setValue(moment(row.interview_date, "DD.MM.YYYY"));
-    row.internship_date === '' ? this.form_edit_employee.controls['internship_date'].setValue(row.internship_date) : this.form_edit_employee.controls['internship_date'].setValue(moment(row.internship_date, "DD.MM.YYYY")) ;
-    row.certification_date === '' ? this.form_edit_employee.controls['certification_date'].setValue(row.certification_date) : this.form_edit_employee.controls['certification_date'].setValue(moment(row.certification_date, "DD.MM.YYYY"));
-    this.form_edit_employee.controls['internship_place'].setValue(row.internship_place);
-    this.form_edit_employee.controls['rejection_reason'].setValue(row.rejection_reason);
-    this.form_edit_employee.controls['status'].setValue(row.status);
-    this.form_edit_employee.controls['employee_description'].setValue(row.employee_description);
-    this.form_edit_employee.controls['color'].setValue(row.color);
-  }
-
-  update_employee() {
-   
-    if (this.form_edit_employee.invalid) {
-      console.log('false');
-      console.log(this.form_edit_employee)
-
-    } else {
-      let date_now = moment(new Date()).format('DD.MM.YYYY HH:mm:ss');
-      this.form_edit_employee.get('interview_date').setValue(moment(this.form_edit_employee.value.interview_date).format("DD.MM.YYYY"))
-      this.form_edit_employee.get('internship_date').setValue(moment(this.form_edit_employee.value.internship_date).format("DD.MM.YYYY"))
-      this.form_edit_employee.get('certification_date').setValue(moment(this.form_edit_employee.value.certification_date).format("DD.MM.YYYY"))
-      console.log(this.form_edit_employee);
-      
-      this.mainService.user_hr_update_employee(this.loginService.user_name,this.form_edit_employee.value, this.id_personal,date_now)
-        .subscribe((res) => {
-          console.log(res)
-          this.modal_alert_message = JSON.parse(res);
-          if (this.modal_alert_message === 'Данные обновлены') {
-            this.get_table_personal();
-            $('#modal_edit_employee').modal('hide');
-            $('#modal_alert_edit_employee').modal('show');
-            setTimeout(function () {
-              $('#modal_alert_edit_employee').modal('hide');
-            }, 2000);
-          } else {
-            $('#modal_edit_employee').modal('hide');
-            $('#modal_alert_edit_error').modal('show');
-            setTimeout(function () {
-              $('#modal_alert_edit_error').modal('hide');
-            }, 4000);
-          }
-
-        });
-    }
-
-  }
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  onChangesAddForm() {
-    this.new_form_employee.get('attraction_channel').valueChanges.subscribe((selectAttraction_channel) => {
-        if (selectAttraction_channel === 'Рекомендация от третьих лиц') {
-          this.new_form_employee.get('attraction_channel_description').enable();
-        } else {
-          this.new_form_employee.get('attraction_channel_description').reset();
-          this.new_form_employee.get('attraction_channel_description').disable();
-        }
-      });
-  }
 
+  // private _filter(value: string): string[] {
+  //   const filterValue = value.toLowerCase();
+  //   return this.id_tt.filter(option => option.toLowerCase().indexOf(filterValue) === 0);
+  // }
 
-  onChangesPosition() {
-    this.new_form_employee.get('type_department').valueChanges.subscribe((selectType_department) => {
-      if (selectType_department === 'Офис') {
-        this.office = true;
-        this.trade_dot = false
-      } else {
-        this.office = false;
-        this.trade_dot = true
+  openDialog(row, value): void {
+    const dialogRef = this.dialog.open(ModalHrComponent, {
+      maxWidth: '500px',
+      disableClose: true,
+      data: {
+        user_name: this.loginService.user_name,
+        value: value,
+        row: row
       }
     });
-    this.form_edit_employee.get('type_department').valueChanges.subscribe((selectType_department) => {
-      if (selectType_department === 'Офис') {
-        this.office = true;
-        this.trade_dot = false
-      } else {
-        this.office = false;
-        this.trade_dot = true
-      }
-    });
-  }
 
-  onChangesRejection() {
-    this.form_edit_employee.get('status').valueChanges.subscribe((select_status) => {
-      if (select_status === 'Отказали') {
-        this.if_rejection_reasos = true
-      } else {
-        this.if_rejection_reasos = false;
-        this.form_edit_employee.get('rejection_reason').setValue('')
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result);
+      switch (result) {
+        case 'Пользователь добавлен':
+          this._snackBar.open(result, '', {
+            duration: 2000,
+            horizontalPosition: 'center',
+            verticalPosition: 'top',
+            panelClass: 'alert-style-success'
+          });
+          this.get_table_personal();
+          break;
+        case 'Данные обновлены':
+          this._snackBar.open(result, '', {
+            duration: 2000,
+            horizontalPosition: 'center',
+            verticalPosition: 'top',
+            panelClass: 'alert-style-success'
+          });
+          this.get_table_personal();
+          this.search = ''
+          break;
       }
     })
   }
 
-  onChangesEditForm() {
-    this.form_edit_employee.get('attraction_channel').valueChanges.subscribe((selectAttraction_channel) => {
-      if (selectAttraction_channel === 'Рекомендация от третьих лиц') {
-        this.form_edit_employee.get('attraction_channel_description').enable();
-      } else {
-        this.form_edit_employee.get('attraction_channel_description').reset();
-        this.form_edit_employee.get('attraction_channel_description').disable();
-      }
-    });
-  }
-
-  onChangesStatus() {
-    this.new_form_employee.get('status').valueChanges.subscribe((status) => {
-      if (status === 'Кандидат') {
-       this.candidat = true
-      } else {
-        this.candidat = false
-      }
-    });
-    this.form_edit_employee.get('status').valueChanges.subscribe((selectStatus) => {
-      if (selectStatus === 'Стажёр') {
-        this.internships = true
-      } else {
-        this.internships = false
-
-      }
-    });
-  }
-
-  private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
-
-    return this.id_tt.filter(option => option.toLowerCase().indexOf(filterValue) === 0);
-  }
-
   ngOnInit(): void {
 
-    this.form_edit_employee = this.formBuilder.group({
-      first_name: ['', [Validators.required]],
-      last_name: ['', [Validators.required]],
-      second_name: new FormControl(''),
-      position: ['', [Validators.required]],
-      department: ['', [Validators.required]],
-      number_phone: ['', [Validators.required, Validators.pattern('[0-9]{10}')],],
-      attraction_channel: [''],
-      type_department: ['', [Validators.required]],
-      attraction_channel_description: [''],
-      interview_date: [''],
-      internship_date: [''],
-      internship_place: [''],
-      certification_date: [''],
-      rejection_reason: [''],
-      status: ['', [Validators.required]],
-      employee_description: [''],
-      color: new FormControl('')
-    });
-
-    this.new_form_employee = this.formBuilder.group({
-      first_name: new FormControl('', Validators.required),
-      last_name: new FormControl('', Validators.required),
-      second_name: new FormControl(''),
-      number_phone: new FormControl('', [Validators.required, Validators.pattern('[0-9]{10}')]),
-      type_department: new FormControl('', Validators.required),
-      position: new FormControl('', Validators.required),
-      department: new FormControl('', Validators.required),
-      attraction_channel: new FormControl(''),
-      attraction_channel_description: new FormControl(''),
-      interview_date: new FormControl(''),
-      status: new FormControl('', Validators.required),
-      color: new FormControl('')
-    });
-    this.onChangesAddForm();
-    this.onChangesEditForm();
-    this.onChangesPosition();
-    this.onChangesRejection();
-    this.onChangesStatus();
-  }
-
-  get f() {
-    return this.new_form_employee.controls;
-  }
-
-  get form_edit() {
-    return this.form_edit_employee.controls;
   }
 
 

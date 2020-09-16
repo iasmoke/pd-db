@@ -61,6 +61,7 @@ import { ModalAdminComponent } from './modal-admin/modal-admin.component';
 import { ModalListTtComponent } from './modal-list-tt/modal-list-tt.component';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
 import { ModalUsersSettingsComponent } from './modal-users-settings/modal-users-settings.component';
+import { ModalHrComponent } from './modal-hr/modal-hr.component';
 
 
 
@@ -78,7 +79,8 @@ import { ModalUsersSettingsComponent } from './modal-users-settings/modal-users-
     ListTtComponent,
     ModalAdminComponent,
     ModalListTtComponent,
-    ModalUsersSettingsComponent
+    ModalUsersSettingsComponent,
+    ModalHrComponent
   ],
   imports: [
     BrowserModule,
@@ -157,7 +159,12 @@ import { ModalUsersSettingsComponent } from './modal-users-settings/modal-users-
       },
       { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS }
   ],
-  entryComponents: [ModalAdminComponent, ModalListTtComponent, ModalUsersSettingsComponent],
+  entryComponents: [
+    ModalAdminComponent, 
+    ModalListTtComponent, 
+    ModalUsersSettingsComponent,
+    ModalHrComponent
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

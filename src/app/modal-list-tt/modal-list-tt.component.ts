@@ -80,7 +80,7 @@ export class ModalListTtComponent implements OnInit {
               this.dialogRef.close(this.modal_alert_message)
               break;
             default:
-              this._snackBar.open(this.modal_alert_message, '', {
+              this._snackBar.open(this.modal_alert_message[0].error, '', {
                 duration: 7000,
                 horizontalPosition: 'center',
                 verticalPosition: 'top',
@@ -106,7 +106,7 @@ export class ModalListTtComponent implements OnInit {
               this.dialogRef.close(this.modal_alert_message)
               break;
             default:
-              this._snackBar.open(this.modal_alert_message, '', {
+              this._snackBar.open(this.modal_alert_message[0].error, '', {
                 duration: 7000,
                 horizontalPosition: 'center',
                 verticalPosition: 'top',

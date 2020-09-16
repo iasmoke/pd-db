@@ -13,7 +13,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class ModalAdminComponent implements OnInit {
 
   newPerson: FormGroup;
-  editPerson: FormGroup
+  editPerson: FormGroup;
 
   user_name = this.data.user_name
   modal_alert_message: any
@@ -88,7 +88,6 @@ export class ModalAdminComponent implements OnInit {
         this.editPerson.controls['number_phone'].setValue(this.data.row.number_phone.substr(3));
         this.editPerson.controls['status'].setValue(this.data.row.status);
         this.editPerson.controls['employee_description'].setValue(this.data.row.employee_description);
-
         break;
     }
 
@@ -110,7 +109,7 @@ export class ModalAdminComponent implements OnInit {
               this.dialogRef.close(this.modal_alert_message)
               break;
             default:
-              this._snackBar.open(this.modal_alert_message, '', {
+              this._snackBar.open(this.modal_alert_message[0].error, '', {
                 duration: 7000,
                 horizontalPosition: 'center',
                 verticalPosition: 'top',
@@ -138,7 +137,7 @@ export class ModalAdminComponent implements OnInit {
               this.dialogRef.close(this.modal_alert_message)
               break;
             default:
-              this._snackBar.open(this.modal_alert_message, '', {
+              this._snackBar.open(this.modal_alert_message[0].error, '', {
                 duration: 7000,
                 horizontalPosition: 'center',
                 verticalPosition: 'top',

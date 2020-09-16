@@ -15,6 +15,7 @@ export class ModalUsersSettingsComponent implements OnInit {
 
   registerForm: FormGroup
   modal_alert_message: any
+  user_name = this.loginService.user_name
 
   constructor(
     public dialogRef: MatDialogRef<ModalUsersSettingsComponent>,
@@ -33,10 +34,7 @@ export class ModalUsersSettingsComponent implements OnInit {
       confirmPassword: new FormControl('', Validators.required),
       first_name: new FormControl('', Validators.required),
       last_name: new FormControl('', Validators.required),
-      user_role: new FormControl('', Validators.required),
-      list_tt_access: new FormControl(''),
-      distribution_access: new FormControl(''),
-
+      user_role: new FormControl('', Validators.required)
     }, {
       validator: MustMatch('password', 'confirmPassword')
     });
@@ -46,17 +44,18 @@ export class ModalUsersSettingsComponent implements OnInit {
     switch (this.registerForm.invalid) {
       case true:
         console.log('false');
+        console.log(this.registerForm.value);
         break;
       default:
         this.loginService.registerUser(this.registerForm.value).subscribe(res => {
-          this.modal_alert_message = JSON.parse(res).toString()
+          this.modal_alert_message = JSON.parse(res)
           console.log(this.modal_alert_message);
           switch (this.modal_alert_message) {
             case 'Регистрация успешна':
               this.dialogRef.close(this.modal_alert_message)
               break;
             default:
-              this._snackBar.open(this.modal_alert_message, '', {
+              this._snackBar.open(this.modal_alert_message[0].error, '', {
                 duration: 7000,
                 horizontalPosition: 'center',
                 verticalPosition: 'top',

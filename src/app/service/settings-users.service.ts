@@ -37,7 +37,7 @@ export class SettingsUsersService {
     )
   }
 
-  update_user_settings(user_id,first_name,last_name,user_name,password,user_role) {
+  update_user_settings(user_id,first_name,last_name,user_name,password,user_role,access_list_tt,access_distribution,) {
     return this.http.post(
       './assets/php/settings_users_update.php',
       JSON.stringify(
@@ -47,7 +47,9 @@ export class SettingsUsersService {
           last_name:last_name,
           user_name:user_name,
           password:password,
-          user_role:user_role
+          user_role:user_role,
+          access_list_tt:access_list_tt,
+          access_distribution:access_distribution
         }
       ),
       { responseType: 'text' }
