@@ -62,10 +62,11 @@ import { ModalListTtComponent } from './modal-list-tt/modal-list-tt.component';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
 import { ModalUsersSettingsComponent } from './modal-users-settings/modal-users-settings.component';
 import { ModalHrComponent } from './modal-hr/modal-hr.component';
+import { ModalMtComponent } from './modal-mt/modal-mt.component';
 
 
 
- 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -80,7 +81,8 @@ import { ModalHrComponent } from './modal-hr/modal-hr.component';
     ModalAdminComponent,
     ModalListTtComponent,
     ModalUsersSettingsComponent,
-    ModalHrComponent
+    ModalHrComponent,
+    ModalMtComponent
   ],
   imports: [
     BrowserModule,
@@ -147,7 +149,7 @@ import { ModalHrComponent } from './modal-hr/modal-hr.component';
   providers: [
     MatDatepickerModule,
     MatNativeDateModule,
-   
+
       {
         provide: MAT_DATE_LOCALE,
         useValue: 'ru-RU'
@@ -160,10 +162,11 @@ import { ModalHrComponent } from './modal-hr/modal-hr.component';
       { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS }
   ],
   entryComponents: [
-    ModalAdminComponent, 
-    ModalListTtComponent, 
+    ModalAdminComponent,
+    ModalListTtComponent,
     ModalUsersSettingsComponent,
-    ModalHrComponent
+    ModalHrComponent,
+    ModalMtComponent
   ],
   bootstrap: [AppComponent]
 })

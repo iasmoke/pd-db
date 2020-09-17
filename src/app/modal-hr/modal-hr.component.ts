@@ -35,7 +35,6 @@ export class ModalHrComponent implements OnInit {
   ) {
     this.mainService.get_id_tt().subscribe(res => {
       this.id_tt = JSON.parse(res)
-      console.log(this.id_tt);
     })
   }
   get fn() {
@@ -49,8 +48,7 @@ export class ModalHrComponent implements OnInit {
 
   ngOnInit(): void {
     switch (this.data.value) {
-      case 'add':
-
+      case 'new':
         this.newPerson = this.formBuilder.group({
           first_name: new FormControl('', Validators.required),
           last_name: new FormControl('', Validators.required),
@@ -107,7 +105,6 @@ export class ModalHrComponent implements OnInit {
         this.editPerson.controls['color'].setValue(this.data.row.color);
         break;
     }
-    this.onChangesAddForm();
     this.onChangesEditForm();
     this.onChangesPosition();
     this.onChangesRejection();
@@ -179,62 +176,77 @@ export class ModalHrComponent implements OnInit {
   }
 
 
-  onChangesAddForm() {
-    this.newPerson.get('attraction_channel').valueChanges.subscribe((selectAttraction_channel) => {
-      if (selectAttraction_channel === 'Рекомендация от третьих лиц') {
-        this.newPerson.get('attraction_channel_description').enable();
-      } else {
-        this.newPerson.get('attraction_channel_description').reset();
-        this.newPerson.get('attraction_channel_description').disable();
-      }
-    });
-  }
-
 
   onChangesPosition() {
-    this.newPerson.get('type_department').valueChanges.subscribe((selectType_department) => {
-      if (selectType_department === 'Офис') {
-        this.office = true;
-        this.trade_dot = false
-      } else {
-        this.office = false;
-        this.trade_dot = true
-      }
-    });
-    this.editPerson.get('type_department').valueChanges.subscribe((selectType_department) => {
-      if (selectType_department === 'Офис') {
-        this.office = true;
-        this.trade_dot = false
-      } else {
-        this.office = false;
-        this.trade_dot = true
-      }
-    });
+    switch (this.data.value) {
+      case 'new':
+        this.newPerson.get('type_department').valueChanges.subscribe((selectType_department) => {
+          if (selectType_department === 'Офис') {
+            this.office = true;
+            this.trade_dot = false
+          } else {
+            this.office = false;
+            this.trade_dot = true
+          }
+        });
+        break;
+      case 'edit':
+        this.editPerson.get('type_department').valueChanges.subscribe((selectType_department) => {
+          if (selectType_department === 'Офис') {
+            this.office = true;
+            this.trade_dot = false
+          } else {
+            this.office = false;
+            this.trade_dot = true
+          }
+        });
+        break;
+    }
   }
 
   onChangesRejection() {
-    this.editPerson.get('status').valueChanges.subscribe((select_status) => {
-      if (select_status === 'Отказали') {
-        this.if_rejection_reasons = true
-      } else {
-        this.if_rejection_reasons = false;
-        this.editPerson.get('rejection_reason').setValue('')
-      }
-    })
+    switch (this.data.value) {
+      case 'edit':
+        this.editPerson.get('status').valueChanges.subscribe((select_status) => {
+          if (select_status === 'Отказали') {
+            this.if_rejection_reasons = true
+          } else {
+            this.if_rejection_reasons = false;
+            this.editPerson.get('rejection_reason').setValue('')
+          }
+        })
+        break;
+    }
   }
 
   onChangesEditForm() {
-    this.editPerson.get('attraction_channel').valueChanges.subscribe((selectAttraction_channel) => {
-      if (selectAttraction_channel === 'Рекомендация от третьих лиц') {
-        this.editPerson.get('attraction_channel_description').enable();
-      } else {
-        this.editPerson.get('attraction_channel_description').reset();
-        this.editPerson.get('attraction_channel_description').disable();
-      }
-    });
+    switch (this.data.value) {
+      case 'edit':
+        this.editPerson.get('attraction_channel').valueChanges.subscribe((selectAttraction_channel) => {
+          if (selectAttraction_channel === 'Рекомендация от третьих лиц') {
+            this.editPerson.get('attraction_channel_description').enable();
+          } else {
+            this.editPerson.get('attraction_channel_description').reset();
+            this.editPerson.get('attraction_channel_description').disable();
+          }
+        });
+        break;
+      case 'new':
+        this.newPerson.get('attraction_channel').valueChanges.subscribe((selectAttraction_channel) => {
+          if (selectAttraction_channel === 'Рекомендация от третьих лиц') {
+            this.newPerson.get('attraction_channel_description').enable();
+          } else {
+            this.newPerson.get('attraction_channel_description').reset();
+            this.newPerson.get('attraction_channel_description').disable();
+          }
+        });
+        break;
+    }
   }
 
   onChangesStatus() {
+    switch(this.data.value){
+      case 'new':
     this.newPerson.get('status').valueChanges.subscribe((status) => {
       if (status === 'Кандидат') {
         this.candidate = true
@@ -250,5 +262,7 @@ export class ModalHrComponent implements OnInit {
 
       }
     });
+    break;
+  }
   }
 }

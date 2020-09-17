@@ -8,7 +8,7 @@
         </mat-form-field>
       </div>
       <div class="ml-auto">
-        <button mat-fab color="primary" (click)="openDialog('','add')">
+        <button mat-fab color="primary" (click)="openDialog('','new')">
           <mat-icon>add</mat-icon>
         </button>
       </div>
@@ -70,7 +70,7 @@
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns_user_hr; sticky: true"></tr>
         <tr mat-row class="example-element-row" *matRowDef="let row; columns: displayedColumns_user_hr"
-          (dblclick)="openDialog(row,'edit')"></tr>
+          (dblclick)="openDialog(row, 'edit')"></tr>
       </table>
       <mat-paginator [pageSizeOptions]="[20, 30, 50]" showFirstLastButtons></mat-paginator>
     </div>

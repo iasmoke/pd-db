@@ -9,107 +9,35 @@ require_once('connect_db.php');
 
 $_POST = json_decode(file_get_contents('php://input'), true);
 
- 
-$res = [];
 
-$sql = "SELECT id_personal, first_name, last_name, second_name, position, department, number_phone, certification_date, test_date_1, test_number_ball_1, test_date_2, test_number_ball_2, internship_date, internship_place, `status`, employee_description, test_date_3, test_number_ball_3, test_date_4, test_number_ball_4, test_date_5, test_number_ball_5, color 
-FROM db_main";
+
+$sql = "SELECT id_person,	name_test, last_name, first_name,	second_name, test_score, type_department, department,	position,	passing_date FROM test_personnel ";
 if ($stmt = $db_connect->prepare($sql)) {
     $stmt->execute();
     $stmt->bind_result(
-        $id_personal,
-        $first_name,
+        $id_person,
+        $name_test,
         $last_name,
+        $first_name,
         $second_name,
-        $position,
+        $test_score,
+        $type_department,
         $department,
-        $number_phone,
-        $certification_date,
-        $test_date_1,
-        $test_number_ball_1,
-        $test_date_2,
-        $test_number_ball_2,
-        $internship_date,
-        $internship_place,
-        $status,
-        $employee_description,
-        $test_date_3, 
-        $test_number_ball_3,
-        $test_date_4, 
-        $test_number_ball_4,
-        $test_date_5, 
-        $test_number_ball_5,
-        $color
+        $position,
+        $passing_date
     );
     while ($stmt->fetch()) {
         $res[] = array(
-            'id_personal' => (int) $id_personal,
-            'fio' => $first_name . " " . $last_name . " " . $second_name,
+            'id_person' => (int) $id_person,
+            'fio' => $last_name . " " . $first_name . " " . $second_name,
             'position' => (string) $position,
-            'certification_date' => (string) $certification_date,
+            'test_score' => $test_score,
+            'name_test' => (string) $name_test,
             'department' => (string) $department,
-            'number_phone' => (string) $number_phone,
-            'test_date_1' => (string) $test_date_1,
-            'test_number_ball_1' => (string) $test_number_ball_1,
-            'test_date_2' => (string) $test_date_2,
-            'test_number_ball_2' => (string) $test_number_ball_2,
-            'internship_date' => (string) $internship_date,
-            'internship_place' => (string) $internship_place,
-            'status' => (string) $status,
-            'employee_description' => (string) $employee_description,
-            'test_date_3' => (string) $test_date_3, 
-            'test_number_ball_3'=> (string) $test_number_ball_3,
-            'test_date_4' => (string) $test_date_4, 
-            'test_number_ball_4'=> (string) $test_number_ball_4,
-            'test_date_5' => (string) $test_date_5, 
-            'test_number_ball_5'=> (string) $test_number_ball_5,
-            'color' => (string) $color
+            'type_department' => (string) $type_department,
+            'passing_date' => $passing_date,
         );
     }
-    
-// $sql = "SELECT id_personal, first_name, last_name, second_name, position, department, number_phone, certification_date, test_date_1, test_number_ball_1, test_date_2, test_number_ball_2, internship_date, internship_place, `status`, employee_description 
-// FROM db_main WHERE type_department='Офис'";
-// if ($stmt = $db_connect->prepare($sql)) {
-//     $stmt->execute();
-//     $stmt->bind_result(
-//         $id_personal,
-//         $first_name,
-//         $last_name,
-//         $second_name,
-//         $position,
-//         $department,
-//         $number_phone,
-//         $certification_date,
-//         $test_date_1,
-//         $test_number_ball_1,
-//         $test_date_2,
-//         $test_number_ball_2,
-//         $internship_date,
-//         $internship_place,
-//         $status,
-//         $employee_description
-//     );
-//     while ($stmt->fetch()) {
-//         $res[] = array(
-//             'id_personal' => (int) $id_personal,
-//             'first_name' => (string) $first_name,
-//             'last_name' => (string) $last_name,
-//             'second_name' => (string) $second_name,
-//             'position' => (string) $position,
-//             'certification_date' => (string) $certification_date,
-//             'department' => (string) $department,
-//             'number_phone' => (string) $number_phone,
-//             'test_date_1' => (string) $test_date_1,
-//             'test_number_ball_1' => (string) $test_number_ball_1,
-//             'test_date_2' => (string) $test_date_2,
-//             'test_number_ball_2' => (string) $test_number_ball_2,
-//             'internship_date' => (string) $internship_date,
-//             'internship_place' => (string) $internship_place,
-//             'status' => (string) $status,
-//             'employee_description' => (string) $employee_description
-//         );
-//     }
-// }
 }
 
 

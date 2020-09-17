@@ -90,7 +90,6 @@ export class MainUserHrComponent implements OnInit {
   get_id_tt() {
     this.mainService.get_id_tt().subscribe(res => {
       this.id_tt = JSON.parse(res)
-      console.log(this.id_tt);
     })
   }
 
@@ -109,7 +108,7 @@ export class MainUserHrComponent implements OnInit {
 
   openDialog(row, value): void {
     const dialogRef = this.dialog.open(ModalHrComponent, {
-      maxWidth: '500px',
+      maxWidth: '600px',
       disableClose: true,
       data: {
         user_name: this.loginService.user_name,

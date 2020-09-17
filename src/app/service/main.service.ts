@@ -62,7 +62,7 @@ export class MainService {
       { responseType: 'text' }
     );
   }
-  
+
   update_employee(user_name, form_edit_employee, id_personal, date_now) {
     return this.http.post(
       './assets/php/admin_main_update_employee.php',
@@ -80,7 +80,7 @@ export class MainService {
 
   user_hr_update_employee(user_name, form_edit_employee, id_personal, date_now) {
     console.log(form_edit_employee);
-    
+
     return this.http.post(
       './assets/php/user_hr_main_update_employee.php',
       JSON.stringify(
@@ -106,12 +106,11 @@ export class MainService {
     );
   }
 
-  user_mt_get_table_main() {
+  user_mt_main_table_get() {
     return this.http.post(
       './assets/php/user_mt_main_table_get.php',
       JSON.stringify(
         {
-          
         }
       ),
       { responseType: 'text' }
@@ -169,4 +168,27 @@ export class MainService {
       { responseType: 'text' }
     );
   }
+
+  tests_add_new_test(newTest){
+    return this.http.post(
+      './assets/php/tests_add_new_test.php',
+      JSON.stringify(
+        {
+          newTest:newTest
+        }
+      ),
+      { responseType: 'text' }
+    );
+  }
+  tests_get_list_position(){
+    return this.http.post(
+      './assets/php/tests_get_list_position.php',
+      JSON.stringify(
+        {
+        }
+      ),
+      { responseType: 'text' }
+    );
+  }
+
 }
