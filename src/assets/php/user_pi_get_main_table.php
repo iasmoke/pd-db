@@ -9,15 +9,15 @@ require_once('connect_db.php');
 
 $_POST = json_decode(file_get_contents('php://input'), true);
 
- 
+
 $res = [];
 
-$sql = "SELECT id_personal, first_name, last_name, second_name, type_department, position, department, number_phone, date_birth, address_registration, city_registration, date_forming, place_residence, city_residence, available_doc, `date_dismissal`, description_dismissal ,inn, `status`
+$sql = "SELECT id_person, first_name, last_name, second_name, type_department, position, department, number_phone, date_birth, address_registration, city_registration, date_forming, place_residence, city_residence, available_doc, `date_dismissal`, description_dismissal ,inn, `status`
 FROM db_main ";
 if ($stmt = $db_connect->prepare($sql)) {
     $stmt->execute();
     $stmt->bind_result(
-        $id_personal,
+        $id_person,
         $first_name,
         $last_name,
         $second_name,
@@ -39,7 +39,7 @@ if ($stmt = $db_connect->prepare($sql)) {
     );
     while ($stmt->fetch()) {
         $res[] = array(
-            'id_personal'=> $id_personal,
+            'id_person'=> $id_person,
             'first_name'=> $first_name,
             'last_name'=> $last_name,
             'second_name'=> $second_name,
@@ -60,7 +60,7 @@ if ($stmt = $db_connect->prepare($sql)) {
             'status' => $status
         );
     }
-   
+
 }
 
 

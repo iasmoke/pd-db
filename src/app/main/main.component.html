@@ -8,7 +8,7 @@
         </mat-form-field>
       </div>
       <div class="ml-auto">
-        <button mat-fab color="primary" (click)="openDialog(this.id_personal ,this.value ='new')">
+        <button mat-fab color="primary" (click)="openDialog(this.id_person ,this.value ='new')">
           <mat-icon>add</mat-icon>
         </button>
       </div>
@@ -16,9 +16,9 @@
     <div class="mat-elevation-z8 mt-1 mb-2">
       <table mat-table [dataSource]="dataSource" matSort>
 
-        <ng-container matColumnDef="id_personal">
+        <ng-container matColumnDef="id_person">
           <th mat-header-cell *matHeaderCellDef> No. </th>
-          <td mat-cell *matCellDef="let row"> {{row.id_personal}} </td>
+          <td mat-cell *matCellDef="let row"> {{row.id_person}} </td>
         </ng-container>
 
         <ng-container matColumnDef="last_name">

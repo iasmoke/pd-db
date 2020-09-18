@@ -1,61 +1,93 @@
-<div class="row">
-  <mat-form-field class="col-2 mt-2">
-    <mat-label>Поиск</mat-label>
-    <input matInput [(ngModel)]="search" (keyup)="applyFilter($event)">
-  </mat-form-field>
-  <div class="ml-auto">
-    <button mat-fab color="primary" (click)="openDialog('','new')">
-      <mat-icon>add</mat-icon>
-    </button>
+<div class="container-fluid mt-2">
+  <div class="row">
+    <mat-form-field class="col-2 mt-2">
+      <mat-label>Поиск</mat-label>
+      <input matInput [(ngModel)]="search" (keyup)="applyFilter($event)">
+    </mat-form-field>
+    <mat-form-field class="col-2 mt-2">
+      <mat-label>Выберете тест</mat-label>
+      <mat-select [(ngModel)]="name_test" (ngModelChange)="get_table_personal()">
+        <mat-option value="all">Все</mat-option>
+        <mat-option *ngFor="let food of nameTestsList" [value]="food">
+          {{food}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="col-2 mt-2">
+      <mat-label>Выберете дату</mat-label>
+      <input matInput [(ngModel)]="passing_date" [matDatepicker]="picker_passing_date" (ngModelChange)="get_table_personal()">
+      <mat-datepicker-toggle matSuffix [for]="picker_passing_date"></mat-datepicker-toggle>
+      <mat-datepicker #picker_passing_date></mat-datepicker>
+    </mat-form-field>
+
+
+    <div class="ml-auto">
+      <button mat-raised-button color="primary" (click)="openDialog('','new')">Добавить тест</button>
+    </div>
   </div>
-</div>
-<div class="example-container mt-1">
-  <table mat-table [dataSource]="dataSource" matSort>
+  <div class="mat-elevation-z8 mt-1">
+    <table mat-table [dataSource]="dataSource" matSort>
 
-    <ng-container matColumnDef="fio">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header style="padding-left: 50px;">Ф.И.О.</th>
-      <td mat-cell *matCellDef="let row">{{ row.fio }}</td>
-    </ng-container>
+      <ng-container matColumnDef="fio">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header style="padding-left: 50px;">Ф.И.О.</th>
+        <td mat-cell *matCellDef="let row">{{ row.fio }}</td>
+      </ng-container>
 
-    <ng-container matColumnDef="type_department">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Тип подразделения</th>
-      <td mat-cell *matCellDef="let row" style="padding-right: 25px;" class="text-center">
-        {{row.type_department}}</td>
-    </ng-container>
+      <ng-container matColumnDef="type_department">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Тип подразделения</th>
+        <td mat-cell *matCellDef="let row">
+          {{row.type_department}}</td>
+      </ng-container>
 
-    <ng-container matColumnDef="department">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>TT,подразделение</th>
-      <td mat-cell *matCellDef="let row" style="padding-right: 25px;" class="text-center">
-        {{row.department}}</td>
-    </ng-container>
+      <ng-container matColumnDef="department">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>TT,подразделение</th>
+        <td mat-cell *matCellDef="let row">
+          {{row.department}}</td>
+      </ng-container>
 
-    <ng-container matColumnDef="position">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Должность</th>
-      <td mat-cell *matCellDef="let row">{{row.position}}</td>
-    </ng-container>
+      <ng-container matColumnDef="position">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Должность</th>
+        <td mat-cell *matCellDef="let row">{{row.position}}</td>
+      </ng-container>
 
-    <ng-container matColumnDef="name_test">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Название теста</th>
-      <td mat-cell *matCellDef="let row">{{ row.name_test}}</td>
-    </ng-container>
+      <ng-container matColumnDef="name_test">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Название теста</th>
+        <td mat-cell *matCellDef="let row">{{ row.name_test}}</td>
+      </ng-container>
 
-    <ng-container matColumnDef="test_score">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Оценка</th>
-      <td mat-cell *matCellDef="let row">{{ row.test_score}}</td>
-    </ng-container>
+      <ng-container matColumnDef="test_score">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Оценка</th>
+        <td mat-cell *matCellDef="let row">
+          <mat-form-field style="width: 4rem;">
+            <input matInput type="number" max="200" [(ngModel)]="row.test_score">
+          </mat-form-field>
+        </td>
+      </ng-container>
 
-    <ng-container matColumnDef="passing_date">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Дата тестирования</th>
-      <td mat-cell *matCellDef="let row">{{ row.passing_date }}</td>
-    </ng-container>
+      <ng-container matColumnDef="passing_date">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Дата тестирования</th>
+        <td mat-cell *matCellDef="let row">
+          <mat-form-field style="width: 11rem;">
+            <input matInput [(ngModel)]="row.passing_date" [matDatepicker]="picker_passing_date" readonly>
+            <mat-datepicker-toggle matSuffix [for]="picker_passing_date"></mat-datepicker-toggle>
+            <mat-datepicker #picker_passing_date></mat-datepicker>
+          </mat-form-field>
+        </td>
+      </ng-container>
 
-    <ng-container matColumnDef="button">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
-      <td mat-cell *matCellDef="let row" (click)="openDialog(row, 'edit')"><mat-icon>more_vert</mat-icon></td>
-    </ng-container>
+      <ng-container matColumnDef="button">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+        <td mat-cell *matCellDef="let row">
+          <button mat-icon-button (click)="saveChanges(row)">
+            <mat-icon>save_alt</mat-icon>
+          </button>
+        </td>
+      </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-    <tr mat-row class="example-element-row col" *matRowDef="let row; columns: displayedColumns"></tr>
-  </table>
-  <mat-paginator [pageSizeOptions]="[20, 30, 50]" showFirstLastButtons></mat-paginator>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+      <tr mat-row class="example-element-row col" *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+    <mat-paginator [pageSizeOptions]="[20, 30, 50]" showFirstLastButtons></mat-paginator>
+  </div>
 </div>

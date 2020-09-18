@@ -153,7 +153,7 @@ export class ModalHrComponent implements OnInit {
       this.editPerson.controls['certification_date'].setValue(moment.parseZone(this.editPerson.value.certification_date).format("DD.MM.YYYY"))
       console.log(this.editPerson);
 
-      this.mainService.user_hr_update_employee(this.user_name, this.editPerson.value, this.data.row.id_personal, date_now)
+      this.mainService.user_hr_update_employee(this.user_name, this.editPerson.value, this.data.row.id_person, date_now)
         .subscribe((res) => {
           console.log(res)
           this.modal_alert_message = JSON.parse(res);

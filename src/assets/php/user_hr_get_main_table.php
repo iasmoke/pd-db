@@ -12,12 +12,12 @@ $_POST = json_decode(file_get_contents('php://input'), true);
 $user_name_create_employee = $_POST['user_name_create_employee'];
 
 
-$sql = "SELECT id_personal, first_name,last_name,second_name,position,type_department,department,number_phone,attraction_channel,attraction_channel_description,interview_date,internship_date,internship_place,certification_date,rejection_reason,`status`,employee_description, color FROM db_main ORDER BY db_main.id_personal DESC";
+$sql = "SELECT id_person, first_name,last_name,second_name,position,type_department,department,number_phone,attraction_channel,attraction_channel_description,interview_date,internship_date,internship_place,certification_date,rejection_reason,`status`,employee_description, color FROM db_main ORDER BY db_main.id_person DESC";
 if ($stmt = $db_connect->prepare($sql)) {
     // $stmt->bind_param("s", $user_name_create_employee);
     $stmt->execute();
     $stmt->bind_result(
-        $id_personal,
+        $id_person,
         $first_name,
         $last_name,
         $second_name,
@@ -38,7 +38,7 @@ if ($stmt = $db_connect->prepare($sql)) {
     );
     while ($stmt->fetch()) {
         $res[] = array(
-            'id_personal' => $id_personal,
+            'id_person' => $id_person,
             'fio' => $first_name . " " . $last_name . " " . $second_name,
             'position' => (string) $position,
             'type_department' => (string) $type_department,
@@ -73,14 +73,14 @@ if ($stmt = $db_connect->prepare($sql)) {
     // $newDate_internship_date = date("d.m.Y", strtotime($value['internship_date']));
     // $newDate_certification_date = date("d.m.Y", strtotime($value['certification_date']));
 
-//     $sql = "UPDATE db_main SET interview_date=?, internship_date=?, certification_date=? WHERE id_personal=?";
+//     $sql = "UPDATE db_main SET interview_date=?, internship_date=?, certification_date=? WHERE id_person=?";
 //     if ($stmt = $db_connect->prepare($sql)) {
 //         $stmt->bind_param(
 //             "ssss",
 //             $newDate_interview_date,
 //             $newDate_internship_date,
 //             $newDate_certification_date,
-//             $value['id_personal']
+//             $value['id_person']
 //         );
 //         $stmt->execute();
 //     }

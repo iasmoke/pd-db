@@ -33,14 +33,14 @@ export class MainService {
   }
 
 
-  add_employee(new_form, date_now, user_name_create_employee) {
+  admin_main_add_employee(new_form, time_create, user_name_create_employee) {
     console.log(new_form);
     return this.http.post(
       './assets/php/admin_main_add_employee.php',
       JSON.stringify(
         {
           new_form: new_form,
-          date_now: date_now,
+          time_create: time_create,
           user_name_create_employee: user_name_create_employee
         }
       ),
@@ -63,14 +63,14 @@ export class MainService {
     );
   }
 
-  update_employee(user_name, form_edit_employee, id_personal, date_now) {
+  update_employee(user_name, form_edit_employee, id_person, date_now) {
     return this.http.post(
       './assets/php/admin_main_update_employee.php',
       JSON.stringify(
         {
           user_name: user_name,
           form_edit_employee: form_edit_employee,
-          id_personal: id_personal,
+          id_person: id_person,
           date_now: date_now
         }
       ),
@@ -78,7 +78,7 @@ export class MainService {
     );
   }
 
-  user_hr_update_employee(user_name, form_edit_employee, id_personal, date_now) {
+  user_hr_update_employee(user_name, form_edit_employee, id_person, date_now) {
     console.log(form_edit_employee);
 
     return this.http.post(
@@ -87,7 +87,7 @@ export class MainService {
         {
           user_name: user_name,
           form_edit_employee: form_edit_employee,
-          id_personal: id_personal,
+          id_person: id_person,
           date_now: date_now
         }
       ),
@@ -106,25 +106,27 @@ export class MainService {
     );
   }
 
-  user_mt_main_table_get() {
+  user_mt_main_table_get(name_test,passing_date) {
     return this.http.post(
       './assets/php/user_mt_main_table_get.php',
       JSON.stringify(
         {
+          name_test:name_test,
+          passing_date:passing_date
         }
       ),
       { responseType: 'text' }
     );
   }
 
-  user_mt_update_employee(user_name, form_edit_employee, id_personal, date_now) {
+  user_mt_update_employee(user_name, form_edit_employee, id_person, date_now) {
     return this.http.post(
       './assets/php/user_mt_get_main_update_employee.php',
       JSON.stringify(
         {
           user_name: user_name,
           form_edit_employee: form_edit_employee,
-          id_personal: id_personal,
+          id_person: id_person,
           date_now: date_now
         }
       ),
@@ -142,14 +144,14 @@ export class MainService {
     );
   }
 
-  user_pi_update_employee(user_name, form_edit_employee, id_personal, date_now) {
+  user_pi_update_employee(user_name, form_edit_employee, id_person, date_now) {
     return this.http.post(
       './assets/php/user_pi_get_main_update_employee.php',
       JSON.stringify(
         {
           user_name: user_name,
           form_edit_employee: form_edit_employee,
-          id_personal: id_personal,
+          id_person: id_person,
           date_now: date_now
         }
       ),
@@ -157,12 +159,12 @@ export class MainService {
     );
   }
 
-  main_delete_employee(id_personal){
+  main_delete_employee(id_person){
     return this.http.post(
       './assets/php/admin_main_delete_employee.php',
       JSON.stringify(
         {
-          id_personal: id_personal
+          id_person: id_person
         }
       ),
       { responseType: 'text' }
@@ -183,6 +185,31 @@ export class MainService {
   tests_get_list_position(){
     return this.http.post(
       './assets/php/tests_get_list_position.php',
+      JSON.stringify(
+        {
+        }
+      ),
+      { responseType: 'text' }
+    );
+  }
+
+  tests_save_changes_table(id_person,test_score,passing_date){
+    return this.http.post(
+      './assets/php/tests_save_changes_table.php',
+      JSON.stringify(
+        {
+          id_person:id_person,
+          test_score:test_score,
+          passing_date:passing_date
+        }
+      ),
+      { responseType: 'text' }
+    );
+  }
+
+  tests_get_name_tests(){
+    return this.http.post(
+      './assets/php/tests_get_name_tests.php',
       JSON.stringify(
         {
         }

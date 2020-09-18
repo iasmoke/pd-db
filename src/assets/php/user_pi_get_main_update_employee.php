@@ -11,7 +11,7 @@ $_POST = json_decode(file_get_contents('php://input'), true);
 
 $form_edit_employee = $_POST['form_edit_employee'];
 $date_last_update = $_POST['date_now'];
-$id_personal = $_POST['id_personal'];
+$id_person = $_POST['id_person'];
 $first_name = $form_edit_employee['first_name'];
 $last_name = $form_edit_employee['last_name'];
 $second_name = $form_edit_employee['second_name'];
@@ -43,10 +43,10 @@ if($date_dismissal === 'Invalid date'){
 
 
 
-$sql = "UPDATE `db_main` SET date_last_update=?, user_name_last_update=?, first_name=?, last_name=?, second_name=?, type_department=? ,department=?, `position`=?, number_phone=?, date_birth=?, available_doc=?, city_registration=?, address_registration=?, city_residence=?, place_residence=?, `status`=?, description_dismissal=?,date_dismissal=?,inn=? WHERE id_personal=?";
+$sql = "UPDATE `db_main` SET date_last_update=?, user_name_last_update=?, first_name=?, last_name=?, second_name=?, type_department=? ,department=?, `position`=?, number_phone=?, date_birth=?, available_doc=?, city_registration=?, address_registration=?, city_residence=?, place_residence=?, `status`=?, description_dismissal=?,date_dismissal=?,inn=? WHERE id_person=?";
 if ($stmt = $db_connect->prepare($sql)) {
-  $stmt->bind_param("ssssssssssssssssssss", 
-  $date_last_update, $user_name, $first_name, $last_name, $second_name, $type_department, $department, $position, $number_phone, $date_birth, $available_doc, $city_registration, $address_registration, $city_residence, $place_residence, $status, $description_dismissal,$date_dismissal,$inn, $id_personal);
+  $stmt->bind_param("ssssssssssssssssssss",
+  $date_last_update, $user_name, $first_name, $last_name, $second_name, $type_department, $department, $position, $number_phone, $date_birth, $available_doc, $city_registration, $address_registration, $city_residence, $place_residence, $status, $description_dismissal,$date_dismissal,$inn, $id_person);
 
   $stmt->execute();
 

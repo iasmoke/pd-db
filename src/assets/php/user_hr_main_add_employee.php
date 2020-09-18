@@ -32,7 +32,7 @@ if ($interview_date === 'Invalid date') {
   if ($interview_date === '01.01.1970') {
     $interview_date = '';
   }
-  
+
 
 $sql = mysqli_query($db_connect, "SELECT number_phone FROM db_main WHERE number_phone='" . mysqli_real_escape_string($db_connect, $number_phone) . "'");
 if (mysqli_num_rows($sql) > 0) {
@@ -42,22 +42,22 @@ if (mysqli_num_rows($sql) > 0) {
 }
 
 
-$sql = "SELECT MAX(`id_personal`) FROM db_main";
+$sql = "SELECT MAX(`id_person`) FROM db_main";
 if ($stmt = $db_connect->prepare($sql)) {
     $stmt->execute();
     $stmt->bind_result(
-        $id_personal
+        $id_person
     );
     while ($stmt->fetch()) {
-        $id_personal = ($id_personal + 1);
+        $id_person = ($id_person + 1);
     }
 
 
-    $sql = "INSERT INTO db_main (id_personal,date_create_employee,user_name_create_employee,first_name,last_name,second_name,type_department,department,position,number_phone,interview_date,attraction_channel,attraction_channel_description,`status`,color) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+    $sql = "INSERT INTO db_main (id_person,date_create_employee,user_name_create_employee,first_name,last_name,second_name,type_department,department,position,number_phone,interview_date,attraction_channel,attraction_channel_description,`status`,color) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
     if ($stmt = $db_connect->prepare($sql)) {
         $stmt->bind_param(
             "issssssssssssss",
-            $id_personal,
+            $id_person,
             $date,
             $user_name_create_employee,
             $first_name,

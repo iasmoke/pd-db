@@ -13,12 +13,12 @@ $department_office = $_POST['department_office'];
 
 
 
-$sql = "SELECT id_personal,id_telegram_chat, first_name, last_name,department FROM db_main WHERE department=? AND `status`='Работает'";
+$sql = "SELECT id_person,id_telegram_chat, first_name, last_name,department FROM db_main WHERE department=? AND `status`='Работает'";
 if ($stmt = $db_connect->prepare($sql)) {
   $stmt->bind_param('s', $department_office);
   $stmt->execute();
   $stmt->bind_result(
-    $id_personal,
+    $id_person,
     $id_telegram_chat,
     $first_name,
     $last_name,
@@ -26,7 +26,7 @@ if ($stmt = $db_connect->prepare($sql)) {
   );
   while ($stmt->fetch()) {
     $res[] = array(
-        'id_personal' => $id_personal,
+        'id_person' => $id_person,
         'id_telegram_chat' => $id_telegram_chat,
         'first_name' => $first_name,
         'last_name' => $last_name,

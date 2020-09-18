@@ -9,18 +9,16 @@ require_once('connect_db.php');
 
 $_POST = json_decode(file_get_contents('php://input'), true);
 
-$id_person = $_POST['id_person'];
 
-
-$sql = "DELETE FROM db_main WHERE id_person=?";
+$sql = "SELECT DISTINCT name_test FROM test_name";
 if ($stmt = $db_connect->prepare($sql)) {
-    $stmt->bind_param("s", $id_person);
     $stmt->execute();
-    if (count($stmt->error_list) === 0) {
-        $res = "Пользователь удален";
-    } else {
-        $res = $stmt->error_list;
-    }
+    $stmt->bind_result(
+        $name_test
+    );
+    while ($stmt->fetch()) {
+        $res[] =  $name_test;
+        }
 }
 
 

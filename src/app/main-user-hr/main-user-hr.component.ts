@@ -53,7 +53,7 @@ export class MainUserHrComponent implements OnInit {
   modal_alert_message: any;
   search:any
 
-  id_personal: any;
+  id_person: any;
 
   @ViewChild(MatSort, { static: false }) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;

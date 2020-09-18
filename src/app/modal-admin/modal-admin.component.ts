@@ -101,7 +101,7 @@ export class ModalAdminComponent implements OnInit {
         break;
       default:
         let date_now = moment(new Date().getTimezoneOffset()).format('DD.MM.YYYY HH:mm:ss');
-        this.mainService.add_employee(this.newPerson.value, date_now, this.user_name).subscribe((res) => {
+        this.mainService.admin_main_add_employee(this.newPerson.value, date_now, this.user_name).subscribe((res) => {
           this.modal_alert_message = JSON.parse(res);
           switch (this.modal_alert_message) {
             case 'Пользователь добавлен':
@@ -128,8 +128,8 @@ export class ModalAdminComponent implements OnInit {
         console.log(this.editPerson.value);
         break;
       default:
-        let date_now = moment(new Date().getTimezoneOffset()).format('DD.MM.YYYY HH:mm:ss');
-        this.mainService.update_employee(this.user_name, this.editPerson.value, this.data.row.id_personal, date_now).subscribe((res) => {
+        let date_now = moment(new Date().getTimezoneOffset()).format('YYYY-MM-DD HH:mm:ss');
+        this.mainService.update_employee(this.user_name, this.editPerson.value, this.data.row.id_person, date_now).subscribe((res) => {
           this.modal_alert_message = JSON.parse(res);
           console.log(this.modal_alert_message)
           switch (this.modal_alert_message) {
@@ -150,7 +150,7 @@ export class ModalAdminComponent implements OnInit {
   }
 
   delete_employee() {
-    this.mainService.main_delete_employee(this.data.row.id_personal).subscribe(res => {
+    this.mainService.main_delete_employee(this.data.row.id_person).subscribe(res => {
       this.modal_alert_message = JSON.parse(res);
       console.log(this.modal_alert_message);
       switch (this.modal_alert_message) {

@@ -44,12 +44,12 @@ export class MainUserPiComponent implements OnInit {
   date_dismissal:any
   date_birth:any
 
-  id_personal: any;
+  id_person: any;
 
   id_tt: string[];
   dataTable_user_pi = [];
   displayedColumns_user_hr: string[] = [
-    'id_personal', 'first_name', 'last_name', 'second_name',
+    'id_person', 'first_name', 'last_name', 'second_name',
     'position', 'department', 'number_phone',
     'date_birth', 'date_forming', 'place_residence', 'city_residence', 'available_doc',
     `date_dismissal`, 'inn', 'status'
@@ -113,7 +113,7 @@ export class MainUserPiComponent implements OnInit {
       show: true,
     });
     console.log(row);
-    this.id_personal = row.id_personal;
+    this.id_person = row.id_person;
     this.form_edit_employee.controls['first_name'].setValue(row.first_name);
     this.form_edit_employee.controls['last_name'].setValue(row.last_name);
     this.form_edit_employee.controls['second_name'].setValue(row.second_name);
@@ -149,7 +149,7 @@ export class MainUserPiComponent implements OnInit {
       let date_now = moment(new Date()).format('DD.MM.YYYY HH:mm:ss');
       this.form_edit_employee.get('date_dismissal').setValue(moment(this.form_edit_employee.value.date_dismissal).format("YYYY-MM-DD"));
       this.form_edit_employee.get('date_birth').setValue(moment(this.form_edit_employee.value.date_birth).format("YYYY-MM-DD"));
-      this.mainService.user_pi_update_employee(this.loginService.user_name, this.form_edit_employee.value, this.id_personal, date_now)
+      this.mainService.user_pi_update_employee(this.loginService.user_name, this.form_edit_employee.value, this.id_person, date_now)
         .subscribe((res) => {
           this.modal_alert_message = JSON.parse(res);
           console.log( this.modal_alert_message)

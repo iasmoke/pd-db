@@ -10,6 +10,7 @@ import { ModalMtComponent } from '../modal-mt/modal-mt.component';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
+
 export interface DialogData {
   user_name: string,
   value: string,
@@ -38,7 +39,12 @@ export class MainUserMtComponent implements OnInit {
   ];
   dataSource = new MatTableDataSource();
 
+  nameTestsList:string[];
+
+
   modal_alert_message: any;
+  name_test = 'all'
+  passing_date = 'all'
 
   @ViewChild(MatSort, { static: false }) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -51,7 +57,7 @@ export class MainUserMtComponent implements OnInit {
     private _snackBar: MatSnackBar
 
   ) {
-    this.mainService.user_mt_main_table_get().subscribe((res) => {
+    this.mainService.user_mt_main_table_get(this.name_test, this.passing_date).subscribe((res) => {
       this.dataTable_user_mt = JSON.parse(res);
       console.log(this.dataTable_user_mt);
 
@@ -62,11 +68,16 @@ export class MainUserMtComponent implements OnInit {
 
     this.mainService.get_id_tt().subscribe(res => {
       this.id_tt = JSON.parse(res)
+    });
+
+    this.mainService.tests_get_name_tests().subscribe(res => {
+      this.nameTestsList = JSON.parse(res)
     })
   }
 
 
   ngOnInit(): void {
+
   }
 
   openDialog(row, value): void {
@@ -92,22 +103,13 @@ export class MainUserMtComponent implements OnInit {
           });
           this.get_table_personal();
           break;
-        case '':
-          this._snackBar.open(result, '', {
-            duration: 2000,
-            horizontalPosition: 'center',
-            verticalPosition: 'top',
-            panelClass: 'alert-style-success'
-          });
-          this.get_table_personal();
-          this.search = ''
-          break;
       }
     })
   }
 
   get_table_personal() {
-    this.mainService.user_mt_main_table_get().subscribe((res) => {
+    this.mainService.user_mt_main_table_get(this.name_test, moment.parseZone(this.passing_date).format('YYYY-MM-DD')).subscribe((res) => {
+      console.log(this.name_test);
       this.dataTable_user_mt = JSON.parse(res);
       this.dataSource = new MatTableDataSource(this.dataTable_user_mt);
       this.dataSource.sort = this.sort;
@@ -115,10 +117,29 @@ export class MainUserMtComponent implements OnInit {
     });
   }
 
+  saveChanges(row){
+    this.mainService.tests_save_changes_table(row.id_person,row.test_score,moment.parseZone(row.passing_date).format('YYYY-MM-DD')).subscribe(res => {
+      this.modal_alert_message = JSON.parse(res)
+      console.log(this.modal_alert_message);
+      switch(this.modal_alert_message){
+      case 'Данные обновлены':
+        this._snackBar.open(this.modal_alert_message, '', {
+          duration: 2000,
+          horizontalPosition: 'center',
+          verticalPosition: 'top',
+          panelClass: 'alert-style-success'
+        });
+        this.get_table_personal();
+        this.search = ''
+        break;
+      }
+    })
+
+  }
+
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
-
 
 }

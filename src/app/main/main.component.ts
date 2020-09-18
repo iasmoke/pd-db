@@ -29,7 +29,7 @@ export class MainComponent implements OnInit {
 
   dataTable = [];
   displayedColumns: string[] = [
-    'id_personal',
+    'id_person',
     'first_name',
     'last_name',
     'second_name',
@@ -56,7 +56,7 @@ export class MainComponent implements OnInit {
   modal_alert_message: any
   user_name_create_employee = this.loginService.user_name
 
-  id_personal: any
+  id_person: any
 
   @ViewChild(MatSort, { static: false }) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;

@@ -18,7 +18,7 @@ export class ModalMtComponent implements OnInit {
 
   newTest: FormGroup;
   modal_alert_message: any
-list_position:any
+  list_position:any
 
   constructor(
     public dialogRef: MatDialogRef<ModalMtComponent>,

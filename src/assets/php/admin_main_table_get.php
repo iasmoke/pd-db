@@ -10,11 +10,11 @@ require_once('connect_db.php');
 $_POST = json_decode(file_get_contents('php://input'), true);
 
 
-$sql = "SELECT id_personal, first_name, last_name, second_name,type_department, department, position, number_phone ,certification_date, `status`,employee_description FROM db_main ORDER BY db_main.id_personal DESC";
+$sql = "SELECT id_person, first_name, last_name, second_name, type_department, department, position, number_phone ,certification_date, `status`, employee_description FROM db_main ORDER BY db_main.id_person DESC";
 if ($stmt = $db_connect->prepare($sql)) {
     $stmt->execute();
     $stmt->bind_result(
-        $id_personal,
+        $id_person,
         $first_name,
         $last_name,
         $second_name,
@@ -28,7 +28,7 @@ if ($stmt = $db_connect->prepare($sql)) {
     );
     while ($stmt->fetch()) {
         $res[] = array(
-            'id_personal' => (int) $id_personal,
+            'id_person' => (int) $id_person,
             'first_name' => (string) $first_name,
             'last_name' => (string) $last_name,
             'second_name' => (string) $second_name,

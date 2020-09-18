@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
-import { FormsModule, ReactiveFormsModule }   from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
@@ -64,6 +64,17 @@ import { ModalUsersSettingsComponent } from './modal-users-settings/modal-users-
 import { ModalHrComponent } from './modal-hr/modal-hr.component';
 import { ModalMtComponent } from './modal-mt/modal-mt.component';
 
+export const MY_FORMATS = {
+  parse: {
+    dateInput: 'L',
+  },
+  display: {
+    dateInput: 'L',
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY',
+  },
+};
 
 
 
@@ -150,16 +161,16 @@ import { ModalMtComponent } from './modal-mt/modal-mt.component';
     MatDatepickerModule,
     MatNativeDateModule,
 
-      {
-        provide: MAT_DATE_LOCALE,
-        useValue: 'ru-RU'
-      },
-      {
-        provide: DateAdapter,
-        useClass: MomentDateAdapter,
-        deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
-      },
-      { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS }
+    {
+      provide: MAT_DATE_LOCALE,
+      useValue: 'ru-RU'
+    },
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
+    },
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS }
   ],
   entryComponents: [
     ModalAdminComponent,

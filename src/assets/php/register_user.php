@@ -42,7 +42,7 @@ switch ($sql) {
             $result = $stmt->get_result();
             $result = $result->fetch_assoc();
             $user_id = (int) $result['user_id'];
-       
+
         $sql = "INSERT INTO users_settings_content (user_id) VALUES (?)";
         if ($stmt = $db_connect->prepare($sql)) {
             $stmt->bind_param("s", $user_id);
@@ -64,7 +64,7 @@ echo (json_encode($res));
 //     $stmt->execute();
 //     $stmt->bind_result(
 //         $user_id_row,
-//         $id_personal,
+//         $id_person,
 //         $id_telegram_chat,
 //         $date_create_employee,
 //         $date_last_update,
@@ -109,7 +109,7 @@ echo (json_encode($res));
 //     while ($stmt->fetch()) {
 //         $db_main[] = array(
 //             'user_id' => $user_id,
-//             'id_personal' => (int) $id_personal,
+//             'id_person' => (int) $id_person,
 //             'id_telegram_chat' => $id_telegram_chat,
 //             'date_create_employee' => $date_create_employee,
 //             'date_last_update' => $date_last_update,
@@ -153,11 +153,11 @@ echo (json_encode($res));
 //     }
 
 //     foreach ($db_main as $row_db_main) {
-//         $sql = "INSERT INTO db_main (`user_id`, `id_personal`, `id_telegram_chat`, `date_create_employee`, `date_last_update`, `user_name_create_employee`, `user_name_last_update`, `first_name`, `last_name`, `second_name`, `type_department`, `department`, `position`, `number_phone`, `interview_date`, `internship_date`, `certification_date`, `passing_score`, `internship_place`, `attraction_channel`, `attraction_channel_description`,`reason_dismissal`, `employee_status`, `date_forming`, `availability_doc`, `rejection_reason`, `city_residence`, `place_residence`,`test_date_1`,'test_number_ball_1',`test_date_2`,`test_number_ball_2`,`date_birth`,`city_registration`,`address_registration`,`date_registration_job`,`available_doc`,`date_dismissal`,`description_dismissal`,`inn`,`status`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+//         $sql = "INSERT INTO db_main (`user_id`, `id_person`, `id_telegram_chat`, `date_create_employee`, `date_last_update`, `user_name_create_employee`, `user_name_last_update`, `first_name`, `last_name`, `second_name`, `type_department`, `department`, `position`, `number_phone`, `interview_date`, `internship_date`, `certification_date`, `passing_score`, `internship_place`, `attraction_channel`, `attraction_channel_description`,`reason_dismissal`, `employee_status`, `date_forming`, `availability_doc`, `rejection_reason`, `city_residence`, `place_residence`,`test_date_1`,'test_number_ball_1',`test_date_2`,`test_number_ball_2`,`date_birth`,`city_registration`,`address_registration`,`date_registration_job`,`available_doc`,`date_dismissal`,`description_dismissal`,`inn`,`status`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 //         if ($stmt = $db_connect->prepare($sql)) {
 //             $stmt->bind_param("iisssssssssssssssssssssssssssssssssssssss",
 //                 $user_id,
-//                 $row_db_main['id_personal'],
+//                 $row_db_main['id_person'],
 //                 $row_db_main['id_telegram_chat'],
 //                 $row_db_main['date_create_employee'],
 //                 $row_db_main['date_last_update'],

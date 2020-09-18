@@ -11,7 +11,7 @@ require_once('connect_db.php');
 $_POST = json_decode(file_get_contents('php://input'), true);
 
 $new_employee = $_POST['new_form'];
-$date = $_POST['date_now'];
+$time_create = $_POST['time_create'];
 $user_name_create_employee = $_POST['user_name_create_employee'];
 $first_name = preg_replace("/\s+/", "", $new_employee['first_name']);
 $last_name = preg_replace("/\s+/", "", $new_employee['last_name']);
@@ -30,23 +30,23 @@ if (mysqli_num_rows($sql) > 0) {
     return;
 }
 
-$sql = "SELECT MAX(`id_personal`) FROM db_main";
+$sql = "SELECT MAX(`id_person`) FROM db_main";
 if ($stmt = $db_connect->prepare($sql)) {
     $stmt->execute();
     $stmt->bind_result(
-        $id_personal
+        $id_person
     );
     while ($stmt->fetch()) {
-        $id_personal = ($id_personal + 1);
+        $id_person = ($id_person + 1);
     }
 
-    $sql = "INSERT INTO db_main (id_personal, date_create_employee, user_name_create_employee, first_name, last_name, second_name, type_department, department, position, number_phone, `status`,employee_description) 
+    $sql = "INSERT INTO db_main (id_person, time_create, user_name_create_employee, first_name, last_name, second_name, type_department, department, position, number_phone, `status`,employee_description)
 VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
     if ($stmt = $db_connect->prepare($sql)) {
         $stmt->bind_param(
             "isssssssssss",
-            $id_personal,
-            $date,
+            $id_person,
+            $time_create,
             $user_name_create_employee,
             $first_name,
             $last_name,
