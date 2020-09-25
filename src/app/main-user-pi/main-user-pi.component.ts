@@ -187,7 +187,7 @@ export class MainUserPiComponent implements OnInit {
 
   onChangesDismissal() {
     this.form_edit_employee.get('status').valueChanges.subscribe((select_status) => {
-      if (select_status === 'Уволен') {
+      if (select_status === 'Уволенный') {
         this.if_dismissal = true
       } else {
         this.if_dismissal = false;

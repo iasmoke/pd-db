@@ -68,7 +68,7 @@ export class MainComponent implements OnInit {
     public dialog: MatDialog,
     private _snackBar: MatSnackBar
   ) {
-    this.mainService.get_table_main().subscribe(res => {
+    this.mainService.admin_main_table_get().subscribe(res => {
       this.dataTable = JSON.parse(res)
       this.dataSource = new MatTableDataSource(this.dataTable);
       this.dataSource.sort = this.sort;
@@ -84,7 +84,7 @@ export class MainComponent implements OnInit {
   }
 
   get_table_personal() {
-    this.mainService.get_table_main().subscribe(res => {
+    this.mainService.admin_main_table_get().subscribe(res => {
       this.dataTable = JSON.parse(res)
       this.dataSource = new MatTableDataSource(this.dataTable);
       this.dataSource.sort = this.sort;

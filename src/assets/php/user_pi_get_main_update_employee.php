@@ -31,7 +31,7 @@ $date_dismissal = $form_edit_employee['date_dismissal'];
 $inn = $form_edit_employee['inn'];
 $user_name = $_POST['user_name'];
 
-if($status !== 'Уволен'){
+if($status !== 'Уволенный'){
   $date_dismissal = '';
 }
 if($date_birth === 'Invalid date'){

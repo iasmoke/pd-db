@@ -10,8 +10,8 @@ require_once('connect_db.php');
 $_POST = json_decode(file_get_contents('php://input'), true);
 
 $form_edit_employee = $_POST['form_edit_employee'];
-$id_person = $_POST['id_person'];
-$date = $_POST['date_now'];
+$id_person = $form_edit_employee['id_person'];
+$time_last_change = $_POST['time_last_change'];
 $user_name = preg_replace("/\s+/", "", $_POST['user_name']);
 $first_name = preg_replace("/\s+/", "", $form_edit_employee['first_name']);
 $last_name = preg_replace("/\s+/", "", $form_edit_employee['last_name']);
@@ -24,9 +24,9 @@ $status = $form_edit_employee['status'];
 $employee_description = $form_edit_employee['employee_description'];
 
 
-$sql = "UPDATE db_main SET date_last_update=?, user_name_last_update=?, first_name=?, last_name=?, second_name=?, type_department=? ,department=?, position=?, number_phone=?, `status`=?, employee_description=?  WHERE id_person=?";
+$sql = "UPDATE db_main SET time_last_change=?, user_name_last_update=?, first_name=?, last_name=?, second_name=?, type_department=? ,department=?, position=?, number_phone=?, `status`=?, employee_description=?  WHERE id_person=?";
 if ($stmt = $db_connect->prepare($sql)) {
-  $stmt->bind_param("ssssssssssss", $date, $user_name, $first_name, $last_name, $second_name, $type_department, $department, $position, $number_phone, $status, $employee_description, $id_person);
+  $stmt->bind_param("ssssssssssss", $time_last_change, $user_name, $first_name, $last_name, $second_name, $type_department, $department, $position, $number_phone, $status, $employee_description, $id_person);
   $stmt->execute();
   if (count($stmt->error_list) === 0) {
     $res = 'Данные обновлены';

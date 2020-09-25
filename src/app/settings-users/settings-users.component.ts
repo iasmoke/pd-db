@@ -32,9 +32,9 @@ export class SettingsUsersComponent implements OnInit {
   hide = true
   user_settings_obj:FormGroup
   modal_alert_message:any;
- 
-  
-  
+
+
+
 
   constructor(
     private settingsUsers:SettingsUsersService,
@@ -52,7 +52,7 @@ export class SettingsUsersComponent implements OnInit {
 
   // update_user_settings(index){
   //   this.settingsUsers.
-   
+
   // }
   get_users_settings(){
     this.settingsUsers.get_users().subscribe(res => {
@@ -64,16 +64,7 @@ export class SettingsUsersComponent implements OnInit {
 
 
   update_user_settings(index){
-  this.settingsUsers.update_user_settings(
-    this.users_array[index].user_id,
-    this.users_array[index].first_name,
-    this.users_array[index].last_name,
-    this.users_array[index].user_name,
-    this.users_array[index].password,
-    this.users_array[index].user_role,
-    this.users_array[index].access_list_tt,
-    this.users_array[index].access_distribution,
-    ).subscribe(res => {
+  this.settingsUsers.update_user_settings(this.users_array[index]).subscribe(res => {
       this.modal_alert_message = JSON.parse(res)
       switch(this.modal_alert_message){
         case 'Данные обновлены':
@@ -93,7 +84,7 @@ export class SettingsUsersComponent implements OnInit {
             });
             break;
       }
-    }) 
+    })
   }
 
   openDialog(): void {
@@ -117,12 +108,12 @@ export class SettingsUsersComponent implements OnInit {
         }
       })
   }
-  
+
 
   ngOnInit(): void {
 
   }
 
-  
+
 
 }

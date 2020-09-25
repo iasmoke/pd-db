@@ -10,8 +10,7 @@ require_once('connect_db.php');
 $_POST = json_decode(file_get_contents('php://input'), true);
 
 
-
-$sql = "SELECT DISTINCT position FROM `db_main` WHERE type_department='Торговая точка'";
+$sql = "SELECT DISTINCT position FROM db_main WHERE type_department='Торговая точка'";
 if ($stmt = $db_connect->prepare($sql)) {
   $stmt->execute();
   $stmt->bind_result(

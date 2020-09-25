@@ -63,13 +63,14 @@ import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MAT_MOMENT_DATE_FORMATS, MomentDateAda
 import { ModalUsersSettingsComponent } from './modal-users-settings/modal-users-settings.component';
 import { ModalHrComponent } from './modal-hr/modal-hr.component';
 import { ModalMtComponent } from './modal-mt/modal-mt.component';
+import { ReportPageComponent } from './report-page/report-page.component';
 
 export const MY_FORMATS = {
   parse: {
-    dateInput: 'L',
+    dateInput: 'DD.MM.YYYY',
   },
   display: {
-    dateInput: 'L',
+    dateInput: 'DD.MM.YYYY',
     monthYearLabel: 'MMM YYYY',
     dateA11yLabel: 'LL',
     monthYearA11yLabel: 'MMMM YYYY',
@@ -93,7 +94,8 @@ export const MY_FORMATS = {
     ModalListTtComponent,
     ModalUsersSettingsComponent,
     ModalHrComponent,
-    ModalMtComponent
+    ModalMtComponent,
+    ReportPageComponent
   ],
   imports: [
     BrowserModule,
@@ -166,11 +168,11 @@ export const MY_FORMATS = {
       useValue: 'ru-RU'
     },
     {
-      provide: DateAdapter,
+      provide: MomentDateAdapter,
       useClass: MomentDateAdapter,
       deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
     },
-    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS }
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
   ],
   entryComponents: [
     ModalAdminComponent,

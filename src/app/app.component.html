@@ -9,10 +9,6 @@
             <button mat-raised-button color="warn" *ngIf="user_id !== null" class="ml-1" (click)="logout()">Выйти</button>
         </div>
     </mat-toolbar-row>
-    <mat-toolbar-row *ngIf="settings_page">
-        <span>{{name_page}}</span>
-        <span class="example-spacer"></span>
-    </mat-toolbar-row>
 </mat-toolbar>
 
 <mat-drawer-container>
@@ -30,6 +26,9 @@
             <mat-list-item>
                 <mat-icon>reply_all</mat-icon><button mat-flat-button (click)="togglePage('distribution_page','access_distribution')">Рассылка в Telegram</button></mat-list-item>
             <mat-divider></mat-divider>
+            <mat-list-item>
+              <mat-icon>report</mat-icon><button mat-flat-button (click)="togglePage('report_page','access_report')">Отзывы и предложения</button></mat-list-item>
+          <mat-divider></mat-divider>
         </mat-list>
     </mat-drawer>
     <app-main *ngIf="main_page && user_role === 'admin'"></app-main>
@@ -39,6 +38,7 @@
     <app-settings-users *ngIf="settings_page"></app-settings-users>
     <app-list-tt *ngIf="list_tt_page"></app-list-tt>
     <app-telegram-send *ngIf="distribution_page"></app-telegram-send>
+    <app-report-page *ngIf="report_page"></app-report-page>
 </mat-drawer-container>
 
 <app-login *ngIf="login_page"></app-login>

@@ -1,12 +1,10 @@
 table{
   width: 100%;
 }
-mat-form-field{
-  margin-right: 15px;
-}
-mat-checkbox {
-  margin-right: 15px;
-}
+
 textarea.mat-input-element{
   overflow: hidden !important;
+}
+.example-full-width {
+  width: 100%;
 }

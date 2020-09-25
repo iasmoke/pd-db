@@ -19,19 +19,25 @@ if ($stmt = $db_connect->prepare($sql)) {
         $user_id,
         $main_page,
         $settings_page,
+        $access_settings,
         $list_tt_page,
         $list_tt_access,
         $distribution_page,
-        $distribution_access
+        $distribution_access,
+        $report_page,
+        $access_page
     );
     while ($stmt->fetch()) {
         $res[] = array(
             'main_page' => (bool) $main_page,
             'settings_page' => (bool) $settings_page,
+            'access_settings' => (bool) $access_settings,
             'list_tt_page' => (bool) $list_tt_page,
             'access_list_tt' => (bool) $list_tt_access,
             'distribution_page' => (bool) $distribution_page,
-            'access_distribution' => (bool) $distribution_access
+            'access_distribution' => (bool) $distribution_access,
+            'report_page' => (bool) $report_page,
+            'access_report' => (bool) $access_page
         );
     }
 }

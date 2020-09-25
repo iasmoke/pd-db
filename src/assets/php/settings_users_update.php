@@ -9,14 +9,16 @@ require_once('connect_db.php');
 
 $_POST = json_decode(file_get_contents('php://input'), true);
 
-$user_id = $_POST['user_id'];
-$first_name = $_POST['first_name'];
-$last_name = $_POST['last_name'];
-$user_name = $_POST['user_name'];
-$password = $_POST['password'];
-$user_role = $_POST['user_role'];
-$access_list_tt = $_POST['access_list_tt'];
-$access_distribution = $_POST['access_distribution'];
+$users_array = $_POST['users_array'];
+$user_id = $users_array['user_id'];
+$first_name = $users_array['first_name'];
+$last_name = $users_array['last_name'];
+$user_name = $users_array['user_name'];
+$password = $users_array['password'];
+$user_role = $users_array['user_role'];
+$access_list_tt = $users_array['access_list_tt'];
+$access_distribution = $users_array['access_distribution'];
+$access_report = $users_array['access_report'];
 switch ($access_list_tt) {
   case '':
     $access_list_tt = 0;
@@ -25,6 +27,11 @@ switch ($access_list_tt) {
 switch ($access_distribution) {
   case '':
     $access_distribution = 0;
+  break;
+}
+switch ($access_report) {
+  case '':
+    $access_report = 0;
   break;
 }
 
@@ -40,9 +47,9 @@ if ($stmt = $db_connect->prepare($sql)) {
   } else {
     return $res = $stmt->error_list;
   }
-  $sql = "UPDATE users_settings_content SET access_list_tt=?, access_distribution=? WHERE user_id=?";
+  $sql = "UPDATE users_settings_content SET access_list_tt=?, access_distribution=?, access_report=? WHERE user_id=?";
   if ($stmt = $db_connect->prepare($sql)) {
-  $stmt->bind_param("sss", $access_list_tt, $access_distribution, $user_id);
+  $stmt->bind_param("ssss", $access_list_tt, $access_distribution, $access_report, $user_id);
   $stmt->execute();
   if (count($stmt->error_list) === 0) {
     $res = 'Данные обновлены';

@@ -10,12 +10,108 @@ export class TelegramSendService {
     private http:HttpClient
   ) { }
 
-  selectPersonal(department_office){
+  telegram_send_get_list_type_department(){
     return this.http.post(
-      './assets/php/telegram_get_list_personal.php',
+      './assets/php/telegram_send_get_list_type_department.php',
       JSON.stringify(
         {
-          department_office:department_office,
+
+        }
+      ),
+      { responseType: 'text' }
+    );
+  }
+
+  telegram_send_get_list_all_person(type_department){
+    return this.http.post(
+      './assets/php/telegram_send_get_list_all_person.php',
+      JSON.stringify(
+        {
+          type_department:type_department,
+        }
+      ),
+      { responseType: 'text' }
+    );
+  }
+
+  telegram_send_get_department_list(type_department){
+    return this.http.post(
+      './assets/php/telegram_send_get_department_list.php',
+      JSON.stringify(
+        {
+          type_department:type_department,
+        }
+      ),
+      { responseType: 'text' }
+    );
+  }
+
+  telegram_send_get_department_list_person(type_department,department){
+    return this.http.post(
+      './assets/php/telegram_send_get_department_list_person.php',
+      JSON.stringify(
+        {
+          type_department:type_department,
+          department:department
+        }
+      ),
+      { responseType: 'text' }
+    );
+  }
+
+  telegram_send_get_list_cities(){
+    return this.http.post(
+      './assets/php/telegram_send_get_list_cities.php',
+      JSON.stringify(
+        {
+        }
+      ),
+      { responseType: 'text' }
+    );
+  }
+
+  telegram_send_get_list_person_by_cities(array_city){
+    return this.http.post(
+      './assets/php/telegram_send_get_list_person_by_cities.php',
+      JSON.stringify(
+        {
+          array_city:array_city
+        }
+      ),
+      { responseType: 'text' }
+    );
+  }
+
+  telegram_send_get_person_by_number_tt(array_number_td){
+    return this.http.post(
+      './assets/php/telegram_send_get_person_by_number_tt.php',
+      JSON.stringify(
+        {
+          array_number_td:array_number_td
+        }
+      ),
+      { responseType: 'text' }
+    );
+  }
+
+  telegram_send_get_position_td(){
+    return this.http.post(
+      './assets/php/telegram_send_get_position_td.php',
+      JSON.stringify(
+        {
+        }
+      ),
+      { responseType: 'text' }
+    );
+  }
+
+  telegram_send_get_all_person_position (type_department,position){
+    return this.http.post(
+      './assets/php/telegram_send_get_all_person_position.php',
+      JSON.stringify(
+        {
+          type_department:type_department,
+          position:position
         }
       ),
       { responseType: 'text' }
@@ -49,17 +145,7 @@ export class TelegramSendService {
     );
   }
 
-  get_city(){
-    return this.http.post(
-      './assets/php/telegram_get_city.php',
-      JSON.stringify(
-        {
 
-        }
-      ),
-      { responseType: 'text' }
-    );
-  }
   get_type_department(){
     return this.http.post(
       './assets/php/telegram_get_type_department.php',

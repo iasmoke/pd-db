@@ -30,26 +30,19 @@ export class SettingsUsersService {
       './assets/php/settings_users_get.php',
       JSON.stringify(
         {
-          
+
         }
       ),
       { responseType: 'text' }
     )
   }
 
-  update_user_settings(user_id,first_name,last_name,user_name,password,user_role,access_list_tt,access_distribution,) {
+  update_user_settings(users_array) {
     return this.http.post(
       './assets/php/settings_users_update.php',
       JSON.stringify(
         {
-          user_id:user_id,
-          first_name:first_name,
-          last_name:last_name,
-          user_name:user_name,
-          password:password,
-          user_role:user_role,
-          access_list_tt:access_list_tt,
-          access_distribution:access_distribution
+          users_array:users_array
         }
       ),
       { responseType: 'text' }

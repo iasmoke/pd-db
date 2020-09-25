@@ -10,28 +10,27 @@ require_once('connect_db.php');
 
 $_POST = json_decode(file_get_contents('php://input'), true);
 
+$user_name = $_POST['user_name'];
 $new_employee = $_POST['new_form_employee'];
-$date = $_POST['date_now'];
+$time_create = date(strftime('Y-m-d H:m:s',$_POST['time_create']));
 $first_name = preg_replace("/\s+/", "", $new_employee['first_name']);
 $last_name = preg_replace("/\s+/", "", $new_employee['last_name']);
 $second_name = preg_replace("/\s+/", "", $new_employee['second_name']);
-$department = $new_employee['department'];
 $position = $new_employee['position'];
+$department = $new_employee['department'];
 $number_phone = '+38' . $new_employee['number_phone'];
 $attraction_channel = $new_employee['attraction_channel'];
-$attraction_channel_description = $new_employee['attraction_channel_description'];
 $type_department = $new_employee['type_department'];
+$attraction_channel_description = $new_employee['attraction_channel_description'];
 $interview_date = $new_employee['interview_date'];
+$internship_date = $new_employee['internship_date'];
+$certification_date = $new_employee['certification_date'];
+$internship_place = $new_employee['internship_place'];
+$rejection_reason = $new_employee['rejection_reason'];
 $status = $new_employee['status'];
-$user_name_create_employee = $_POST['user_name_create_employee'];
+$employee_description = $new_employee['employee_description'];
+$certification_date = $new_employee['certification_date'];
 $color = $new_employee['color'];
-
-if ($interview_date === 'Invalid date') {
-    $interview_date = '';
-  }
-  if ($interview_date === '01.01.1970') {
-    $interview_date = '';
-  }
 
 
 $sql = mysqli_query($db_connect, "SELECT number_phone FROM db_main WHERE number_phone='" . mysqli_real_escape_string($db_connect, $number_phone) . "'");
@@ -53,24 +52,29 @@ if ($stmt = $db_connect->prepare($sql)) {
     }
 
 
-    $sql = "INSERT INTO db_main (id_person,date_create_employee,user_name_create_employee,first_name,last_name,second_name,type_department,department,position,number_phone,interview_date,attraction_channel,attraction_channel_description,`status`,color) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+    $sql = "INSERT INTO db_main (id_person, time_create, user_name_create_employee, first_name, last_name, second_name, type_department ,department, `position`, number_phone, attraction_channel, attraction_channel_description, interview_date, internship_date, internship_place, rejection_reason, `status`, employee_description, certification_date, color) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
     if ($stmt = $db_connect->prepare($sql)) {
         $stmt->bind_param(
-            "issssssssssssss",
+            "isssssssssssssssssss",
             $id_person,
-            $date,
+            $time_create,
             $user_name_create_employee,
             $first_name,
             $last_name,
             $second_name,
-            $type_department,
+            $type_department ,
             $department,
             $position,
             $number_phone,
-            $interview_date,
             $attraction_channel,
             $attraction_channel_description,
+            $interview_date,
+            $internship_date,
+            $internship_place,
+            $rejection_reason,
             $status,
+            $employee_description,
+            $certification_date,
             $color
         );
         $stmt->execute();

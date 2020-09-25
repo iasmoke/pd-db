@@ -1,143 +1,157 @@
-<!-- <div class="container-fluid" [hidden]="user_name !== 'admin'">
-  
+<div class="container-fluid mt-2 mb-3">
   <div class="row">
-    <mat-form-field class="col" appearance="standard">
-      <mat-label>Введите TOKEN</mat-label>
-      <input matInput [(ngModel)]="new_token_id">
-    </mat-form-field>
+    <div class="col-auto mt-2">
+      <mat-form-field>
+        <mat-label>Выберете тип подразделения</mat-label>
+        <mat-select [(ngModel)]="type_department" (ngModelChange)="ngModalChangeTypeDepartmentList()">
+          <mat-option value='all'>Все</mat-option>
+          <mat-option [value]="item_type_department" *ngFor="let item_type_department of list_type_department">
+            {{item_type_department}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <!-- Office -->
+      <mat-form-field *ngIf="booleanTypeOffice">
+        <mat-label>Выберете подразделения</mat-label>
+        <mat-select [(ngModel)]="department" (ngModelChange)="ngModalChangeDepartmentOffice()">
+          <mat-option value='all'>Все</mat-option>
+          <mat-option [value]="items_list_department" *ngFor="let items_list_department of list_department">
+            {{items_list_department}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
 
-    <mat-form-field class="col" appearance="standard">
-      <mat-label>Введите имя TOKEN</mat-label>
-      <input matInput [(ngModel)]="new_token_name">
-    </mat-form-field>
+    <!-- Trade dot -->
+    <div *ngIf="booleanTypeTradeDot" class="col-auto mt-2">
+
+      <mat-checkbox color='warn' [(ngModel)]="all_cities" (ngModelChange)="ngModelChangeAllCities()">Все города</mat-checkbox>
+
+      <mat-form-field *ngIf="all_cities">
+        <mat-label>Выберете должность</mat-label>
+        <mat-select [(ngModel)]="position" (ngModelChange)="ngModelChangePosition()">
+          <mat-option *ngFor="let items_list_position of list_position" [value]="items_list_position">
+            {{items_list_position}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field *ngIf="!all_cities">
+        <mat-label>Выберете город</mat-label>
+        <mat-select [(ngModel)]="array_city" (ngModelChange)="ngModelChangeCities()" multiple>
+          <mat-option *ngFor="let items_list_cities of list_cities" [value]="items_list_cities">{{items_list_cities}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field *ngIf="!all_cities">
+        <mat-label>Выберете заведение</mat-label>
+        <mat-select [(ngModel)]="array_number_td" (ngModelChange)="ngModelChangeNumberTT()" multiple>
+          <mat-option *ngFor="let items_list_number_tt of list_number_tt" [value]="items_list_number_tt">
+            TT-{{items_list_number_tt}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+    </div>
+    <div class="col-auto mt-2">
+      <mat-form-field class="example-full-width">
+        <mat-label>Текст сообщения</mat-label>
+        <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1"
+        cdkAutosizeMaxRows="5" [(ngModel)]='textMessage'></textarea>
+      </mat-form-field>
+    </div>
+    <div class="mt-2">
+      <button mat-raised-button color="primary" (click)="buttonSendMessage()">Отправить</button>
+    </div>
   </div>
-  <div class="row">
-    <mat-form-field class="col" appearance="standard">
-      <mat-label>Выберете user_name</mat-label>
-      <mat-select [(ngModel)]="get_user_name">
-        <mat-option [value]="item_list_user_name" *ngFor="let item_list_user_name of list_user_name">
-          {{item_list_user_name.user_name}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
+  <h2 class="m-2">Подключенные</h2>
+  <div class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource_connected">
 
-    <button mat-mini-fab color="primary" (click)="add_TOKEN()">
-      <mat-icon>add_circle</mat-icon>
-    </button>
+      <ng-container matColumnDef="select">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()"
+            [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
+          </mat-checkbox>
+        </th>
+        <td mat-cell *matCellDef="let row">
+          <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
+            [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)">
+          </mat-checkbox>
+        </td>
+      </ng-container>
 
+      <ng-container matColumnDef="id_person">
+        <th mat-header-cell *matHeaderCellDef> No. </th>
+        <td mat-cell *matCellDef="let element"> {{element.id_person}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="fi">
+        <th mat-header-cell *matHeaderCellDef> Фамилия, Имя </th>
+        <td mat-cell *matCellDef="let element"> {{element.fi}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="type_department">
+        <th mat-header-cell *matHeaderCellDef> Тип подразделения </th>
+        <td mat-cell *matCellDef="let element"> {{element.type_department}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="department">
+        <th mat-header-cell *matHeaderCellDef> Подразделение </th>
+        <td mat-cell *matCellDef="let element"> {{element.department}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="position">
+        <th mat-header-cell *matHeaderCellDef> Должность </th>
+        <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef> Статус </th>
+        <td mat-cell *matCellDef="let element"> {{element.status}} </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns_connected"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns_connected;"></tr>
+    </table>
+    <mat-paginator #paginator_connected [pageSizeOptions]="[20, 30, 50]" showFirstLastButtons></mat-paginator>
   </div>
-</div>
+  <h2 class="m-2">Не подключенные</h2>
+  <div class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource_not_connected">
 
-<mat-form-field class="col" appearance="standard" [hidden]="user_name !== 'admin'">
-  <mat-label>Выберете Бота</mat-label>
-  <mat-select [(ngModel)]="TOKEN_id">
-    <mat-option [value]="item_list_TOKEN_id.TOKEN_id" *ngFor="let item_list_TOKEN_id of list_TOKEN_id">
-      {{item_list_TOKEN_id.TOKEN_name}}
-    </mat-option>
-  </mat-select>
-</mat-form-field> -->
+      <ng-container matColumnDef="id_person">
+        <th mat-header-cell *matHeaderCellDef> No. </th>
+        <td mat-cell *matCellDef="let element"> {{element.id_person}} </td>
+      </ng-container>
 
+      <ng-container matColumnDef="fi">
+        <th mat-header-cell *matHeaderCellDef> Фамилия, Имя </th>
+        <td mat-cell *matCellDef="let element"> {{element.fi}} </td>
+      </ng-container>
 
+      <ng-container matColumnDef="type_department">
+        <th mat-header-cell *matHeaderCellDef> Тип подразделения </th>
+        <td mat-cell *matCellDef="let element"> {{element.type_department}} </td>
+      </ng-container>
 
-  <h2 class="col text-center">Рассылка</h2>
-    <mat-form-field class="col" appearance="standard">
-      <mat-label>Выберете тип подразделения</mat-label>
-      <mat-select [(ngModel)]="type_department" (ngModelChange)="change_select(type_department)">
-        <mat-option [value]="item_type_department" *ngFor="let item_type_department of array_type_department">
-          {{item_type_department}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-    <section class="example-section ml-2">
-      <mat-checkbox *ngIf="checkbox_office" [(ngModel)]="all_sends_office" (ngModelChange)="check_all_sends()">Отправить всем</mat-checkbox>
-      <mat-checkbox *ngIf="checkbox_td" [(ngModel)]="all_sends_td" (ngModelChange)="check_all_sends()">Отправить всем</mat-checkbox>
-    </section>
+      <ng-container matColumnDef="department">
+        <th mat-header-cell *matHeaderCellDef> Подразделение </th>
+        <td mat-cell *matCellDef="let element"> {{element.department}} </td>
+      </ng-container>
 
+      <ng-container matColumnDef="position">
+        <th mat-header-cell *matHeaderCellDef> Должность </th>
+        <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+      </ng-container>
 
-  <div *ngIf="trade_dot">
-    <mat-form-field class="col" appearance="standard">
-      <mat-label>Выберете город</mat-label>
-      <mat-select [formControl]="city" (ngModelChange)="get_department_trade_dot()" multiple>
-        <mat-option [value]="item_city.city" *ngFor="let item_city of array_city">{{item_city.city}}</mat-option>
-      </mat-select>
-    </mat-form-field>
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef> Статус </th>
+        <td mat-cell *matCellDef="let element"> {{element.status}} </td>
+      </ng-container>
 
-    <mat-form-field class="col" appearance="standard">
-      <mat-label>Выберете подразделения</mat-label>
-      <mat-select [formControl]="department" (ngModelChange)="get_position()" multiple>
-        <mat-option [value]="item_department.id_tt" *ngFor="let item_department of array_department">
-          TT-{{item_department.id_tt}}: {{item_department.city}}, {{item_department.adress}} </mat-option>
-      </mat-select>
-    </mat-form-field>
-
-    <mat-form-field class="col" appearance="standard">
-      <mat-label>Выберете должность</mat-label>
-      <mat-select [formControl]="position" multiple>
-        <mat-option [value]="item_position" *ngFor="let item_position of array_position">
-          {{item_position}}</mat-option>
-      </mat-select>
-    </mat-form-field>
-
-  </div>
-
-  <div *ngIf="office">
-
-    <mat-form-field class="col" appearance="standard">
-      <mat-label>Выберете подразделения</mat-label>
-      <mat-select [(ngModel)]="department_office" (ngModelChange)="select_personal()">
-        <mat-option [value]="item_department_office" *ngFor="let item_department_office of array_department_office">
-          {{item_department_office}}</mat-option>
-      </mat-select>
-    </mat-form-field>
-
-    <mat-form-field class="col" appearance="standard">
-      <mat-label>Сотрудники</mat-label>
-      <mat-select [(ngModel)]="list_name_department_office" multiple>
-        <mat-option *ngFor="let item_department_list_names of department_list_names"
-          [value]="item_department_list_names">
-          {{item_department_list_names.first_name + " " + item_department_list_names.last_name}}</mat-option>
-      </mat-select>
-    </mat-form-field>
-  </div>
-
- 
-
-    <mat-form-field class="col" appearance="standard">
-      <mat-label>Введите текст сообщения</mat-label>
-      <textarea matInput [formControl]="message_text" multiple></textarea>
-    </mat-form-field>
-    
-    <button class="col" mat-raised-button color="primary" (click)="send_message_bot()">Отправить</button>
-
-
-
-
-
-<!-- Алерт успешной отправки -->
-<div #successfully_sent id="successfully_sent" class="modal fade">
-  <div class="modal-dialog">
-    <div class="alert alert-success text-center" role="alert">{{alert_message_successfully}}</div>
-  </div>
-</div>
-
-<!-- Алерт all ERROR -->
-<div #all_ERROR_sent id="all_ERROR_sent" class="modal fade">
-  <div class="modal-dialog">
-    <div class="alert alert-danger text-center" role="alert">Рассылка не выполенна.Проверти подключение к боту.</div>
-  </div>
-</div>
-
-<!-- Алерт ERROR -->
-<div #ERROR_sent id="ERROR_sent" class="modal fade">
-  <div class="modal-dialog">
-    <div class="alert alert-warning text-center" role="alert">Рассылка выполенна не полностью. Проверти кто еще не
-      подключился к боту.</div>
-  </div>
-</div>
-
-<!-- Алерт Good -->
-<div #best_token id="best_token" class="modal fade">
-  <div class="modal-dialog">
-    <div class="alert alert-success text-center" role="alert">{{good_token}}</div>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns_not_connected"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns_not_connected;"></tr>
+    </table>
+    <mat-paginator #paginator_not_connected [pageSizeOptions]="[20, 30, 50]" showFirstLastButtons></mat-paginator>
   </div>
 </div>

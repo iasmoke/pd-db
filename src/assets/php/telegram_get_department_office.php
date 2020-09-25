@@ -24,14 +24,14 @@ if ($stmt = $db_connect->prepare($sql)) {
     $res['department_office'] = array($department_office);
   }
 }
-$sql = "SELECT first_name, last_name, id_telegram_chat, position, department FROM db_main WHERE type_department=?";
+$sql = "SELECT first_name, last_name, id_telegram, position, department FROM db_main WHERE type_department=?";
 if ($stmt = $db_connect->prepare($sql)) {
   $stmt->bind_param('s', $type_department);
   $stmt->execute();
   $stmt->bind_result(
     $first_name,
     $last_name,
-    $id_telegram_chat,
+    $id_telegram,
     $position,
     $department
   );
@@ -39,7 +39,7 @@ if ($stmt = $db_connect->prepare($sql)) {
     $res['users'] = array(
       'first_name'=> $first_name,
       'last_name'=> $last_name,
-      'id_telegram_chat'=> $id_telegram_chat,
+      'id_telegram'=> $id_telegram,
       'position'=> $position,
       'department'=> $department
     );

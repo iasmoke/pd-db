@@ -10,7 +10,7 @@ export class MainService {
     private http: HttpClient
   ) { }
 
-  get_table_main() {
+  admin_main_table_get() {
     return this.http.post(
       './assets/php/admin_main_table_get.php',
       JSON.stringify(
@@ -20,18 +20,17 @@ export class MainService {
     );
   }
 
-  get_table_main_user_hr(user_name_create_employee) {
+  admin_main_delete_employee(id_person){
     return this.http.post(
-      './assets/php/user_hr_get_main_table.php',
+      './assets/php/admin_main_delete_employee.php',
       JSON.stringify(
         {
-          user_name_create_employee:user_name_create_employee
+          id_person: id_person
         }
       ),
       { responseType: 'text' }
     );
   }
-
 
   admin_main_add_employee(new_form, time_create, user_name_create_employee) {
     console.log(new_form);
@@ -47,15 +46,40 @@ export class MainService {
       { responseType: 'text' }
     );
   }
+  admin_main_update_employee(user_name, form_edit_employee, time_last_change) {
+    return this.http.post(
+      './assets/php/admin_main_update_employee.php',
+      JSON.stringify(
+        {
+          user_name: user_name,
+          form_edit_employee: form_edit_employee,
+          time_last_change: time_last_change
+        }
+      ),
+      { responseType: 'text' }
+    );
+  }
 
-  user_hr_add_employee(new_form_employee, date_now, user_name_create_employee) {
+  user_hr_get_main_table(user_name_create_employee) {
+    return this.http.post(
+      './assets/php/user_hr_get_main_table.php',
+      JSON.stringify(
+        {
+          user_name_create_employee:user_name_create_employee
+        }
+      ),
+      { responseType: 'text' }
+    );
+  }
+
+  user_hr_main_add_employee(new_form_employee, time_create, user_name_create_employee) {
     console.log(new_form_employee);
     return this.http.post(
       './assets/php/user_hr_main_add_employee.php',
       JSON.stringify(
         {
           new_form_employee: new_form_employee,
-          date_now: date_now,
+          time_create: time_create,
           user_name_create_employee: user_name_create_employee
         }
       ),
@@ -63,22 +87,9 @@ export class MainService {
     );
   }
 
-  update_employee(user_name, form_edit_employee, id_person, date_now) {
-    return this.http.post(
-      './assets/php/admin_main_update_employee.php',
-      JSON.stringify(
-        {
-          user_name: user_name,
-          form_edit_employee: form_edit_employee,
-          id_person: id_person,
-          date_now: date_now
-        }
-      ),
-      { responseType: 'text' }
-    );
-  }
 
-  user_hr_update_employee(user_name, form_edit_employee, id_person, date_now) {
+
+  user_hr_main_update_employee(user_name, form_edit_employee, time_last_change) {
     console.log(form_edit_employee);
 
     return this.http.post(
@@ -87,8 +98,7 @@ export class MainService {
         {
           user_name: user_name,
           form_edit_employee: form_edit_employee,
-          id_person: id_person,
-          date_now: date_now
+          time_last_change: time_last_change
         }
       ),
       { responseType: 'text' }
@@ -159,17 +169,7 @@ export class MainService {
     );
   }
 
-  main_delete_employee(id_person){
-    return this.http.post(
-      './assets/php/admin_main_delete_employee.php',
-      JSON.stringify(
-        {
-          id_person: id_person
-        }
-      ),
-      { responseType: 'text' }
-    );
-  }
+
 
   tests_add_new_test(newTest){
     return this.http.post(

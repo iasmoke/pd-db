@@ -6,11 +6,9 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MainService } from '../service/main.service';
 import { LoginService } from '../service/login.service';
 import * as moment from 'moment';
-import { Observable, } from 'rxjs';
 import { ModalHrComponent } from '../modal-hr/modal-hr.component';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-moment.locale('ru');
 declare var $: any;
 
 export interface DialogData {
@@ -44,12 +42,8 @@ export class MainUserHrComponent implements OnInit {
     'status'
 
   ];
+
   dataSource = new MatTableDataSource();
-
-
-  interview_date:any
-  internship_date:any
-
   modal_alert_message: any;
   search:any
 
@@ -65,7 +59,7 @@ export class MainUserHrComponent implements OnInit {
     private _snackBar: MatSnackBar
   ) {
 
-    this.mainService.get_table_main_user_hr(this.loginService.user_name).subscribe((res) => {
+    this.mainService.user_hr_get_main_table(this.loginService.user_name).subscribe((res) => {
       this.dataTable_user_hr = JSON.parse(res);
       this.dataSource = new MatTableDataSource(this.dataTable_user_hr);
       this.dataSource.sort = this.sort;
@@ -74,12 +68,11 @@ export class MainUserHrComponent implements OnInit {
 
     this.mainService.get_id_tt().subscribe(res => {
       this.id_tt = JSON.parse(res)
-      console.log(this.id_tt);
     })
   }
 
   get_table_personal() {
-    this.mainService.get_table_main_user_hr(this.loginService.user_name).subscribe((res) => {
+    this.mainService.user_hr_get_main_table(this.loginService.user_name).subscribe((res) => {
       this.dataTable_user_hr = JSON.parse(res);
       this.dataSource = new MatTableDataSource(this.dataTable_user_hr);
       this.dataSource.sort = this.sort;
@@ -108,7 +101,7 @@ export class MainUserHrComponent implements OnInit {
 
   openDialog(row, value): void {
     const dialogRef = this.dialog.open(ModalHrComponent, {
-      maxWidth: '600px',
+      maxWidth: '500px',
       disableClose: true,
       data: {
         user_name: this.loginService.user_name,
