@@ -65,7 +65,6 @@ import { ModalMtComponent } from './modal-mt/modal-mt.component';
 import { ReportPageComponent } from './report-page/report-page.component';
 import { TestsComponent } from './tests/tests.component';
 import { SatDatepickerModule, SatNativeDateModule } from 'saturn-datepicker';
-import { saveAs } from 'file-saver';
 
 export const MY_FORMATS = {
   parse: {
@@ -161,8 +160,7 @@ export const MY_FORMATS = {
     PortalModule,
     ScrollingModule,
     SatDatepickerModule,
-    SatNativeDateModule,
-    saveAs
+    SatNativeDateModule
   ],
   providers: [
     MatDatepickerModule,

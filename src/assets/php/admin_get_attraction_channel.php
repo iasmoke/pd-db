@@ -10,9 +10,8 @@ require_once('connect_db.php');
 $_POST = json_decode(file_get_contents('php://input'), true);
 
 $date = $_POST['date'];
-echo (json_encode($date));
-$begin = $date['begin']->format('Y-m-d');
-$end = $date['end']->format('Y-m-d');
+$begin = date_format($date['begin'], 'Y-m-d');
+$end = date_format($date['end'],'Y-m-d');
 
 switch ($date) {
     case null:
