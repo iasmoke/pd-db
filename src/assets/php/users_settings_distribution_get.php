@@ -25,7 +25,10 @@ if ($stmt = $db_connect->prepare($sql)) {
         $distribution_page,
         $distribution_access,
         $report_page,
-        $access_page
+        $access_report,
+        $tests_page,
+        $access_tests
+
     );
     while ($stmt->fetch()) {
         $res[] = array(
@@ -37,7 +40,9 @@ if ($stmt = $db_connect->prepare($sql)) {
             'distribution_page' => (bool) $distribution_page,
             'access_distribution' => (bool) $distribution_access,
             'report_page' => (bool) $report_page,
-            'access_report' => (bool) $access_page
+            'access_report' => (bool) $access_report,
+            'tests_page' => (bool) $tests_page,
+            'access_tests' => (bool) $access_tests
         );
     }
 }

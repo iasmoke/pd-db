@@ -79,7 +79,7 @@ echo (json_encode($res));
 //         $number_phone,
 //         $interview_date,
 //         $internship_date,
-//         $certification_date,
+//
 //         $passing_score,
 //         $internship_place,
 //         $attraction_channel,
@@ -124,7 +124,7 @@ echo (json_encode($res));
 //             'number_phone' => $number_phone,
 //             'interview_date' => $interview_date,
 //             'internship_date' => $internship_date,
-//             'certification_date' => $certification_date,
+//
 //             'passing_score' => $passing_score,
 //             'internship_place' => $internship_place,
 //             'attraction_channel' => $attraction_channel,
@@ -135,7 +135,7 @@ echo (json_encode($res));
 //             'availability_doc' => $availability_doc,
 //             'rejection_reason'=> $rejection_reason,
 //             'city_residence' => $city_residence,
-//             'adress' => $place_residence,
+//             'address' => $place_residence,
 //             'test_date_1'=>$test_date_1,
 //             'test_number_ball_1'=>$test_number_ball_1,
 //             'test_date_2'=>$test_date_2,
@@ -153,7 +153,7 @@ echo (json_encode($res));
 //     }
 
 //     foreach ($db_main as $row_db_main) {
-//         $sql = "INSERT INTO db_main (`user_id`, `id_person`, `id_telegram_chat`, `date_create_employee`, `date_last_update`, `user_name_create_employee`, `user_name_last_update`, `first_name`, `last_name`, `second_name`, `type_department`, `department`, `position`, `number_phone`, `interview_date`, `internship_date`, `certification_date`, `passing_score`, `internship_place`, `attraction_channel`, `attraction_channel_description`,`reason_dismissal`, `employee_status`, `date_forming`, `availability_doc`, `rejection_reason`, `city_residence`, `place_residence`,`test_date_1`,'test_number_ball_1',`test_date_2`,`test_number_ball_2`,`date_birth`,`city_registration`,`address_registration`,`date_registration_job`,`available_doc`,`date_dismissal`,`description_dismissal`,`inn`,`status`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+//         $sql = "INSERT INTO db_main (`user_id`, `id_person`, `id_telegram_chat`, `date_create_employee`, `date_last_update`, `user_name_create_employee`, `user_name_last_update`, `first_name`, `last_name`, `second_name`, `type_department`, `department`, `position`, `number_phone`, `interview_date`, `internship_date`, `passing_score`, `internship_place`, `attraction_channel`, `attraction_channel_description`,`reason_dismissal`, `employee_status`, `date_forming`, `availability_doc`, `rejection_reason`, `city_residence`, `place_residence`,`test_date_1`,'test_number_ball_1',`test_date_2`,`test_number_ball_2`,`date_birth`,`city_registration`,`address_registration`,`date_registration_job`,`available_doc`,`date_dismissal`,`description_dismissal`,`inn`,`status`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 //         if ($stmt = $db_connect->prepare($sql)) {
 //             $stmt->bind_param("iisssssssssssssssssssssssssssssssssssssss",
 //                 $user_id,
@@ -172,7 +172,7 @@ echo (json_encode($res));
 //                 $row_db_main['number_phone'],
 //                 $row_db_main['interview_date'],
 //                 $row_db_main['internship_date'],
-//                 $row_db_main['certification_date'],
+//                
 //                 $row_db_main['passing_score'],
 //                 $row_db_main['internship_place'],
 //                 $row_db_main['attraction_channel'],

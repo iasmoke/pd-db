@@ -43,7 +43,7 @@ switch ($type_reports) {
     }
     break;
   default:
-    $sql = "SELECT id, first_name,last_name,number_phone,department,position,type_reports,`description`, date_time FROM reports_employee WHERE type_reports=? ORDER BY `reports_employee`.`id` DESC";
+    $sql = "SELECT id, first_name, last_name, number_phone, department, position,type_reports,`description`, date_time FROM reports_employee WHERE type_reports=? ORDER BY `reports_employee`.`id` DESC";
     if ($stmt = $db_connect->prepare($sql)) {
       $stmt->bind_param("s",$type_reports);
       $stmt->execute();
@@ -73,9 +73,6 @@ switch ($type_reports) {
     }
     break;
 }
-
-
-
 
 
 

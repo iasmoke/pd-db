@@ -36,19 +36,18 @@ if (isset($_POST['user_name']) && isset($_POST['password'])) {
             $res = 'Логин или пароль не верный';
         } else {
             $res = 'Successful';
-            $sql = "UPDATE users_settings_content SET main_page=1, settings_page=0, list_tt_page=0, distribution_page=0 WHERE `user_id`=?";
+            $sql = "UPDATE users_settings_content SET main_page=1, settings_page=0, list_tt_page=0, distribution_page=0, report_page=0, tests_page=0 WHERE `user_id`=?";
             if ($stmt = $db_connect->prepare($sql)) {
-                $stmt->bind_param("i", $user_id);
-                $stmt->execute();
+              $stmt->bind_param("s", $user_id);
+              $stmt->execute();
+              if (count($stmt->error_list) === 0) {
+              } else {
+                $res = $stmt->error_list;
+              }
             }
         }
     }
 }
-
-
-
-
-
 
 
 echo (json_encode(array(

@@ -1,39 +1,109 @@
-<h1 mat-dialog-title>Новый тест</h1>
-<mat-divider></mat-divider>
-<div [formGroup]="newTest">
+<div *ngIf="formValueAdd">
 
-  <mat-form-field class="col" appearance="standard">
-    <mat-label>Название теста</mat-label>
-    <input matInput formControlName="name_test">
-    <mat-error *ngIf="!!fn.name_test.errors?.required">Поле не заполнено</mat-error>
-  </mat-form-field>
 
-  <mat-form-field class="col" appearance="standard">
-    <mat-label>Выберете должность</mat-label>
-    <mat-select formControlName="position_type">
-      <mat-option [value]="item"  *ngFor="let item of list_position;">
-        {{item}}
-      </mat-option>
-    </mat-select>
-    <mat-error *ngIf="!!fn.position_type.errors?.required">Поле не заполнено</mat-error>
-  </mat-form-field>
+  <h1 mat-dialog-title>Новый тест</h1>
+  <mat-divider></mat-divider>
+  <div [formGroup]="newTest">
 
-  <mat-form-field class="col" appearance="outline">
-    <mat-label>Максимальная оценка теста</mat-label>
-    <input matInput formControlName="max_score">
-    <mat-error *ngIf="!!fn.max_score.errors?.required">Поле не заполнено</mat-error>
-    <mat-error *ngIf="!!fn.max_score.errors?.max">Максимальная оценка только 200 балов</mat-error>
-    <mat-error *ngIf="!!fn.max_score.errors?.pattern">Вводить можно только цифры</mat-error>
-  </mat-form-field>
+    <mat-form-field class="col" appearance="standard">
+      <mat-label>Название теста</mat-label>
+      <input matInput formControlName="name_test">
+      <mat-error *ngIf="!!fn.name_test.errors?.required">Поле не заполнено</mat-error>
+    </mat-form-field>
 
-  <mat-form-field class="col" appearance="standard">
-    <mat-label>Описание теста</mat-label>
-    <input matInput formControlName="description_test">
-  </mat-form-field>
+    <mat-form-field class="col" appearance="standard">
+      <mat-label>Выберете должность</mat-label>
+      <mat-select formControlName="position_type">
+        <mat-option [value]="item" *ngFor="let item of list_position;">
+          {{item}}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="!!fn.position_type.errors?.required">Поле не заполнено</mat-error>
+    </mat-form-field>
 
+    <mat-form-field class="col" appearance="outline">
+      <mat-label>Максимальная оценка теста</mat-label>
+      <input matInput type='number' formControlName="max_score">
+      <mat-error *ngIf="!!fn.max_score.errors?.required">Поле не заполнено</mat-error>
+      <mat-error *ngIf="!!fn.max_score.errors?.max">Максимальная оценка 200 балов</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="col" appearance="standard">
+      <mat-label>Описание теста</mat-label>
+      <input matInput formControlName="description_test">
+    </mat-form-field>
+
+  </div>
+
+  <mat-divider></mat-divider>
+  <div mat-dialog-actions>
+    <button mat-raised-button color="primary" style="margin-bottom: 12px" (click)="addNewTest()">Отправить</button>
+    <button mat-raised-button color="primary" mat-dialog-close
+      style="margin-left: auto; margin-bottom: 12px">Отмена</button>
+  </div>
 </div>
-<mat-divider></mat-divider>
-<div mat-dialog-actions>
-  <button mat-raised-button color="primary" style="margin-bottom: 12px" (click)="addNewTest()">Отправить</button>
-  <button mat-raised-button color="primary" mat-dialog-close style="margin-left: auto; margin-bottom: 12px">Отмена</button>
+
+<div *ngIf="boolean_list_person">
+  <div class="row">
+    <div class="col-2">
+      <mat-form-field>
+        <mat-label>Поиск</mat-label>
+        <input matInput (keyup)="applyFilter($event)">
+      </mat-form-field>
+    </div>
+    <div class="col-3 ml-auto">
+      <mat-form-field>
+        <mat-label>Выберете тест</mat-label>
+        <mat-select [(ngModel)]="name_test">
+          <mat-option *ngFor="let food of list_name_tests" [value]="food">
+            {{food}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="mat-elevation-z8 mt-1">
+    <table mat-table [dataSource]="dataSource" matSort>
+
+      <ng-container matColumnDef="select">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()"
+            [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
+          </mat-checkbox>
+        </th>
+        <td mat-cell *matCellDef="let row">
+          <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
+            [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)">
+          </mat-checkbox>
+        </td>
+      </ng-container>
+
+
+      <ng-container matColumnDef="fi">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Ф.И.</th>
+        <td mat-cell *matCellDef="let row">{{ row.fi }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="department">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>TT,подразделение</th>
+        <td mat-cell *matCellDef="let row">
+          {{row.department}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="position">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Должность</th>
+        <td mat-cell *matCellDef="let row">{{row.position}}</td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns;"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+  </div>
+  <mat-divider></mat-divider>
+  <div mat-dialog-actions>
+    <button mat-raised-button color="primary" style="margin-bottom: 12px" (click)="addPersons()">Добавить</button>
+    <button mat-raised-button color="primary" mat-dialog-close
+      style="margin-left: auto; margin-bottom: 12px">Отмена</button>
+  </div>
 </div>

@@ -9,6 +9,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { ModalAdminComponent } from '../modal-admin/modal-admin.component';
 import * as moment from 'moment';
 import { MatSnackBar } from '@angular/material/snack-bar';
+
+
 moment.locale('ru')
 declare var $: any;
 
@@ -19,6 +21,7 @@ export interface DialogData {
 
 }
 
+
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
@@ -27,16 +30,18 @@ export interface DialogData {
 
 export class MainComponent implements OnInit {
 
+  form: FormGroup;
+
+  inlineRange;
+
   dataTable = [];
   displayedColumns: string[] = [
     'id_person',
-    'first_name',
-    'last_name',
-    'second_name',
+    'fio',
     'department',
     'position',
     'number_phone',
-    'certification_date',
+    'interview_date',
     'status',
     'employee_description',
     'delete'
@@ -74,6 +79,11 @@ export class MainComponent implements OnInit {
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
     })
+
+    this.form = this.formBuilder.group({
+      date: new FormControl ({begin:'', end:''})
+    });
+
   }
 
   get_id_tt() {
@@ -98,6 +108,40 @@ export class MainComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
+  inlineRangeChange($event) {
+    this.inlineRange = $event;
+  }
+
+  downloadFile(data: any) {
+    const replacer = (key, value) => (value === null ? '' : value); // specify how you want to handle null values here
+    const header = Object.keys(data[0]);
+    const csv = data.map((row) =>
+      header
+        .map((fieldName) => JSON.stringify(row[fieldName], replacer))
+        .join(',')
+    );
+    csv.unshift(header.join(','));
+    const csvArray = csv.join('\r\n');
+
+    const a = document.createElement('a');
+    const blob = new Blob([csvArray], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
+
+    a.href = url;
+    a.download = 'myFile.csv';
+    a.click();
+    window.URL.revokeObjectURL(url);
+    a.remove();
+  }
+
+  downloadFileCSV(){
+    this.mainService.admin_get_attraction_channel(this.form.value).subscribe(res => {
+      console.log(res);
+      this.downloadFile(JSON.parse(res))
+
+    })
+  }
+
   ngOnInit(): void {
 
   }
@@ -108,7 +152,7 @@ export class MainComponent implements OnInit {
       disableClose: true,
       data: {
         user_name: this.loginService.user_name,
-        value: this.value,
+        value: value,
         row: row
       }
     });

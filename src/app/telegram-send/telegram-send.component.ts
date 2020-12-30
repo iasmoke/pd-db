@@ -6,6 +6,7 @@ import { SettingsUsersService } from '../service/settings-users.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { SelectionModel } from '@angular/cdk/collections';
+import { MatSnackBar } from '@angular/material/snack-bar';
 declare var $: any;
 
 @Component({
@@ -20,7 +21,7 @@ export class TelegramSendComponent implements OnInit {
   array_city = ['all'];
   position = 'all'
   array_number_td = ['all']
-  textMessage: any
+  textMessage: {}
 
   list_type_department: String[];
   list_people_connected: String[];
@@ -60,13 +61,15 @@ export class TelegramSendComponent implements OnInit {
     'status'
   ];
 
-  TOKEN_id = '1202623405:AAHxtwkptrydHKcKxLRykD9IwF6DdhiKf6k';
+  TOKEN_id = '1337687879:AAGOM9TILMpbpGDxjlV_XzPfIDSGf57whfM';
+  TOKEN_id_test = '1202623405:AAHxtwkptrydHKcKxLRykD9IwF6DdhiKf6k';
 
 
   constructor(
     private telegramSendService: TelegramSendService,
     private loginService: LoginService,
-    private settingsUserService: SettingsUsersService
+    private settingsUserService: SettingsUsersService,
+    private _snackBar: MatSnackBar
   ) {
     this.telegramSendService.telegram_send_get_list_type_department().subscribe(res => {
       this.list_type_department = JSON.parse(res);
@@ -228,153 +231,19 @@ export class TelegramSendComponent implements OnInit {
       Telegram.setRecipient(element.id_telegram);
       Telegram.setMessage(this.textMessage);
       Telegram.send();
+      console.log(Telegram);
     })
+    this._snackBar.open('Успешно отправлено!', '', {
+      duration: 2000,
+      horizontalPosition: 'center',
+      verticalPosition: 'top',
+      panelClass: 'alert-style-success'
+    });
   }
 
   ngOnInit(): void {
   }
 
 
-  // send_message_bot() {
-  //   console.log(this.department_list_names);
-  //   console.log(this.list_name_department_office);
-  //   if (this.office === true) {
-  //     if (this.department_list_names.length === 0) {
-  //       console.log('Нету ни одного ID');
-  //       return this.alert_error_danger();
-  //     } else {
-  //       if (this.list_name_department_office.length === 0) {
-  //         this.not_id_chat_office = [];
-  //         this.department_list_names.forEach((element) => {
-  //           console.log(element);
-
-  //           if (element.id_telegram_chat === '0') {
-  //             this.not_id_chat_office.push({
-  //               first_name: element.first_name,
-  //               last_name: element.last_name,
-  //               department: element.department,
-  //               id_telegram_chat: element.id_telegram_chat,
-  //             });
-  //           } else {
-  //           }
-  //           Telegram.setToken(this.TOKEN_id);
-  //           Telegram.setRecipient(element.id_telegram_chat);
-  //           Telegram.setMessage(this.message_text.value);
-  //           Telegram.send();
-  //         });
-
-  //         if (this.not_id_chat_office.length !== 0) {
-  //           console.log(this.not_id_chat_office);
-  //           return this.alert_error();
-  //         } else {
-  //           $('#successfully_sent').modal('show');
-  //           setTimeout(function () {
-  //             $('#successfully_sent').modal('hide');
-  //           }, 2000);
-  //         }
-  //       } else if (this.all_sends_office === true) {
-  //         this.not_id_chat_office = [];
-  //         this.all_users_department_office.forEach((element) => {
-  //           console.log(element);
-
-  //           if (element.id_telegram_chat === '0') {
-  //             this.not_id_chat_office.push({
-  //               first_name: element.first_name,
-  //               last_name: element.last_name,
-  //               position: element.position,
-  //               department: element.department,
-  //               id_telegram_chat: element.id_telegram_chat,
-  //             });
-  //           } else {
-  //           }
-  //           Telegram.setToken(this.TOKEN_id);
-  //           Telegram.setRecipient(element.id_telegram_chat);
-  //           Telegram.setMessage(this.message_text.value);
-  //           Telegram.send();
-  //         });
-
-  //         if (this.not_id_chat_office.length !== 0) {
-  //           console.log(this.not_id_chat_office);
-  //           return this.alert_error();
-  //         } else {
-  //           $('#successfully_sent').modal('show');
-  //           setTimeout(function () {
-  //             $('#successfully_sent').modal('hide');
-  //           }, 2000);
-  //         }
-  //       } else {
-  //         console.log(this.list_name_department_office);
-  //         this.not_id_chat_office = [];
-  //         this.list_name_department_office.forEach((element) => {
-  //           console.log(element);
-
-  //           if (element.id_telegram_chat === '0') {
-  //             this.not_id_chat_office.push({
-  //               first_name: element.first_name,
-  //               last_name: element.last_name,
-  //               department: element.department,
-  //               id_telegram_chat: element.id_telegram_chat,
-  //             });
-  //           } else {
-  //           }
-  //           Telegram.setToken(this.TOKEN_id);
-  //           Telegram.setRecipient(element.id_telegram_chat);
-  //           Telegram.setMessage(this.message_text.value);
-  //           Telegram.send();
-  //         });
-
-  //         if (this.not_id_chat_office.length !== 0) {
-  //           console.log(this.not_id_chat_office);
-  //           return this.alert_error();
-  //         } else {
-  //           $('#successfully_sent').modal('show');
-  //           setTimeout(function () {
-  //             $('#successfully_sent').modal('hide');
-  //           }, 2000);
-  //         }
-  //       }
-  //     }
-  //     return;
-  //   }
-  //   if (this.trade_dot === true) {
-  //     if (this.message_text.invalid) {
-  //       console.log('message_text.invalid');
-  //       return this.message_text.markAsTouched();
-  //     }
-  //     this.telegramSendService
-  //       .get_data_send_bot(this.department.value)
-  //       .subscribe((res) => {
-  //         console.log(res);
-  //         this.id_telegram_bot_pdp = JSON.parse(res);
-  //         if (this.id_telegram_bot_pdp === null) {
-  //           console.log('Нету ни одного ID');
-  //           return this.alert_error_danger();
-  //         } else {
-  //           this.not_id_chat_trade_dot = [];
-  //           this.id_telegram_bot_pdp.forEach((element) => {
-  //             console.log(element.id_telegram_chat);
-  //             if (element.id_telegram_chat === '0') {
-  //               this.not_id_chat_trade_dot.push({
-  //                 first_name: element.first_name,
-  //                 last_name: element.last_name,
-  //                 department: element.department,
-  //                 id_telegram_chat: element.id_telegram_chat,
-  //               });
-  //             }
-  //             Telegram.setToken(this.TOKEN_id);
-  //             Telegram.setRecipient(element.id_telegram_chat);
-  //             Telegram.setMessage(this.message_text.value);
-  //             Telegram.send();
-  //           });
-  //           $('#successfully_sent').modal('show');
-  //           setTimeout(function () {
-  //             $('#successfully_sent').modal('hide');
-  //           }, 2000);
-  //           console.log(this.not_id_chat_trade_dot);
-  //         }
-  //       });
-  //     return;
-  //   }
-  // }
 
 }

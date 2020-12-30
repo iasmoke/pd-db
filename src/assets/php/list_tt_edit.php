@@ -14,14 +14,8 @@ $id_tt = $edit_outlet['id_tt'];
 $number_td = $edit_outlet['number_td'];
 $address = $edit_outlet['address'];
 $city = $edit_outlet['city'];
-switch ($new_outlet['date_open']) {
-  case null:
-  $date_open = $new_outlet['date_open'];
-      break;
-  default:
-  $date_open = date("d.m.Y", strtotime($new_outlet['date_open']));
-      break;
-}$manager = $edit_outlet['manager'];
+$date_open = $edit_outlet['date_open'];
+$manager = $edit_outlet['manager'];
 $rm = $edit_outlet['rm'];
 
 
@@ -33,7 +27,7 @@ if ($stmt = $db_connect->prepare($sql)) {
   if (count($stmt->error_list) === 0) {
     $res = 'Данные обновлены';
   } else {
-    $res = $stmt->error_list;   
+    $res = $stmt->error_list;
   }
 }
 

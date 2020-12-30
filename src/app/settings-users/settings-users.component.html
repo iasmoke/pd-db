@@ -1,9 +1,8 @@
-<div class="container">
+<div class="container mt-2 mb-3">
     <button mat-fab color="primary" class="m-2" (click)="openDialog()">
         <mat-icon>add</mat-icon>
     </button>
-</div>
-<div class="height example-headers-align container">
+<div class="example-headers-align mt-2">
     <mat-accordion>
         <mat-expansion-panel [hidden]="item.user_name==='admin'" *ngFor="let item of users_array; let i = index ">
             <mat-expansion-panel-header>
@@ -53,6 +52,7 @@
             </div>
             <h2 class="text-center">Доступ</h2>
             <div class="row justify-content-center">
+                    <mat-checkbox [(ngModel)]="item.access_tests">Тесты</mat-checkbox>
                     <mat-checkbox [(ngModel)]="item.access_list_tt">Заведение</mat-checkbox>
                     <mat-checkbox [(ngModel)]="item.access_distribution">Рассылка в Telegram</mat-checkbox>
                     <mat-checkbox [(ngModel)]="item.access_report">Предложение и замечания</mat-checkbox>
@@ -60,6 +60,5 @@
             <button mat-raised-button class="ml-auto " color="primary" (click)="update_user_settings(i) ">Обновить</button>
         </mat-expansion-panel>
     </mat-accordion>
-
-
+  </div>
 </div>

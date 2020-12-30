@@ -1,16 +1,25 @@
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+tr.example-element-row:not(.example-expanded-row):hover {
+  background: #e0e0e0;
+}
+
+th.mat-header-cell{
+  text-align: center !important;
+}
+td.mat-cell {
+  text-align: center;
+}
+
 table {
-    width: 100%;
-  }
-  .mat-cell, .mat-footer-cell {
-    font-size: 12px;
-  }
-  .mat-form-field {
-    font-size: 14px;
-    width: 100%;
-  }
-  tr.example-element-row:not(.example-expanded-row):hover {
-    background: #e0e0e0;
-  }
-
-
-  
+  width: 100%;
+}
+:host ::ng-deep .mat-sort-header-container {
+  display: flex;
+  justify-content: center;
+}
+.container-fluid{
+  min-height: 90vh;
+}

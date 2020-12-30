@@ -1,5 +1,4 @@
-<!-- <mat-spinner *ngIf="spinner" class="spinner"></mat-spinner> -->
-<div class="container">
+<div class="container mb-3 mt-2">
     <div class="row mt-3">
         <div class="col-3">
             <mat-form-field>
@@ -12,7 +11,7 @@
       </button>
         </div>
     </div>
-    <div class="mat-elevation-z8 mb-3">
+    <div class="mat-elevation-z8">
         <table mat-table [dataSource]="dataSource">
 
             <ng-container matColumnDef="number_td">
@@ -59,16 +58,3 @@
         </table>
     </div>
 </div>
-
-<!-- Модал alert сотрудник добавлен success -->
-<!-- <div #modalOutlet id="modalOutlet" class="modal fade">
-    <div class="modal-dialog">
-      <div class="alert alert-success text-center" role="alert">{{alert_message}}</div>
-    </div>
-  </div> -->
-<!-- Модал alert add ERROR -->
-<!-- <div #modal_alert_error id="modal_alert_add_error" class="modal fade">
-    <div class="modal-dialog">
-      <div class="alert alert-danger text-center" role="alert">Ошибка</div>
-    </div>
-  </div> -->

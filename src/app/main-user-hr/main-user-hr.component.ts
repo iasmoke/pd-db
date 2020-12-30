@@ -18,6 +18,15 @@ export interface DialogData {
 
 }
 
+export interface PeriodicElement {
+  name: string;
+  position: number;
+  weight: number;
+  symbol: string;
+}
+
+
+
 @Component({
   selector: 'app-main-user-hr',
   templateUrl: './main-user-hr.component.html',

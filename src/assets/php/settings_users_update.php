@@ -19,9 +19,15 @@ $user_role = $users_array['user_role'];
 $access_list_tt = $users_array['access_list_tt'];
 $access_distribution = $users_array['access_distribution'];
 $access_report = $users_array['access_report'];
+$access_tests = $users_array['access_tests'];
 switch ($access_list_tt) {
   case '':
     $access_list_tt = 0;
+  break;
+}
+switch ($access_tests) {
+  case '':
+    $access_tests = 0;
   break;
 }
 switch ($access_distribution) {
@@ -47,9 +53,9 @@ if ($stmt = $db_connect->prepare($sql)) {
   } else {
     return $res = $stmt->error_list;
   }
-  $sql = "UPDATE users_settings_content SET access_list_tt=?, access_distribution=?, access_report=? WHERE user_id=?";
+  $sql = "UPDATE users_settings_content SET access_list_tt=?, access_distribution=?, access_report=?,access_tests=?  WHERE user_id=?";
   if ($stmt = $db_connect->prepare($sql)) {
-  $stmt->bind_param("ssss", $access_list_tt, $access_distribution, $access_report, $user_id);
+  $stmt->bind_param("sssss", $access_list_tt, $access_distribution, $access_report, $access_tests, $user_id);
   $stmt->execute();
   if (count($stmt->error_list) === 0) {
     $res = 'Данные обновлены';

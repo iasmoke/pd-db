@@ -13,40 +13,40 @@ $city = $_POST['city'];
 $res = [];
 if (count($city) > 1) {
   foreach ($city as $value) {
-    $sql = "SELECT id_tt, city, adress FROM `list_tt` WHERE city=?";
+    $sql = "SELECT id_tt, city, address FROM `list_tt` WHERE city=?";
     if ($stmt = $db_connect->prepare($sql)) {
       $stmt->bind_param("s", $value);
       $stmt->execute();
       $stmt->bind_result(
         $id_tt,
         $city,
-        $adress
+        $address
       );
       while ($stmt->fetch()) {
         $res[] = array(
           'id_tt' => $id_tt,
           'city' => $city,
-          'adress' => $adress
+          'address' => $address
         );
       }
     }
   }
- 
+
 } elseif (count($city) <= 1) {
-  $sql = "SELECT id_tt, city, adress FROM `list_tt` WHERE city=?";
+  $sql = "SELECT id_tt, city, address FROM `list_tt` WHERE city=?";
   if ($stmt = $db_connect->prepare($sql)) {
     $stmt->bind_param("s", $city[0]);
     $stmt->execute();
     $stmt->bind_result(
       $id_tt,
       $city,
-      $adress
+      $address
     );
     while ($stmt->fetch()) {
       $res[] = array(
         'id_tt' => $id_tt,
         'city' => $city,
-        'adress' => $adress
+        'address' => $address
       );
     }
   }

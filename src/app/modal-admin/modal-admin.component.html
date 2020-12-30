@@ -3,7 +3,7 @@
 <h2 *ngIf="valueDelete">Вы хотите удалить сотрудник?</h2>
 <div mat-dialog-content>
   <div *ngIf="valueDelete">
-    <h3>{{data.row.last_name}} {{data.row.first_name}}</h3>
+    <h3>{{last_name}} {{first_name}}</h3>
   </div>
   <form *ngIf="formValueAdd" [formGroup]="newPerson">
     <mat-form-field class="col" appearance="standard">

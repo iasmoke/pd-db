@@ -29,35 +29,27 @@ export class AppComponent {
 
   array_page: any
 
-
-  // distribution_telegram = false
-  // main = ((this.user_id !== null) && (this.loginService.user_role === 'admin')) ? true : false;
-  // main_user_hr = ((this.user_id !== null) && (this.loginService.user_role === 'user_hr')) ? true : false;
-  // main_user_mt = ((this.user_id !== null) && (this.loginService.user_role === 'user_mt')) ? true : false;
-  // main_user_pi = ((this.user_id !== null) && (this.loginService.user_role === 'user_pi')) ? true : false;
-  // login_component = this.user_id === null ? true : false;
-  // settings_users = false;
-  // list_tt = false
-  // telegram_send = false;
   main_page:boolean = false
   login_page:boolean = this.user_id === null ? true : false
   settings_page:boolean = false
   list_tt_page:boolean = false
   distribution_page:boolean = false
   report_page:boolean = false
+  tests_page:boolean = false
 
   access_main = true
   access_settings:boolean
   access_list_tt:boolean
   access_distribution:boolean
   access_report:boolean
-
+  access_tests:boolean
 
   constructor(
     private loginService: LoginService,
     private _snackBar: MatSnackBar,
     private _focusMonitor: FocusMonitor
   ){
+
     this.loginService.getUsersSettingsDistribution(this.user_id).subscribe(res => {
       this.array_page = JSON.parse(res)
       this.main_page = this.array_page[0].main_page
@@ -65,18 +57,13 @@ export class AppComponent {
       this.settings_page = this.array_page[0].settings_page
       this.distribution_page = this.array_page[0].distribution_page
       this.report_page = this.array_page[0].report_page
+      this.tests_page = this.array_page[0].tests_page
       this.access_settings = this.array_page[0].access_settings
       this.access_list_tt = this.array_page[0].access_list_tt
       this.access_distribution = this.array_page[0].access_distribution
       this.access_report = this.array_page[0].access_report
+      this.access_tests = this.array_page[0].access_tests
     })
-
-    // console.log({'main':this.main = (this.user_id !== null) && (this.loginService.user_role === 'admin') ? true : false,'var main': this.main});
-    // console.log({'main_user_hr': this.main_user_hr = (this.user_id !== null) && (this.loginService.user_role === 'user_hr') ? true : false,'var main': this.main_user_hr});
-    // console.log({'main_user_hr': this.main_user_hr = (this.user_id !== null) || (this.loginService.user_role === 'user_hr') ? true : false});
-    // console.log({'main':(this.user_id !== null) || (this.loginService.user_role === 'admin') ? true : false});
-
-
   }
 
   ngAfterViewInit() {
@@ -91,8 +78,9 @@ export class AppComponent {
         this.list_tt_page = false
         this.distribution_page = false
         this.report_page = false
+        this.tests_page = false
         this[items] = true
-        this.loginService.toggleUsersSettingsDistribution(this.user_id,this.main_page,this.settings_page,this.list_tt_page,this.distribution_page).subscribe(res =>{
+        this.loginService.toggleUsersSettingsDistribution(this.user_id,this.main_page,this.settings_page,this.list_tt_page,this.distribution_page,this.report_page, this.tests_page).subscribe(res =>{
           this.drawer.close();
         })
         break;

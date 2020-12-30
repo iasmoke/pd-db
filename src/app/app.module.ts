@@ -27,7 +27,6 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { DateAdapter, MatNativeDateModule, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MainUserMtComponent } from './main-user-mt/main-user-mt.component';
-import { MainUserPiComponent } from './main-user-pi/main-user-pi.component';
 import { ListTtComponent } from './list-tt/list-tt.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { A11yModule } from '@angular/cdk/a11y';
@@ -64,6 +63,9 @@ import { ModalUsersSettingsComponent } from './modal-users-settings/modal-users-
 import { ModalHrComponent } from './modal-hr/modal-hr.component';
 import { ModalMtComponent } from './modal-mt/modal-mt.component';
 import { ReportPageComponent } from './report-page/report-page.component';
+import { TestsComponent } from './tests/tests.component';
+import { SatDatepickerModule, SatNativeDateModule } from 'saturn-datepicker';
+import { saveAs } from 'file-saver';
 
 export const MY_FORMATS = {
   parse: {
@@ -88,14 +90,14 @@ export const MY_FORMATS = {
     TelegramSendComponent,
     MainUserHrComponent,
     MainUserMtComponent,
-    MainUserPiComponent,
     ListTtComponent,
     ModalAdminComponent,
     ModalListTtComponent,
     ModalUsersSettingsComponent,
     ModalHrComponent,
     ModalMtComponent,
-    ReportPageComponent
+    ReportPageComponent,
+    TestsComponent
   ],
   imports: [
     BrowserModule,
@@ -157,7 +159,10 @@ export const MY_FORMATS = {
     MatTreeModule,
     OverlayModule,
     PortalModule,
-    ScrollingModule
+    ScrollingModule,
+    SatDatepickerModule,
+    SatNativeDateModule,
+    saveAs
   ],
   providers: [
     MatDatepickerModule,

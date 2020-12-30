@@ -24,6 +24,11 @@ export class ModalAdminComponent implements OnInit {
   valueDelete = this.data.value === 'delete' ? true : false;
   id_tt: any
 
+  first_name:any
+  last_name:any
+
+
+
 
   constructor(
     public dialogRef: MatDialogRef<ModalAdminComponent>,
@@ -56,13 +61,13 @@ export class ModalAdminComponent implements OnInit {
     switch (this.data.value) {
       case 'new':
         this.newPerson = this.formBuilder.group({
-          first_name:new FormControl('', Validators.required),
+          first_name: new FormControl('', Validators.required),
           last_name: new FormControl('', Validators.required),
           second_name: new FormControl(''),
           type_department: new FormControl('', Validators.required),
           department: new FormControl('', Validators.required),
           position: new FormControl('', Validators.required),
-          number_phone:new FormControl('', [Validators.required, Validators.pattern("[0-9]{10}")]),
+          number_phone: new FormControl('', [Validators.required, Validators.pattern("[0-9]{10}")]),
           status: new FormControl('', Validators.required),
           employee_description: [''],
         });
@@ -79,15 +84,24 @@ export class ModalAdminComponent implements OnInit {
           status: new FormControl('', Validators.required),
           employee_description: new FormControl(''),
         });
-        this.editPerson.controls['first_name'].setValue(this.data.row.first_name);
-        this.editPerson.controls['last_name'].setValue(this.data.row.last_name);
-        this.editPerson.controls['second_name'].setValue(this.data.row.second_name);
+        let array_row = this.data.row.fio.split(' ')
+        this.editPerson.controls['first_name'].setValue(array_row[1]);
+        this.editPerson.controls['last_name'].setValue(array_row[0]);
+        this.editPerson.controls['second_name'].setValue(array_row[2]);
         this.editPerson.controls['type_department'].setValue(this.data.row.type_department);
         this.editPerson.controls['department'].setValue(this.data.row.department);
         this.editPerson.controls['position'].setValue(this.data.row.position);
         this.editPerson.controls['number_phone'].setValue(this.data.row.number_phone.substr(3));
         this.editPerson.controls['status'].setValue(this.data.row.status);
         this.editPerson.controls['employee_description'].setValue(this.data.row.employee_description);
+
+        this.editPerson.value.type_department === 'Офис' ? this.office = true : false
+        this.editPerson.value.type_department === 'Торговая точка' ? this.trade_dot = true : false
+        break;
+        case 'delete':
+          let fio = this.data.row.fio.split(' ')
+          this.first_name = fio[1]
+          this.last_name = fio[0]
         break;
     }
 
@@ -100,8 +114,8 @@ export class ModalAdminComponent implements OnInit {
         console.log(this.newPerson.value);
         break;
       default:
-        let date_now = moment(new Date().getTimezoneOffset()).format('DD.MM.YYYY HH:mm:ss');
-        this.mainService.admin_main_add_employee(this.newPerson.value, date_now, this.user_name).subscribe((res) => {
+        let dateTimeNow = moment.parseZone(new Date()).format('YYYY-MM-DD HH:mm:ss')
+        this.mainService.admin_main_add_employee(this.newPerson.value, dateTimeNow, this.user_name).subscribe((res) => {
           this.modal_alert_message = JSON.parse(res);
           switch (this.modal_alert_message) {
             case 'Пользователь добавлен':
@@ -128,7 +142,7 @@ export class ModalAdminComponent implements OnInit {
         console.log(this.editPerson.value);
         break;
       default:
-        let dateTimeNow = moment.parseZone(new Date ()).format('YYYY-MM-DD HH:mm:ss')
+        let dateTimeNow = moment.parseZone(new Date()).format('YYYY-MM-DD HH:mm:ss')
         this.mainService.admin_main_update_employee(this.user_name, this.editPerson.value, dateTimeNow).subscribe((res) => {
           this.modal_alert_message = JSON.parse(res);
           console.log(this.modal_alert_message)
@@ -157,14 +171,14 @@ export class ModalAdminComponent implements OnInit {
         case 'Пользователь удален':
           this.dialogRef.close(this.modal_alert_message)
           break;
-          default:
-            this._snackBar.open(this.modal_alert_message, '', {
-              duration: 7000,
-              horizontalPosition: 'center',
-              verticalPosition: 'top',
-              panelClass: 'alert-style-error'
-            });
-            break;
+        default:
+          this._snackBar.open(this.modal_alert_message, '', {
+            duration: 7000,
+            horizontalPosition: 'center',
+            verticalPosition: 'top',
+            panelClass: 'alert-style-error'
+          });
+          break;
       }
     })
   }

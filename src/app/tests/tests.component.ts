@@ -19,11 +19,12 @@ export interface DialogData {
 }
 
 @Component({
-  selector: 'app-main-user-mt',
-  templateUrl: './main-user-mt.component.html',
-  styleUrls: ['./main-user-mt.component.scss']
+  selector: 'app-tests',
+  templateUrl: './tests.component.html',
+  styleUrls: ['./tests.component.scss']
 })
-export class MainUserMtComponent implements OnInit {
+export class TestsComponent implements OnInit {
+
 
   id_tt: string[];
   search: any
@@ -31,12 +32,12 @@ export class MainUserMtComponent implements OnInit {
   displayedColumns: string[] = [
     'fio',
     'name_test',
-    'internship_date',
     'test_score',
     'passing_date',
     'type_department',
     'department',
-    'position'
+    'position',
+    'internship_date'
   ];
   dataSource = new MatTableDataSource();
 
@@ -162,5 +163,6 @@ export class MainUserMtComponent implements OnInit {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
+
 
 }

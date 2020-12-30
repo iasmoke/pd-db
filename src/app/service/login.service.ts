@@ -68,7 +68,7 @@ export class LoginService {
     );
   }
 
-  toggleUsersSettingsDistribution(user_id,main_page,settings_page,list_tt_page,distribution_page) {
+  toggleUsersSettingsDistribution(user_id,main_page,settings_page,list_tt_page, distribution_page,report_page,tests_page) {
     return this.http.post(
       './assets/php/users_settings_distribution_toggle.php',
       JSON.stringify(
@@ -77,7 +77,9 @@ export class LoginService {
           main_page:main_page,
           settings_page:settings_page,
           list_tt_page:list_tt_page,
-          distribution_page:distribution_page
+          distribution_page:distribution_page,
+          report_page:report_page,
+          tests_page:tests_page
 
         }
       ),

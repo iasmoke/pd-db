@@ -16,7 +16,7 @@ if ($stmt = $db_connect->prepare($sql)) {
     $stmt->bind_result(
         $number_td,
         $address
-     
+
     );
     while ($stmt->fetch()) {
         $res[] =  $number_td.' - ' .$address;

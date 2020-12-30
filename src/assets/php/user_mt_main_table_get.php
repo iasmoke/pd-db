@@ -12,9 +12,10 @@ $_POST = json_decode(file_get_contents('php://input'), true);
 $name_test_post = $_POST['name_test'];
 $passing_date_post = $_POST['passing_date'] === 'Invalid date' ? 'all' : $_POST['passing_date'];
 
+
 switch ($name_test_post === 'all' && $passing_date_post === 'all') {
   case true:
-    $sql = "SELECT id_person,	name_test, last_name, first_name,	second_name, test_score, type_department, department,	position,	passing_date FROM test_personnel";
+    $sql = "SELECT id_person,	name_test, last_name, first_name,	second_name, test_score, type_department, department,	position,	passing_date, internship_date FROM test_personnel";
     if ($stmt = $db_connect->prepare($sql)) {
       $stmt->execute();
       $stmt->bind_result(
@@ -27,7 +28,8 @@ switch ($name_test_post === 'all' && $passing_date_post === 'all') {
         $type_department,
         $department,
         $position,
-        $passing_date
+        $passing_date,
+        $internship_date
       );
       while ($stmt->fetch()) {
         $res[] = array(
@@ -39,6 +41,7 @@ switch ($name_test_post === 'all' && $passing_date_post === 'all') {
           'department' => (string) $department,
           'type_department' => (string) $type_department,
           'passing_date' => $passing_date,
+          'internship_date' => $internship_date === null ? '' : date("d.m.Y", strtotime($internship_date))
         );
       }
     }
@@ -47,7 +50,7 @@ switch ($name_test_post === 'all' && $passing_date_post === 'all') {
 }
 switch ($passing_date_post !== 'all' && $name_test_post === 'all') {
   case true;
-    $sql = "SELECT id_person,	name_test, last_name, first_name,	second_name, test_score, type_department, department,	position,	passing_date FROM test_personnel WHERE passing_date=?";
+    $sql = "SELECT id_person,	name_test, last_name, first_name,	second_name, test_score, type_department, department,	position,	passing_date, internship_date FROM test_personnel WHERE passing_date=?";
     if ($stmt = $db_connect->prepare($sql)) {
       $stmt->bind_param("s", $passing_date_post);
       $stmt->execute();
@@ -61,7 +64,8 @@ switch ($passing_date_post !== 'all' && $name_test_post === 'all') {
         $type_department,
         $department,
         $position,
-        $passing_date
+        $passing_date,
+        $internship_date
       );
       while ($stmt->fetch()) {
         $res[] = array(
@@ -73,6 +77,7 @@ switch ($passing_date_post !== 'all' && $name_test_post === 'all') {
           'department' => (string) $department,
           'type_department' => (string) $type_department,
           'passing_date' => $passing_date,
+          'internship_date' => $internship_date === null ? '' : date("d.m.Y", strtotime($internship_date))
         );
       }
     }
@@ -81,7 +86,7 @@ switch ($passing_date_post !== 'all' && $name_test_post === 'all') {
 }
 switch ($passing_date_post === 'all' && $name_test_post !== 'all') {
   case true;
-  $sql = "SELECT id_person,	name_test, last_name, first_name,	second_name, test_score, type_department, department,	position,	passing_date FROM test_personnel WHERE name_test=? ";
+  $sql = "SELECT id_person,	name_test, last_name, first_name,	second_name, test_score, type_department, department,	position,	passing_date, internship_date FROM test_personnel WHERE name_test=? ";
   if ($stmt = $db_connect->prepare($sql)) {
     $stmt->bind_param("s", $name_test_post);
     $stmt->execute();
@@ -95,7 +100,8 @@ switch ($passing_date_post === 'all' && $name_test_post !== 'all') {
       $type_department,
       $department,
       $position,
-      $passing_date
+      $passing_date,
+      $internship_date
     );
     while ($stmt->fetch()) {
       $res[] = array(
@@ -107,6 +113,7 @@ switch ($passing_date_post === 'all' && $name_test_post !== 'all') {
         'department' => (string) $department,
         'type_department' => (string) $type_department,
         'passing_date' => $passing_date,
+        'internship_date' => $internship_date === null ? '' : date("d.m.Y", strtotime($internship_date))
       );
     }
   }
@@ -116,7 +123,7 @@ switch ($passing_date_post === 'all' && $name_test_post !== 'all') {
 
 switch (($passing_date_post !== 'all') && ($name_test_post !== 'all')) {
   case true;
-  $sql = "SELECT id_person,	name_test, last_name, first_name,	second_name, test_score, type_department, department,	position,	passing_date FROM test_personnel WHERE name_test=? AND passing_date=? ";
+  $sql = "SELECT id_person,	name_test, last_name, first_name,	second_name, test_score, type_department, department,	position,	passing_date, internship_date FROM test_personnel WHERE name_test=? AND passing_date=? ";
   if ($stmt = $db_connect->prepare($sql)) {
     $stmt->bind_param("ss", $name_test_post, $passing_date_post);
     $stmt->execute();
@@ -130,7 +137,8 @@ switch (($passing_date_post !== 'all') && ($name_test_post !== 'all')) {
       $type_department,
       $department,
       $position,
-      $passing_date
+      $passing_date,
+      $internship_date
     );
     while ($stmt->fetch()) {
       $res[] = array(
@@ -142,6 +150,7 @@ switch (($passing_date_post !== 'all') && ($name_test_post !== 'all')) {
         'department' => (string) $department,
         'type_department' => (string) $type_department,
         'passing_date' => $passing_date,
+        'internship_date' => $internship_date === null ? '' : date("d.m.Y", strtotime($internship_date))
       );
     }
   }

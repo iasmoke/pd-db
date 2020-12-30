@@ -6,7 +6,7 @@
         <a class="navbar-brand text-white">Pizza Day DB</a>
         <div class="ml-auto row">
             <h3 class="mr-3">{{user_name}}</h3>
-            <button mat-raised-button color="warn" *ngIf="user_id !== null" class="ml-1" (click)="logout()">Выйти</button>
+            <button mat-raised-button color="warn" *ngIf="user_id !== null" class="mr-3" (click)="logout()">Выйти</button>
         </div>
     </mat-toolbar-row>
 </mat-toolbar>
@@ -20,13 +20,16 @@
             <mat-list-item *ngIf="user_role === 'admin'">
                 <mat-icon>perm_contact_calendar</mat-icon><button mat-flat-button (click)="togglePage('settings_page','access_settings')">Пользователи</button></mat-list-item>
             <mat-divider></mat-divider>
+            <mat-list-item *ngIf="user_role !== 'user_mt'">
+              <mat-icon>assignment</mat-icon><button mat-flat-button (click)="togglePage('tests_page','access_tests')">Тесты</button></mat-list-item>
+          <mat-divider></mat-divider>
             <mat-list-item>
                 <mat-icon>store</mat-icon><button mat-flat-button (click)="togglePage('list_tt_page','access_list_tt')">Заведение</button></mat-list-item>
             <mat-divider></mat-divider>
             <mat-list-item>
                 <mat-icon>reply_all</mat-icon><button mat-flat-button (click)="togglePage('distribution_page','access_distribution')">Рассылка в Telegram</button></mat-list-item>
             <mat-divider></mat-divider>
-            <mat-list-item>
+            <mat-list-item >
               <mat-icon>report</mat-icon><button mat-flat-button (click)="togglePage('report_page','access_report')">Отзывы и предложения</button></mat-list-item>
           <mat-divider></mat-divider>
         </mat-list>
@@ -39,6 +42,7 @@
     <app-list-tt *ngIf="list_tt_page"></app-list-tt>
     <app-telegram-send *ngIf="distribution_page"></app-telegram-send>
     <app-report-page *ngIf="report_page"></app-report-page>
+    <app-tests *ngIf="tests_page"></app-tests>
 </mat-drawer-container>
 
 <app-login *ngIf="login_page"></app-login>

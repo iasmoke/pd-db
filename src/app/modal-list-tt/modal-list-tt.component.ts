@@ -56,12 +56,12 @@ export class ModalListTtComponent implements OnInit {
         this.edit_outlet.controls['id_tt'].setValue(this.data.row.id_tt)
         this.edit_outlet.controls['number_td'].setValue(this.data.row.number_td);
         this.edit_outlet.controls['address'].setValue(this.data.row.address);
-        this.edit_outlet.controls['date_open'].setValue(moment.parseZone(this.data.row.date_open,"DD-MM-YYYY"));
+        this.edit_outlet.controls['date_open'].setValue(this.data.row.date_open === '' ? null : moment.parseZone(this.data.row.date_open,"DD.MM.YYYY").format('YYYY-MM-DD'));
         this.edit_outlet.controls['city'].setValue(this.data.row.city);
         this.edit_outlet.controls['manager'].setValue(this.data.row.manager);
         this.edit_outlet.controls['rm'].setValue(this.data.row.rm);
         console.log(this.edit_outlet);
-        
+
     break;
   }
   }
@@ -98,6 +98,7 @@ export class ModalListTtComponent implements OnInit {
         console.log(this.edit_outlet.value);
         break;
       default:
+        this.edit_outlet.value.date_open === null ? null : this.edit_outlet.controls['date_open'].setValue(moment.parseZone(this.edit_outlet.value.date_open).format('DD.MM.YYYY'));
         this.ListTtService.edit_outlet(this.edit_outlet.value).subscribe((res) => {
           this.modal_alert_message = JSON.parse(res);
           console.log(this.modal_alert_message)

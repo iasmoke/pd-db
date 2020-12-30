@@ -5,6 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { DialogData } from '../main/main.component';
 import { MainService } from '../service/main.service';
 import * as moment from 'moment';
+import { TestsService } from '../service/tests.service';
 
 @Component({
   templateUrl: './modal-hr.component.html',
@@ -17,7 +18,7 @@ export class ModalHrComponent implements OnInit {
 
   user_name = this.data.user_name
   modal_alert_message: any
-  office = true;
+  office = false;
   trade_dot = false
   formValueAdd = this.data.value === 'new' ? true : false;
   formValueEdit = this.data.value === 'edit' ? true : false;
@@ -32,7 +33,8 @@ export class ModalHrComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
     public formBuilder: FormBuilder,
     private mainService: MainService,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private testService:TestsService
   ) {
     this.mainService.get_id_tt().subscribe(res => {
       this.id_tt = JSON.parse(res)
@@ -57,16 +59,15 @@ export class ModalHrComponent implements OnInit {
           position: new FormControl('', Validators.required),
           department: new FormControl('', Validators.required),
           number_phone: new FormControl('', [Validators.required, Validators.pattern('[0-9]{10}')]),
-          attraction_channel:  new FormControl(''),
+          attraction_channel: new FormControl(''),
           type_department: new FormControl('', Validators.required),
-          attraction_channel_description:  new FormControl('').disable(),
-          interview_date:  new FormControl(),
-          internship_date:  new FormControl(),
-          certification_date:  new FormControl(),
-          internship_place:  new FormControl(''),
-          rejection_reason:  new FormControl(''),
+          attraction_channel_description: new FormControl('').disable(),
+          interview_date: new FormControl(),
+          internship_date: new FormControl(),
+          internship_place: new FormControl(''),
+          rejection_reason: new FormControl(''),
           status: new FormControl('', Validators.required),
-          employee_description:  new FormControl(''),
+          employee_description: new FormControl(''),
           color: new FormControl('')
         });
         break;
@@ -78,20 +79,18 @@ export class ModalHrComponent implements OnInit {
           position: new FormControl('', Validators.required),
           department: new FormControl('', Validators.required),
           number_phone: new FormControl('', [Validators.required, Validators.pattern('[0-9]{10}')]),
-          attraction_channel:  new FormControl(''),
+          attraction_channel: new FormControl(''),
           type_department: new FormControl('', Validators.required),
-          attraction_channel_description:  new FormControl(''),
-          interview_date:  new FormControl(''),
-          internship_date:  new FormControl(''),
-          internship_place:  new FormControl(''),
-          certification_date:  new FormControl(''),
-          rejection_reason:  new FormControl(''),
+          attraction_channel_description: new FormControl(''),
+          interview_date: new FormControl(''),
+          internship_date: new FormControl(''),
+          internship_place: new FormControl(''),
+          rejection_reason: new FormControl(''),
           status: new FormControl('', Validators.required),
-          employee_description:  new FormControl(''),
+          employee_description: new FormControl(''),
           color: new FormControl('')
         });
-
-
+        
         let array_row = this.data.row.fio.split(' ')
         this.editPerson.controls['first_name'].setValue(array_row[1]);
         this.editPerson.controls['last_name'].setValue(array_row[0]);
@@ -102,9 +101,8 @@ export class ModalHrComponent implements OnInit {
         this.editPerson.controls['attraction_channel'].setValue(this.data.row.attraction_channel);
         this.editPerson.controls['type_department'].setValue(this.data.row.type_department);
         this.editPerson.controls['attraction_channel_description'].setValue(this.data.row.attraction_channel_description);
-        this.editPerson.controls['interview_date'].setValue(moment.parseZone(this.data.row.interview_date).format('YYYY-DD-MM'));
-        this.editPerson.controls['internship_date'].setValue(moment.parseZone(this.data.row.interview_date).format('DD-MM-YYYY'));
-        this.editPerson.controls['certification_date'].setValue(moment.parseZone(this.data.row.interview_date).format('DD-MM-YYYY'));
+        this.editPerson.controls['interview_date'].setValue(this.data.row.interview_date === '' ? null : moment.parseZone(this.data.row.interview_date,"DD.MM.YYYY").format('YYYY-MM-DD'));
+        this.editPerson.controls['internship_date'].setValue(this.data.row.internship_date === '' ? null : moment.parseZone(this.data.row.internship_date, "DD.MM.YYYY").format('YYYY-MM-DD'));
         this.editPerson.controls['internship_place'].setValue(this.data.row.internship_place);
         this.editPerson.controls['rejection_reason'].setValue(this.data.row.rejection_reason);
         this.editPerson.controls['status'].setValue(this.data.row.status);
@@ -113,20 +111,19 @@ export class ModalHrComponent implements OnInit {
         this.editPerson.value.status === "Кандидат" ? this.candidate = true : false
         this.editPerson.value.status === "Стажёр" ? this.internships = true : false
         this.editPerson.value.status === "Отказали" ? this.if_rejection_reasons = true : false
-        console.log(this.data.row);
-        console.log(moment.parseZone(this.data.row.interview_date).format('DD-MM-YYYY'));
-        console.log(moment(this.data.row.interview_date).format('YYYY-DD-MM'));
-        console.log(this.data.row.interview_date === '' ? '' : moment(this.data.row.interview_date).format('DD-MM-YYYY'));
+        this.editPerson.value.type_department === 'Офис' ? this.office = true : false
+        this.editPerson.value.type_department === 'Торговая точка' ? this.trade_dot = true : false
+
 
         switch (this.editPerson.value.status) {
           case `Кандидат`:
-            this.editPerson.value.attraction_channel === 'Рекомендация от третьих лиц' ?  this.editPerson.get('attraction_channel_description').enable() :  this.editPerson.get('attraction_channel_description').disable();
+            this.editPerson.value.attraction_channel === 'Рекомендация от третьих лиц' ? this.editPerson.get('attraction_channel_description').enable() : this.editPerson.get('attraction_channel_description').disable();
+            break;
         }
         break;
     }
     this.onChangesEditForm();
     this.onChangesPosition();
-    this.onChangesStatus();
   }
 
   addEmployee() {
@@ -135,10 +132,9 @@ export class ModalHrComponent implements OnInit {
         console.log(this.newPerson);
         break;
       default:
-        let dateTimeNow = moment.parseZone(new Date ()).format('YYYY-MM-DD HH:mm:ss')
-        this.newPerson.value.interview_date === null ? null :  this.newPerson.controls['interview_date'].setValue(moment.parseZone(this.newPerson.value.interview_date).format('YYYY-MM-DD'));
-        this.newPerson.value.internship_date === null ? null :  this.newPerson.controls['internship_date'].setValue(moment.parseZone(this.newPerson.value.internship_date).format('YYYY-MM-DD'));
-        this.newPerson.value.certification_date === null ? null :  this.newPerson.controls['certification_date'].setValue(moment.parseZone(this.newPerson.value.certification_date).format('YYYY-MM-DD'));
+        let dateTimeNow = moment.parseZone(new Date()).format('YYYY-MM-DD HH:mm:ss')
+        this.newPerson.value.interview_date === null ? null : this.newPerson.controls['interview_date'].setValue(moment.parseZone(this.newPerson.value.interview_date).format('YYYY-MM-DD'));
+        this.newPerson.value.internship_date === null ? null : this.newPerson.controls['internship_date'].setValue(moment.parseZone(this.newPerson.value.internship_date).format('YYYY-MM-DD'));
         this.mainService.user_hr_main_add_employee(this.newPerson.value, dateTimeNow, this.user_name).subscribe((res) => {
           this.modal_alert_message = JSON.parse(res);
           console.log(this.modal_alert_message);
@@ -160,32 +156,33 @@ export class ModalHrComponent implements OnInit {
   }
 
   updateEmployee() {
-    switch(this.editPerson.invalid){
+    switch (this.editPerson.invalid) {
       case true:
         console.log(this.editPerson)
-      break;
+        break;
       default:
-        let dateTimeNow = moment.parseZone(new Date ()).format('YYYY-MM-DD HH:mm:ss')
-        this.editPerson.value.interview_date === null ? null :  this.editPerson.controls['interview_date'].setValue(moment.parseZone(this.editPerson.value.interview_date).format('YYYY-MM-DD'));
-        this.editPerson.value.internship_date === null ? null :  this.editPerson.controls['internship_date'].setValue(moment.parseZone(this.editPerson.value.internship_date).format('YYYY-MM-DD'));
-        this.editPerson.value.certification_date === null ? null :  this.editPerson.controls['certification_date'].setValue(moment.parseZone(this.editPerson.value.certification_date).format('YYYY-MM-DD'));
-        this.mainService.user_hr_main_update_employee(this.user_name, this.editPerson.value, dateTimeNow).subscribe((res) => {
-            this.modal_alert_message = JSON.parse(res);
+        let dateTimeNow = moment.parseZone(new Date()).format('YYYY-MM-DD HH:mm:ss')
+        this.editPerson.value.interview_date === null ? null : this.editPerson.controls['interview_date'].setValue(moment.parseZone(this.editPerson.value.interview_date).format('YYYY-MM-DD'));
+        this.editPerson.value.internship_date === null ? null : this.editPerson.controls['internship_date'].setValue(moment.parseZone(this.editPerson.value.internship_date).format('YYYY-MM-DD'));
+        this.mainService.user_hr_main_update_employee(this.user_name, this.editPerson.value, dateTimeNow, this.data.row.id_person).subscribe((res) => {
+          this.modal_alert_message = JSON.parse(res);
           console.log(this.modal_alert_message = JSON.parse(res))
-            switch (this.modal_alert_message) {
-              case 'Данные обновлены':
-                this.dialogRef.close(this.modal_alert_message)
-                break;
-              default:
-                this._snackBar.open(this.modal_alert_message[0].error, '', {
-                  duration: 7000,
-                  horizontalPosition: 'center',
-                  verticalPosition: 'top',
-                  panelClass: 'alert-style-error'
-                });
-                break;
-            }
-          });
+          switch (this.modal_alert_message) {
+            case 'Данные обновлены':
+              this.testService.tests_update_persons_data(this.editPerson.value,this.data.row.id_person).subscribe(res => {
+              this.dialogRef.close(this.modal_alert_message)
+            })
+              break;
+            default:
+              this._snackBar.open(this.modal_alert_message[0].error, '', {
+                duration: 7000,
+                horizontalPosition: 'center',
+                verticalPosition: 'top',
+                panelClass: 'alert-style-error'
+              });
+              break;
+          }
+        });
         break;
     }
   }
@@ -245,64 +242,4 @@ export class ModalHrComponent implements OnInit {
     }
   }
 
-
-  onChangesStatus() {
-    switch(this.data.value){
-      case 'new':
-    this.newPerson.get('status').valueChanges.subscribe((status) => {
-      if (status === 'Кандидат') {
-        this.candidate = true
-        this.newPerson.value.attraction_channel_description !== 'Рекомендация от третьих лиц' ? this.newPerson.get('attraction_channel_description').disable() : this.newPerson.get('attraction_channel_description').enable();
-      } else {
-        this.candidate = false
-        this.newPerson.controls['interview_date'].setValue(null)
-        this.newPerson.controls['attraction_channel'].setValue(null)
-        this.newPerson.controls['attraction_channel_description'].setValue(null)
-      }
-    });
-    this.newPerson.get('status').valueChanges.subscribe((selectStatus) => {
-      if (selectStatus === 'Стажёр') {
-        this.internships = true
-      } else {
-        this.internships = false
-        this.newPerson.controls['internship_place'].setValue(null)
-        this.newPerson.controls['internship_date'].setValue(null)
-        this.newPerson.controls['certification_date'].setValue(null)
-      }
-    });
-    this.newPerson.get('status').valueChanges.subscribe((select_status) => {
-      if (select_status === 'Отказали') {
-        this.if_rejection_reasons = true
-      } else {
-        this.if_rejection_reasons = false;
-        this.newPerson.controls['rejection_reason'].setValue(null)
-      }
-    })
-    break;
-    case 'edit':
-      this.editPerson.get('status').valueChanges.subscribe((status) => {
-        if (status === 'Кандидат') {
-          this.candidate = true
-        } else {
-          this.candidate = false
-        }
-      });
-      this.editPerson.get('status').valueChanges.subscribe((selectStatus) => {
-        if (selectStatus === 'Стажёр') {
-          this.internships = true
-        } else {
-          this.internships = false
-
-
-        }
-      });
-      this.editPerson.get('status').valueChanges.subscribe((select_status) => {
-        if (select_status === 'Отказали') {
-          this.if_rejection_reasons = true
-        } else {
-          this.if_rejection_reasons = false;
-        }
-      })
-  }
-  }
 }

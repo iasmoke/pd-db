@@ -1,4 +1,4 @@
-<div class="container-fluid mt-2 mb-3">
+<div class="container-fluid mt-2">
   <div class="row">
     <mat-form-field class="col-2 mt-2">
       <mat-label>Поиск</mat-label>
@@ -52,6 +52,11 @@
         <td mat-cell *matCellDef="let row">{{row.position}}</td>
       </ng-container>
 
+      <ng-container matColumnDef="internship_date">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Дата стажировки</th>
+        <td mat-cell *matCellDef="let row">{{ row.internship_date}}</td>
+      </ng-container>
+      
       <ng-container matColumnDef="name_test">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Название теста</th>
         <td mat-cell *matCellDef="let row">{{ row.name_test}}</td>
@@ -66,11 +71,6 @@
         </td>
       </ng-container>
 
-      <ng-container matColumnDef="internship_date">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Дата стажировки</th>
-        <td mat-cell *matCellDef="let row">{{ row.internship_date}}</td>
-      </ng-container>
-
       <ng-container matColumnDef="passing_date">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Дата тестирования</th>
         <td mat-cell *matCellDef="let row">
@@ -81,6 +81,7 @@
           </mat-form-field>
         </td>
       </ng-container>
+
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
       <tr mat-row class="example-element-row col" *matRowDef="let row; columns: displayedColumns"></tr>

@@ -45,7 +45,7 @@
             <mat-label>Номер торговой точки</mat-label>
             <input matInput formControlName="number_td">
         </mat-form-field>
-        
+
         <mat-form-field class="col">
             <mat-label>Дата открытия</mat-label>
             <input matInput formControlName='date_open' [matDatepicker]="picker_edit_outlet"
@@ -85,7 +85,7 @@
 </div>
 
 <div mat-dialog-actions *ngIf="formValueEdit">
-    <button mat-raised-button color="primary" style="margin-bottom: 12px" (click)="editOutlet()">Добавить</button>
+    <button mat-raised-button color="primary" style="margin-bottom: 12px" (click)="editOutlet()">Изменить</button>
     <button mat-raised-button color="primary" mat-dialog-close
         style="margin-left: auto; margin-bottom: 12px">Отмена</button>
 </div>
