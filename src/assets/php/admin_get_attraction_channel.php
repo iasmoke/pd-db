@@ -10,8 +10,8 @@ require_once('connect_db.php');
 $_POST = json_decode(file_get_contents('php://input'), true);
 
 $date = $_POST['date'];
-$begin = date_format($date['begin'], 'Y-m-d');
-$end = date_format($date['end'],'Y-m-d');
+$begin = date('Y-m-d', strtotime($date['date']['begin']));
+$end = date('Y-m-d', strtotime($date['date']['end']));
 
 switch ($date) {
     case null:
@@ -19,7 +19,7 @@ switch ($date) {
         echo (json_encode($res));
         break;
     default:
-        $sql = "SELECT first_name,last_name,second_name,type_department,department,position,number_phone,`status`,employee_description FROM db_main WHERE internship_date BETWEEN ? AND ? AND attraction_channel='Рекомендация от третьих лиц'";
+        $sql = "SELECT first_name,last_name,second_name,internship_date,attraction_channel,attraction_channel_description,employee_description FROM db_main WHERE internship_date BETWEEN ? AND ? AND attraction_channel='Рекомендация от третьих лиц'";
         if ($stmt = $db_connect->prepare($sql)) {
             $stmt->bind_param('ss', $begin, $end);
             $stmt->execute();
@@ -27,21 +27,17 @@ switch ($date) {
                 $first_name,
                 $last_name,
                 $second_name,
-                $type_department,
-                $department,
-                $position,
-                $number_phone,
-                $status,
+                $internship_date,
+                $attraction_channel,
+                $attraction_channel_description,
                 $employee_description
             );
             while ($stmt->fetch()) {
                 $res[] = array(
                     'fio' =>  $last_name . " " . $first_name . " " . $second_name,
-                    'type_department' => $type_department,
-                    'department' => (string) $department,
-                    'position' => (string) $position,
-                    'number_phone' => (string) $number_phone,
-                    'status' => (string) $status,
+                    'internship_date' => $internship_date,
+                    'attraction_channel' => (string) $attraction_channel,
+                    'attraction_channel_description' => (string) $attraction_channel_description,
                     'employee_description' => (string) $employee_description,
                 );
             }

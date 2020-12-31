@@ -7,19 +7,20 @@
           <input matInput [(ngModel)]="search" (keyup)="applyFilter($event)">
         </mat-form-field>
       </div>
-      <div class="ml-auto">
-        <button mat-fab-button  color="primary" (click)="downloadFileCSV()"><span class="material-icons">
-          save_alt
-          </span></button>
-      </div>
-      <div [formGroup]="form" class="ml-2">
+
+      <div [formGroup]="form" class="ml-auto">
         <mat-form-field>
           <input matInput [satDatepicker]="picker" formControlName="date">
           <sat-datepicker #picker [rangeMode]="true"></sat-datepicker>
           <sat-datepicker-toggle matSuffix [for]="picker"></sat-datepicker-toggle>
         </mat-form-field>
       </div>
-      <div class="ml-2">
+      <div class="ml-1">
+        <button mat-mini-fab color="primary" (click)="downloadFileCSV()"><span class="material-icons">
+          save_alt
+          </span></button>
+      </div>
+      <div class="ml-3">
         <button mat-fab color="primary" (click)="openDialog(this.id_person ,'new')">
           <mat-icon>add</mat-icon>
         </button>

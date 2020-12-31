@@ -82,7 +82,7 @@ export class MainComponent implements OnInit {
     })
 
     this.form = this.formBuilder.group({
-      date: new FormControl ({begin:'', end:''})
+      date: new FormControl ({begin:'', end:''}),
     });
 
   }
@@ -128,19 +128,40 @@ export class MainComponent implements OnInit {
     const blob = new Blob([csvArray], { type: 'text/csv' });
     const url = window.URL.createObjectURL(blob);
 
+    let today = new Date();
+    let day = today.getUTCDate();
     a.href = url;
-    a.download = 'myFile.csv';
+    a.download = day + '.csv';
     a.click();
     window.URL.revokeObjectURL(url);
     a.remove();
   }
 
   downloadFileCSV(){
-    this.mainService.admin_get_attraction_channel(this.form.value).subscribe(res => {
-      console.log(res);
-      this.downloadFile(JSON.parse(res))
+    switch(this.form.value.date.end){
+      case null:
+        this._snackBar.open('Укажите дату', '', {
+          duration: 2000,
+          horizontalPosition: 'center',
+          verticalPosition: 'top',
+          panelClass: 'alert-style-error'
+        });
+        break;
+        default:
+        this.mainService.admin_get_attraction_channel(this.form.value).subscribe(res => {
+          console.log(res);
+          this.downloadFile(JSON.parse(res))
+          this._snackBar.open('Файл загружен', '', {
+            duration: 2000,
+            horizontalPosition: 'center',
+            verticalPosition: 'top',
+            panelClass: 'alert-style-success'
+          });
+        })
+      break;
 
-    })
+    }
+
   }
 
   ngOnInit(): void {
