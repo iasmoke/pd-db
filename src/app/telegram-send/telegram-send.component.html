@@ -3,8 +3,8 @@
     <div class="col-auto mt-2">
       <mat-form-field>
         <mat-label>Выберете тип подразделения</mat-label>
-        <mat-select [(ngModel)]="type_department" (ngModelChange)="ngModalChangeTypeDepartmentList()">
-          <mat-option value='all'>Все</mat-option>
+        <mat-select (selectionChange)="applyFilter($event.value)">
+          <mat-option value=''>Все</mat-option>
           <mat-option [value]="item_type_department" *ngFor="let item_type_department of list_type_department">
             {{item_type_department}}
           </mat-option>
@@ -13,8 +13,8 @@
       <!-- Office -->
       <mat-form-field *ngIf="booleanTypeOffice">
         <mat-label>Выберете подразделения</mat-label>
-        <mat-select [(ngModel)]="department" (ngModelChange)="ngModalChangeDepartmentOffice()">
-          <mat-option value='all'>Все</mat-option>
+        <mat-select (selectionChange)="applyFilter($event.value)">
+          <mat-option value=''>Все</mat-option>
           <mat-option [value]="items_list_department" *ngFor="let items_list_department of list_department">
             {{items_list_department}}
           </mat-option>
@@ -25,11 +25,9 @@
     <!-- Trade dot -->
     <div *ngIf="booleanTypeTradeDot" class="col-auto mt-2">
 
-      <mat-checkbox color='warn' [(ngModel)]="all_cities" (ngModelChange)="ngModelChangeAllCities()">Все города</mat-checkbox>
-
       <mat-form-field *ngIf="all_cities">
         <mat-label>Выберете должность</mat-label>
-        <mat-select [(ngModel)]="position" (ngModelChange)="ngModelChangePosition()">
+        <mat-select [(ngModel)]="position" (selectionChange)="applyFilter($event.value)">
           <mat-option *ngFor="let items_list_position of list_position" [value]="items_list_position">
             {{items_list_position}}</mat-option>
         </mat-select>
@@ -37,7 +35,7 @@
 
       <mat-form-field *ngIf="!all_cities">
         <mat-label>Выберете город</mat-label>
-        <mat-select [(ngModel)]="array_city" (ngModelChange)="ngModelChangeCities()" multiple>
+        <mat-select [(ngModel)]="array_city" (selectionChange)="ngModelChangeCities()" multiple>
           <mat-option *ngFor="let items_list_cities of list_cities" [value]="items_list_cities">{{items_list_cities}}
           </mat-option>
         </mat-select>
@@ -45,23 +43,23 @@
 
       <mat-form-field *ngIf="!all_cities">
         <mat-label>Выберете заведение</mat-label>
-        <mat-select [(ngModel)]="array_number_td" (ngModelChange)="ngModelChangeNumberTT()" multiple>
+        <mat-select [(ngModel)]="array_number_td" (selectionChange)="ngModelChangeNumberTT()" multiple>
           <mat-option *ngFor="let items_list_number_tt of list_number_tt" [value]="items_list_number_tt">
             TT-{{items_list_number_tt}}</mat-option>
         </mat-select>
       </mat-form-field>
 
     </div>
-    <div class="col-auto mt-2">
+    <!-- <div class="col-auto mt-2">
       <mat-form-field class="example-full-width">
         <mat-label>Текст сообщения</mat-label>
         <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1"
-        cdkAutosizeMaxRows="5" [(ngModel)]='textMessage'></textarea>
+          cdkAutosizeMaxRows="5" [(ngModel)]='textMessage'></textarea>
       </mat-form-field>
     </div>
     <div class="mt-2">
       <button mat-raised-button color="primary" (click)="buttonSendMessage()">Отправить</button>
-    </div>
+    </div> -->
   </div>
   <h2 class="m-2">Подключенные</h2>
   <div class="mat-elevation-z8">
@@ -69,13 +67,15 @@
 
       <ng-container matColumnDef="select">
         <th mat-header-cell *matHeaderCellDef>
-          <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()"
+          <mat-checkbox (change)="$event ? masterToggle() : null; selectPerson()"
+            [checked]="selection.hasValue() && isAllSelected()"
             [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
           </mat-checkbox>
         </th>
         <td mat-cell *matCellDef="let row">
-          <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
-            [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)">
+          <mat-checkbox (click)="$event.stopPropagation()"
+            (change)="$event ? selection.toggle(row) : null; selectPerson()" [checked]="selection.isSelected(row)"
+            [aria-label]="checkboxLabel(row)">
           </mat-checkbox>
         </td>
       </ng-container>
@@ -114,6 +114,26 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns_connected;"></tr>
     </table>
     <mat-paginator #paginator_connected [pageSizeOptions]="[20, 30, 50]" showFirstLastButtons></mat-paginator>
+  </div>
+
+  <h2 class="m-2">Выбранные</h2>
+  <div class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource_select">
+
+      <ng-container matColumnDef="fi">
+        <th mat-header-cell *matHeaderCellDef> Фамилия, Имя </th>
+        <td mat-cell *matCellDef="let element"> {{element.fi}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="department">
+        <th mat-header-cell *matHeaderCellDef> Подразделение </th>
+        <td mat-cell *matCellDef="let element"> {{element.department}} </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns_select"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns_select;"></tr>
+    </table>
+    <mat-paginator #paginator_select [pageSizeOptions]="[20, 30, 50]" showFirstLastButtons></mat-paginator>
   </div>
   <h2 class="m-2">Не подключенные</h2>
   <div class="mat-elevation-z8">

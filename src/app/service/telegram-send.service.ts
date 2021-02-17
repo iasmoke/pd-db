@@ -202,4 +202,16 @@ export class TelegramSendService {
       { responseType: 'text' }
     );
   }
+
+  select_person(user_id, selected){
+    return this.http.post(
+      './assets/php/telegram_get_select_person.php',
+      JSON.stringify({
+        user_id:user_id,
+        selected:selected
+      }),
+      { responseType: 'text' }
+    )
+
+  }
 }

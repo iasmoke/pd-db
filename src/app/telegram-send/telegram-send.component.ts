@@ -7,6 +7,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { BreakpointObserver } from '@angular/cdk/layout';
 declare var $: any;
 
 @Component({
@@ -30,9 +31,12 @@ export class TelegramSendComponent implements OnInit {
   list_cities: string[];
   list_position: string[];
   list_number_tt: any[];
+  list_select:any
 
   dataSource_connected = new MatTableDataSource();
   dataSource_not_connected = new MatTableDataSource();
+  dataSource_select = new MatTableDataSource();
+
   selection = new SelectionModel(true, []);
 
   all_cities = false;
@@ -41,6 +45,9 @@ export class TelegramSendComponent implements OnInit {
 
   @ViewChild('paginator_connected', { static: true }) paginator_connected: MatPaginator;
   @ViewChild('paginator_not_connected', { static: true }) paginator_not_connected: MatPaginator;
+  @ViewChild('paginator_select', { static: true }) paginator_select: MatPaginator;
+
+  local = JSON.parse(localStorage.getItem('data_source'))
 
   displayedColumns_connected: string[] = [
     'select',
@@ -61,6 +68,11 @@ export class TelegramSendComponent implements OnInit {
     'status'
   ];
 
+  displayedColumns_select: string[] = [
+    'fi',
+    'department'
+  ];
+
   TOKEN_id = '1337687879:AAGOM9TILMpbpGDxjlV_XzPfIDSGf57whfM';
   TOKEN_id_test = '1202623405:AAHxtwkptrydHKcKxLRykD9IwF6DdhiKf6k';
 
@@ -70,6 +82,7 @@ export class TelegramSendComponent implements OnInit {
     private loginService: LoginService,
     private settingsUserService: SettingsUsersService,
     private _snackBar: MatSnackBar
+
   ) {
     this.telegramSendService.telegram_send_get_list_type_department().subscribe(res => {
       this.list_type_department = JSON.parse(res);
@@ -83,99 +96,101 @@ export class TelegramSendComponent implements OnInit {
       this.dataSource_connected.paginator = this.paginator_connected;
       this.dataSource_not_connected.paginator = this.paginator_not_connected;
       this.selection = new SelectionModel(true, []);
+      console.log(this.dataSource_connected);
     });
+    this.selectPerson()
   }
 
 
-  ngModalChangeTypeDepartmentList() {
-    this.telegramSendService.telegram_send_get_list_all_person(this.type_department).subscribe((res) => {
-      this.list_people_connected = JSON.parse(res).connected;
-      this.list_people_not_connected = JSON.parse(res).not_connected;
-      this.dataSource_connected = new MatTableDataSource(this.list_people_connected);
-      this.dataSource_not_connected = new MatTableDataSource(this.list_people_not_connected);
-      this.dataSource_connected.paginator = this.paginator_connected;
-      this.dataSource_not_connected.paginator = this.paginator_not_connected;
-      this.selection = new SelectionModel(true, []);
-      switch (this.type_department) {
-        case 'Торговая точка':
-          this.telegramSendService.telegram_send_get_list_cities().subscribe(res => {
-            this.list_cities = JSON.parse(res)
-            this.booleanTypeOffice = false
-            this.booleanTypeTradeDot = true
-            this.department = 'all';
-          });
-          break;
-        case 'Офис':
-          this.telegramSendService.telegram_send_get_department_list(this.type_department).subscribe((res) => {
-            this.list_department = JSON.parse(res);
-            this.booleanTypeTradeDot = false
-            this.booleanTypeOffice = true
-          })
-          break;
-        case 'all':
-          this.booleanTypeTradeDot = false
-          this.booleanTypeOffice = false
-          break
-      }
-    });
-  }
+  // ngModalChangeTypeDepartmentList() {
+  //   this.telegramSendService.telegram_send_get_list_all_person(this.type_department).subscribe((res) => {
+  //     this.list_people_connected = JSON.parse(res).connected;
+  //     this.list_people_not_connected = JSON.parse(res).not_connected;
+  //     this.dataSource_connected = new MatTableDataSource(this.list_people_connected);
+  //     this.dataSource_not_connected = new MatTableDataSource(this.list_people_not_connected);
+  //     this.dataSource_connected.paginator = this.paginator_connected;
+  //     this.dataSource_not_connected.paginator = this.paginator_not_connected;
+  //     this.selection = new SelectionModel(true, []);
+  //     switch (this.type_department) {
+  //       case 'Торговая точка':
+  //         this.telegramSendService.telegram_send_get_list_cities().subscribe(res => {
+  //           this.list_cities = JSON.parse(res)
+  //           this.booleanTypeOffice = false
+  //           this.booleanTypeTradeDot = true
+  //           this.department = 'all';
+  //         });
+  //         break;
+  //       case 'Офис':
+  //         this.telegramSendService.telegram_send_get_department_list(this.type_department).subscribe((res) => {
+  //           this.list_department = JSON.parse(res);
+  //           this.booleanTypeTradeDot = false
+  //           this.booleanTypeOffice = true
+  //         })
+  //         break;
+  //       case 'all':
+  //         this.booleanTypeTradeDot = false
+  //         this.booleanTypeOffice = false
+  //         break
+  //     }
+  //   });
+  // }
 
-  ngModalChangeDepartmentOffice() {
-    this.telegramSendService.telegram_send_get_department_list_person(this.type_department, this.department).subscribe(res => {
-      this.list_people_connected = JSON.parse(res).connected;
-      this.list_people_not_connected = JSON.parse(res).not_connected;
-      this.dataSource_connected = new MatTableDataSource(this.list_people_connected);
-      this.dataSource_not_connected = new MatTableDataSource(this.list_people_not_connected);
-      this.dataSource_connected.paginator = this.paginator_connected;
-      this.dataSource_not_connected.paginator = this.paginator_not_connected;
-      this.selection = new SelectionModel(true, []);
-    })
-  }
+  // ngModalChangeDepartmentOffice() {
+  //   this.telegramSendService.telegram_send_get_department_list_person(this.type_department, this.department).subscribe(res => {
+  //     this.list_people_connected = JSON.parse(res).connected;
+  //     this.list_people_not_connected = JSON.parse(res).not_connected;
+  //     this.dataSource_connected = new MatTableDataSource(this.list_people_connected);
+  //     this.dataSource_not_connected = new MatTableDataSource(this.list_people_not_connected);
+  //     this.dataSource_connected.paginator = this.paginator_connected;
+  //     this.dataSource_not_connected.paginator = this.paginator_not_connected;
+  //     this.selection = new SelectionModel(true, []);
+  //   })
+  // }
 
-  ngModelChangeAllCities() {
-    switch (this.all_cities) {
-      case true:
-        this.telegramSendService.telegram_send_get_position_td().subscribe(res => {
-          this.list_position = JSON.parse(res);
-          this.telegramSendService.telegram_send_get_list_all_person(this.type_department).subscribe((res) => {
-            this.list_people_connected = JSON.parse(res).connected;
-            this.list_people_not_connected = JSON.parse(res).not_connected;
-            this.dataSource_connected = new MatTableDataSource(this.list_people_connected);
-            this.dataSource_not_connected = new MatTableDataSource(this.list_people_not_connected);
-            this.dataSource_connected.paginator = this.paginator_connected;
-            this.dataSource_not_connected.paginator = this.paginator_not_connected;
-            this.selection = new SelectionModel(true, []);
-          })
-        })
-        break;
-      case false:
-        this.telegramSendService.telegram_send_get_list_cities().subscribe(res => {
-          this.list_cities = JSON.parse(res)
-          this.telegramSendService.telegram_send_get_list_all_person(this.type_department).subscribe((res) => {
-            this.list_people_connected = JSON.parse(res).connected;
-            this.list_people_not_connected = JSON.parse(res).not_connected;
-            this.dataSource_connected = new MatTableDataSource(this.list_people_connected);
-            this.dataSource_not_connected = new MatTableDataSource(this.list_people_not_connected);
-            this.dataSource_connected.paginator = this.paginator_connected;
-            this.dataSource_not_connected.paginator = this.paginator_not_connected;
-            this.selection = new SelectionModel(true, []);
-          })
-        })
-        break;
-    }
-  }
+  // ngModelChangeAllCities() {
+  //   switch (this.all_cities) {
+  //     case true:
+  //       this.telegramSendService.telegram_send_get_position_td().subscribe(res => {
+  //         this.list_position = JSON.parse(res);
+  //         this.telegramSendService.telegram_send_get_list_all_person(this.type_department).subscribe((res) => {
+  //           this.list_people_connected = JSON.parse(res).connected;
+  //           this.list_people_not_connected = JSON.parse(res).not_connected;
+  //           this.dataSource_connected = new MatTableDataSource(this.list_people_connected);
+  //           this.dataSource_not_connected = new MatTableDataSource(this.list_people_not_connected);
+  //           this.dataSource_connected.paginator = this.paginator_connected;
+  //           this.dataSource_not_connected.paginator = this.paginator_not_connected;
+  //           this.selection = new SelectionModel(true, []);
+  //         })
+  //       })
+  //       break;
+  //     case false:
+  //       this.telegramSendService.telegram_send_get_list_cities().subscribe(res => {
+  //         this.list_cities = JSON.parse(res)
+  //         this.telegramSendService.telegram_send_get_list_all_person(this.type_department).subscribe((res) => {
+  //           this.list_people_connected = JSON.parse(res).connected;
+  //           this.list_people_not_connected = JSON.parse(res).not_connected;
+  //           this.dataSource_connected = new MatTableDataSource(this.list_people_connected);
+  //           this.dataSource_not_connected = new MatTableDataSource(this.list_people_not_connected);
+  //           this.dataSource_connected.paginator = this.paginator_connected;
+  //           this.dataSource_not_connected.paginator = this.paginator_not_connected;
+  //           this.selection = new SelectionModel(true, []);
+  //         })
+  //       })
+  //       break;
+  //   }
+  // }
 
-  ngModelChangePosition() {
-    this.telegramSendService.telegram_send_get_all_person_position(this.type_department, this.position).subscribe(res => {
-      this.list_people_connected = JSON.parse(res).connected;
-      this.list_people_not_connected = JSON.parse(res).not_connected;
-      this.dataSource_connected = new MatTableDataSource(this.list_people_connected);
-      this.dataSource_not_connected = new MatTableDataSource(this.list_people_not_connected);
-      this.dataSource_connected.paginator = this.paginator_connected;
-      this.dataSource_not_connected.paginator = this.paginator_not_connected;
-      this.selection = new SelectionModel(true, []);
-    })
-  }
+  // ngModelChangePosition() {
+  //   this.telegramSendService.telegram_send_get_all_person_position(this.type_department, this.position).subscribe(res => {
+  //     this.list_people_connected = JSON.parse(res).connected;
+  //     this.list_people_not_connected = JSON.parse(res).not_connected;
+  //     this.dataSource_connected = new MatTableDataSource(this.list_people_connected);
+  //     this.dataSource_not_connected = new MatTableDataSource(this.list_people_not_connected);
+  //     this.dataSource_connected.paginator = this.paginator_connected;
+  //     this.dataSource_not_connected.paginator = this.paginator_not_connected;
+  //     this.selection = new SelectionModel(true, []);
+  //   })
+  // }
 
   ngModelChangeCities() {
     this.telegramSendService.telegram_send_get_list_person_by_cities(this.array_city).subscribe(res => {
@@ -188,18 +203,27 @@ export class TelegramSendComponent implements OnInit {
       this.dataSource_not_connected.paginator = this.paginator_not_connected;
       this.selection = new SelectionModel(true, []);
     })
+
   }
 
   ngModelChangeNumberTT() {
-    this.telegramSendService.telegram_send_get_person_by_number_tt(this.array_number_td).subscribe(res => {
-      this.list_people_connected = JSON.parse(res).connected === null ? [] : JSON.parse(res).connected
-      this.list_people_not_connected = JSON.parse(res).not_connected === null ? [] : JSON.parse(res).not_connected;;
-      this.dataSource_connected = new MatTableDataSource(this.list_people_connected);
-      this.dataSource_not_connected = new MatTableDataSource(this.list_people_not_connected);
-      this.dataSource_connected.paginator = this.paginator_connected;
-      this.dataSource_not_connected.paginator = this.paginator_not_connected;
-      this.selection = new SelectionModel(true, []);
-    })
+    switch (this.array_number_td) {
+      case null:
+      this.ngModelChangeCities()
+        break;
+      default:
+        this.telegramSendService.telegram_send_get_person_by_number_tt(this.array_number_td).subscribe(res => {
+          this.list_people_connected = JSON.parse(res).connected === null ? [] : JSON.parse(res).connected
+          this.list_people_not_connected = JSON.parse(res).not_connected === null ? [] : JSON.parse(res).not_connected;;
+          this.dataSource_connected = new MatTableDataSource(this.list_people_connected);
+          this.dataSource_not_connected = new MatTableDataSource(this.list_people_not_connected);
+          this.dataSource_connected.paginator = this.paginator_connected;
+          this.dataSource_not_connected.paginator = this.paginator_not_connected;
+          this.selection = new SelectionModel(true, []);
+        })
+        break;
+    }
+
   }
 
 
@@ -215,14 +239,17 @@ export class TelegramSendComponent implements OnInit {
     this.isAllSelected() ?
       this.selection.clear() :
       this.dataSource_connected.data.forEach(row => this.selection.select(row));
+
   }
 
   /** The label for the checkbox on the passed row */
   checkboxLabel(row?): string {
     if (!row) {
       return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
+
     }
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
+
   }
 
   buttonSendMessage() {
@@ -241,7 +268,53 @@ export class TelegramSendComponent implements OnInit {
     });
   }
 
+  selectPerson() {
+    this.telegramSendService.select_person(this.loginService.user_id, this.selection.selected).subscribe(res => {
+      console.log(res);
+      this.dataSource_select.data = [];
+      this.list_select = JSON.parse(res) === null ? [] : JSON.parse(res);
+      console.log(this.dataSource_select);
+      console.log(this.list_select);
+      this.dataSource_select = new MatTableDataSource(this.list_select);
+      this.dataSource_select.paginator = this.paginator_select;
+    })
+  }
+
+  applyFilter(filterValue: string) {
+    filterValue = filterValue.trim(); // Remove whitespace
+    filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
+    this.dataSource_connected.filter = filterValue;
+    console.log(filterValue);
+    console.log(this.dataSource_connected);
+
+    switch (filterValue) {
+      case `торговая точка`:
+        this.telegramSendService.telegram_send_get_list_cities().subscribe(res => {
+          this.list_cities = JSON.parse(res)
+          this.booleanTypeOffice = false
+          this.booleanTypeTradeDot = true
+          this.department = 'all';
+        });
+        break;
+      case `офис`:
+        this.telegramSendService.telegram_send_get_department_list(`офис`).subscribe((res) => {
+          this.list_department = JSON.parse(res);
+          this.booleanTypeTradeDot = false
+          this.booleanTypeOffice = true
+        })
+        break;
+      case '':
+        this.telegramSendService.telegram_send_get_department_list('').subscribe((res) => {
+          this.list_department = JSON.parse(res);
+          this.booleanTypeTradeDot = false
+          this.booleanTypeOffice = true
+        })
+        break;
+    }
+  }
+
   ngOnInit(): void {
+
   }
 
 
