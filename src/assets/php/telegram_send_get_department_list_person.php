@@ -15,7 +15,6 @@ $department = $_POST['department'];
 switch ($department) {
   case 'all':
     $res = [];
-
     $sql = "SELECT id_person, id_telegram, first_name, last_name, department, type_department, position, `status` FROM db_main WHERE type_department=? AND id_telegram IS NULL";
     if ($stmt = $db_connect->prepare($sql)) {
       $stmt->bind_param("s", $type_department);

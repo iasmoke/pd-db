@@ -270,6 +270,7 @@ export class TelegramSendComponent implements OnInit {
 
   selectPerson() {
     this.telegramSendService.select_person(this.loginService.user_id, this.selection.selected).subscribe(res => {
+      console.log(this.selection.selected);
       console.log(res);
       this.dataSource_select.data = [];
       this.list_select = JSON.parse(res) === null ? [] : JSON.parse(res);
@@ -286,16 +287,7 @@ export class TelegramSendComponent implements OnInit {
     this.dataSource_connected.filter = filterValue;
     console.log(filterValue);
     console.log(this.dataSource_connected);
-
     switch (filterValue) {
-      case `торговая точка`:
-        this.telegramSendService.telegram_send_get_list_cities().subscribe(res => {
-          this.list_cities = JSON.parse(res)
-          this.booleanTypeOffice = false
-          this.booleanTypeTradeDot = true
-          this.department = 'all';
-        });
-        break;
       case `офис`:
         this.telegramSendService.telegram_send_get_department_list(`офис`).subscribe((res) => {
           this.list_department = JSON.parse(res);
