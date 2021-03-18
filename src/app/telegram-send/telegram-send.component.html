@@ -3,8 +3,8 @@
     <div class="col-auto mt-2">
       <mat-form-field>
         <mat-label>Выберете тип подразделения</mat-label>
-        <mat-select (selectionChange)="applyFilter($event.value)">
-          <mat-option value=''>Все</mat-option>
+        <mat-select [(ngModel)]="type_department" (selectionChange)="ngModalChangeTypeDepartmentList()">
+          <mat-option value='all'>Все</mat-option>
           <mat-option [value]="item_type_department" *ngFor="let item_type_department of list_type_department">
             {{item_type_department}}
           </mat-option>
@@ -13,8 +13,8 @@
       <!-- Office -->
       <mat-form-field *ngIf="booleanTypeOffice">
         <mat-label>Выберете подразделения</mat-label>
-        <mat-select (selectionChange)="applyFilter($event.value)">
-          <mat-option value=''>Все</mat-option>
+        <mat-select [(ngModel)]="department" (selectionChange)="ngModalChangeDepartmentOffice()">
+          <mat-option value='all'>Все</mat-option>
           <mat-option [value]="items_list_department" *ngFor="let items_list_department of list_department">
             {{items_list_department}}
           </mat-option>
@@ -25,9 +25,13 @@
     <!-- Trade dot -->
     <div *ngIf="booleanTypeTradeDot" class="col-auto mt-2">
 
+      <section class="example-section">
+        <mat-checkbox class="example-margin" [(ngModel)]="all_cities" (ngModelChange)="ngModelChangeAllCities()">Все города</mat-checkbox>
+      </section>
+
       <mat-form-field *ngIf="all_cities">
         <mat-label>Выберете должность</mat-label>
-        <mat-select [(ngModel)]="position" (selectionChange)="applyFilter($event.value)">
+        <mat-select [(ngModel)]="position" (selectionChange)="ngModelChangePosition()">
           <mat-option *ngFor="let items_list_position of list_position" [value]="items_list_position">
             {{items_list_position}}</mat-option>
         </mat-select>
